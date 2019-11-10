@@ -27,11 +27,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "producto")
 @NamedQueries({
-    @NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p")
-    , @NamedQuery(name = "Producto.findByCodigo", query = "SELECT p FROM Producto p WHERE p.codigo = :codigo")
-    , @NamedQuery(name = "Producto.findByDescripcion", query = "SELECT p FROM Producto p WHERE p.descripcion = :descripcion")
-    , @NamedQuery(name = "Producto.findByCodigoprincipal", query = "SELECT p FROM Producto p WHERE p.codigoprincipal = :codigoprincipal")
-    , @NamedQuery(name = "Producto.findByCodigoauxiliar", query = "SELECT p FROM Producto p WHERE p.codigoauxiliar = :codigoauxiliar")})
+    @NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p")})
 public class Producto implements Serializable {
 
     private static final long serialVersionUID = 1L;

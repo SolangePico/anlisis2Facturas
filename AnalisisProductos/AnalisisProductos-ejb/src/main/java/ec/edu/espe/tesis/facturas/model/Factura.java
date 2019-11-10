@@ -32,10 +32,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "factura")
 @NamedQueries({
-    @NamedQuery(name = "Factura.findAll", query = "SELECT f FROM Factura f")
-    , @NamedQuery(name = "Factura.findByCodigo", query = "SELECT f FROM Factura f WHERE f.codigo = :codigo")
-    , @NamedQuery(name = "Factura.findByNumeroautorizacion", query = "SELECT f FROM Factura f WHERE f.numeroautorizacion = :numeroautorizacion")
-    , @NamedQuery(name = "Factura.findByFechaautori", query = "SELECT f FROM Factura f WHERE f.fechaautori = :fechaautori")})
+    @NamedQuery(name = "Factura.findAll", query = "SELECT f FROM Factura f")})
 public class Factura implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,11 +47,12 @@ public class Factura implements Serializable {
     @Column(name = "FECHAAUTORI")
     @Temporal(TemporalType.DATE)
     private Date fechaautori;
-    @OneToMany(mappedBy = "facCodigo", fetch = FetchType.LAZY)
-    private List<RegistroUsuario> registroUsuarioList;
     @JoinColumn(name = "INF_CODIGO2", referencedColumnName = "CODIGO")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private InfoFactura infCodigo2;
+    @JoinColumn(name = "USU_CODIGO", referencedColumnName = "CODIGO")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Usuario usuCodigo;
     @JoinColumn(name = "INF_CODIGO", referencedColumnName = "CODIGO")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private InfoTributaria infCodigo;
@@ -96,20 +94,20 @@ public class Factura implements Serializable {
         this.fechaautori = fechaautori;
     }
 
-    public List<RegistroUsuario> getRegistroUsuarioList() {
-        return registroUsuarioList;
-    }
-
-    public void setRegistroUsuarioList(List<RegistroUsuario> registroUsuarioList) {
-        this.registroUsuarioList = registroUsuarioList;
-    }
-
     public InfoFactura getInfCodigo2() {
         return infCodigo2;
     }
 
     public void setInfCodigo2(InfoFactura infCodigo2) {
         this.infCodigo2 = infCodigo2;
+    }
+
+    public Usuario getUsuCodigo() {
+        return usuCodigo;
+    }
+
+    public void setUsuCodigo(Usuario usuCodigo) {
+        this.usuCodigo = usuCodigo;
     }
 
     public InfoTributaria getInfCodigo() {

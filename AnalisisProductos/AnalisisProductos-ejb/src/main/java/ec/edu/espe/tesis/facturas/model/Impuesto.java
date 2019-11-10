@@ -26,9 +26,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "impuesto")
 @NamedQueries({
-    @NamedQuery(name = "Impuesto.findAll", query = "SELECT i FROM Impuesto i")
-    , @NamedQuery(name = "Impuesto.findByCodigo", query = "SELECT i FROM Impuesto i WHERE i.codigo = :codigo")
-    , @NamedQuery(name = "Impuesto.findByTarifa", query = "SELECT i FROM Impuesto i WHERE i.tarifa = :tarifa")})
+    @NamedQuery(name = "Impuesto.findAll", query = "SELECT i FROM Impuesto i")})
 public class Impuesto implements Serializable {
 
     private static final long serialVersionUID = 1L;

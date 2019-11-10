@@ -27,12 +27,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "info_tributaria")
 @NamedQueries({
-    @NamedQuery(name = "InfoTributaria.findAll", query = "SELECT i FROM InfoTributaria i")
-    , @NamedQuery(name = "InfoTributaria.findByCodigo", query = "SELECT i FROM InfoTributaria i WHERE i.codigo = :codigo")
-    , @NamedQuery(name = "InfoTributaria.findByRuc", query = "SELECT i FROM InfoTributaria i WHERE i.ruc = :ruc")
-    , @NamedQuery(name = "InfoTributaria.findByRazonsocial", query = "SELECT i FROM InfoTributaria i WHERE i.razonsocial = :razonsocial")
-    , @NamedQuery(name = "InfoTributaria.findBySecuencial", query = "SELECT i FROM InfoTributaria i WHERE i.secuencial = :secuencial")
-    , @NamedQuery(name = "InfoTributaria.findByEstablecimiento", query = "SELECT i FROM InfoTributaria i WHERE i.establecimiento = :establecimiento")})
+    @NamedQuery(name = "InfoTributaria.findAll", query = "SELECT i FROM InfoTributaria i")})
 public class InfoTributaria implements Serializable {
 
     private static final long serialVersionUID = 1L;

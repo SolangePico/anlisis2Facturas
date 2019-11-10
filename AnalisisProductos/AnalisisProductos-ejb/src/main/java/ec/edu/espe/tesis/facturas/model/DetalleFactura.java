@@ -29,9 +29,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "detalle_factura")
 @NamedQueries({
-    @NamedQuery(name = "DetalleFactura.findAll", query = "SELECT d FROM DetalleFactura d")
-    , @NamedQuery(name = "DetalleFactura.findByCodigo", query = "SELECT d FROM DetalleFactura d WHERE d.codigo = :codigo")
-    , @NamedQuery(name = "DetalleFactura.findByCantidad", query = "SELECT d FROM DetalleFactura d WHERE d.cantidad = :cantidad")})
+    @NamedQuery(name = "DetalleFactura.findAll", query = "SELECT d FROM DetalleFactura d")})
 public class DetalleFactura implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,12 +43,12 @@ public class DetalleFactura implements Serializable {
     private BigDecimal cantidad;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "detCodigo", fetch = FetchType.LAZY)
     private List<Impuesto> impuestoList;
-    @JoinColumn(name = "PRO_CODIGO", referencedColumnName = "CODIGO")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Producto proCodigo;
     @JoinColumn(name = "FAC_CODIGO", referencedColumnName = "CODIGO")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Factura facCodigo;
+    @JoinColumn(name = "PRO_CODIGO", referencedColumnName = "CODIGO")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Producto proCodigo;
 
     public DetalleFactura() {
     }
@@ -83,20 +81,20 @@ public class DetalleFactura implements Serializable {
         this.impuestoList = impuestoList;
     }
 
-    public Producto getProCodigo() {
-        return proCodigo;
-    }
-
-    public void setProCodigo(Producto proCodigo) {
-        this.proCodigo = proCodigo;
-    }
-
     public Factura getFacCodigo() {
         return facCodigo;
     }
 
     public void setFacCodigo(Factura facCodigo) {
         this.facCodigo = facCodigo;
+    }
+
+    public Producto getProCodigo() {
+        return proCodigo;
+    }
+
+    public void setProCodigo(Producto proCodigo) {
+        this.proCodigo = proCodigo;
     }
 
     @Override

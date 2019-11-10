@@ -26,11 +26,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "control_precios")
 @NamedQueries({
-    @NamedQuery(name = "ControlPrecios.findAll", query = "SELECT c FROM ControlPrecios c")
-    , @NamedQuery(name = "ControlPrecios.findByCodigo", query = "SELECT c FROM ControlPrecios c WHERE c.codigo = :codigo")
-    , @NamedQuery(name = "ControlPrecios.findByPreciounitario", query = "SELECT c FROM ControlPrecios c WHERE c.preciounitario = :preciounitario")
-    , @NamedQuery(name = "ControlPrecios.findByDescuento", query = "SELECT c FROM ControlPrecios c WHERE c.descuento = :descuento")
-    , @NamedQuery(name = "ControlPrecios.findByPrecio", query = "SELECT c FROM ControlPrecios c WHERE c.precio = :precio")})
+    @NamedQuery(name = "ControlPrecios.findAll", query = "SELECT c FROM ControlPrecios c")})
 public class ControlPrecios implements Serializable {
 
     private static final long serialVersionUID = 1L;

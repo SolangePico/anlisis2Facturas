@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,12 +30,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "usuario")
 @NamedQueries({
-    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
-    , @NamedQuery(name = "Usuario.findByCodigo", query = "SELECT u FROM Usuario u WHERE u.codigo = :codigo")
-    , @NamedQuery(name = "Usuario.findByCorreo", query = "SELECT u FROM Usuario u WHERE u.correo = :correo")
-    , @NamedQuery(name = "Usuario.findByClave", query = "SELECT u FROM Usuario u WHERE u.clave = :clave")
-    , @NamedQuery(name = "Usuario.findByFechacreacion", query = "SELECT u FROM Usuario u WHERE u.fechacreacion = :fechacreacion")
-    , @NamedQuery(name = "Usuario.findByFechaingreso", query = "SELECT u FROM Usuario u WHERE u.fechaingreso = :fechaingreso")})
+    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,8 +51,8 @@ public class Usuario implements Serializable {
     @Column(name = "FECHAINGRESO")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaingreso;
-    @OneToMany(mappedBy = "usuCodigo", fetch = FetchType.LAZY)
-    private List<RegistroUsuario> registroUsuarioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuCodigo", fetch = FetchType.LAZY)
+    private List<Factura> facturaList;
 
     public Usuario() {
     }
@@ -105,12 +101,12 @@ public class Usuario implements Serializable {
         this.fechaingreso = fechaingreso;
     }
 
-    public List<RegistroUsuario> getRegistroUsuarioList() {
-        return registroUsuarioList;
+    public List<Factura> getFacturaList() {
+        return facturaList;
     }
 
-    public void setRegistroUsuarioList(List<RegistroUsuario> registroUsuarioList) {
-        this.registroUsuarioList = registroUsuarioList;
+    public void setFacturaList(List<Factura> facturaList) {
+        this.facturaList = facturaList;
     }
 
     @Override

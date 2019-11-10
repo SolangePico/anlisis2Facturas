@@ -32,12 +32,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "info_factura")
 @NamedQueries({
-    @NamedQuery(name = "InfoFactura.findAll", query = "SELECT i FROM InfoFactura i")
-    , @NamedQuery(name = "InfoFactura.findByCodigo", query = "SELECT i FROM InfoFactura i WHERE i.codigo = :codigo")
-    , @NamedQuery(name = "InfoFactura.findByFechaemision", query = "SELECT i FROM InfoFactura i WHERE i.fechaemision = :fechaemision")
-    , @NamedQuery(name = "InfoFactura.findByTotalsinimpuesto", query = "SELECT i FROM InfoFactura i WHERE i.totalsinimpuesto = :totalsinimpuesto")
-    , @NamedQuery(name = "InfoFactura.findByTotaldescuento", query = "SELECT i FROM InfoFactura i WHERE i.totaldescuento = :totaldescuento")
-    , @NamedQuery(name = "InfoFactura.findByImportetotal", query = "SELECT i FROM InfoFactura i WHERE i.importetotal = :importetotal")})
+    @NamedQuery(name = "InfoFactura.findAll", query = "SELECT i FROM InfoFactura i")})
 public class InfoFactura implements Serializable {
 
     private static final long serialVersionUID = 1L;
