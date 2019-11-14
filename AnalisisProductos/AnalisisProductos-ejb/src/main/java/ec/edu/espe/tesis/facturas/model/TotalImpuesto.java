@@ -42,9 +42,9 @@ public class TotalImpuesto implements Serializable {
     private BigDecimal descuento;
     @Column(name = "BASEIMPONIBLE")
     private BigDecimal baseimponible;
-    @JoinColumn(name = "INF_CODIGO", referencedColumnName = "CODIGO")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private InfoFactura infCodigo;
+    @JoinColumn(name = "FAC_CODIGO", referencedColumnName = "CODIGO")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Factura facCodigo;
 
     public TotalImpuesto() {
     }
@@ -77,12 +77,12 @@ public class TotalImpuesto implements Serializable {
         this.baseimponible = baseimponible;
     }
 
-    public InfoFactura getInfCodigo() {
-        return infCodigo;
+    public Factura getFacCodigo() {
+        return facCodigo;
     }
 
-    public void setInfCodigo(InfoFactura infCodigo) {
-        this.infCodigo = infCodigo;
+    public void setFacCodigo(Factura facCodigo) {
+        this.facCodigo = facCodigo;
     }
 
     @Override

@@ -6,6 +6,7 @@
 package ec.edu.espe.tesis.facturas.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -41,15 +42,20 @@ public class Factura implements Serializable {
     @NotNull
     @Column(name = "CODIGO")
     private Integer codigo;
-    @Size(max = 49)
+    @Size(max = 100)
     @Column(name = "NUMEROAUTORIZACION")
     private String numeroautorizacion;
     @Column(name = "FECHAAUTORI")
     @Temporal(TemporalType.DATE)
     private Date fechaautori;
-    @JoinColumn(name = "INF_CODIGO2", referencedColumnName = "CODIGO")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private InfoFactura infCodigo2;
+    @Column(name = "FECHAEMISION")
+    @Temporal(TemporalType.DATE)
+    private Date fechaemision;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "TOTALSINIMPUESTO")
+    private BigDecimal totalsinimpuesto;
+    @Column(name = "IMPORTE_TOTAL")
+    private BigDecimal importeTotal;
     @JoinColumn(name = "USU_CODIGO", referencedColumnName = "CODIGO")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario usuCodigo;
@@ -58,10 +64,10 @@ public class Factura implements Serializable {
     private InfoTributaria infCodigo;
     @OneToMany(mappedBy = "facCodigo", fetch = FetchType.LAZY)
     private List<ControlPrecios> controlPreciosList;
+    @OneToMany(mappedBy = "facCodigo", fetch = FetchType.LAZY)
+    private List<TotalImpuesto> totalImpuestoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "facCodigo", fetch = FetchType.LAZY)
     private List<DetalleFactura> detalleFacturaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "facCodigo", fetch = FetchType.LAZY)
-    private List<InfoFactura> infoFacturaList;
 
     public Factura() {
     }
@@ -94,12 +100,28 @@ public class Factura implements Serializable {
         this.fechaautori = fechaautori;
     }
 
-    public InfoFactura getInfCodigo2() {
-        return infCodigo2;
+    public Date getFechaemision() {
+        return fechaemision;
     }
 
-    public void setInfCodigo2(InfoFactura infCodigo2) {
-        this.infCodigo2 = infCodigo2;
+    public void setFechaemision(Date fechaemision) {
+        this.fechaemision = fechaemision;
+    }
+
+    public BigDecimal getTotalsinimpuesto() {
+        return totalsinimpuesto;
+    }
+
+    public void setTotalsinimpuesto(BigDecimal totalsinimpuesto) {
+        this.totalsinimpuesto = totalsinimpuesto;
+    }
+
+    public BigDecimal getImporteTotal() {
+        return importeTotal;
+    }
+
+    public void setImporteTotal(BigDecimal importeTotal) {
+        this.importeTotal = importeTotal;
     }
 
     public Usuario getUsuCodigo() {
@@ -126,20 +148,20 @@ public class Factura implements Serializable {
         this.controlPreciosList = controlPreciosList;
     }
 
+    public List<TotalImpuesto> getTotalImpuestoList() {
+        return totalImpuestoList;
+    }
+
+    public void setTotalImpuestoList(List<TotalImpuesto> totalImpuestoList) {
+        this.totalImpuestoList = totalImpuestoList;
+    }
+
     public List<DetalleFactura> getDetalleFacturaList() {
         return detalleFacturaList;
     }
 
     public void setDetalleFacturaList(List<DetalleFactura> detalleFacturaList) {
         this.detalleFacturaList = detalleFacturaList;
-    }
-
-    public List<InfoFactura> getInfoFacturaList() {
-        return infoFacturaList;
-    }
-
-    public void setInfoFacturaList(List<InfoFactura> infoFacturaList) {
-        this.infoFacturaList = infoFacturaList;
     }
 
     @Override
