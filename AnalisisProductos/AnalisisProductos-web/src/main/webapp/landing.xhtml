@@ -14,23 +14,23 @@
         </f:facet>
         <title>PrimeFaces Omega</title>
         <script type="text/javascript">
-        $(function() {
-            $('#menu-button').on('click', function(e) {
-                $('#menu').toggleClass('overlay-menu');
-                e.preventDefault();
+            $(function () {
+                $('#menu-button').on('click', function (e) {
+                    $('#menu').toggleClass('overlay-menu');
+                    e.preventDefault();
+                });
             });
-        });
         </script>
         <ui:insert name="head"/>
     </h:head>
 
     <h:body styleClass="landing-body">
-        
+
         <div class="landing-wrapper">
             <div class="landing-header">
                 <div class="landing-header-content clearfix">
                     <p:graphicImage name="images/logo.png" library="omega-layout" width="113"/>
-                    
+
                     <a id="menu-button" href="#">
                         <span class="fa fa-bars"></span>
                     </a>
@@ -44,7 +44,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div id="introduction">
                 <div class="introduction-content">
                     <span class="title">PrimeFaces Omega</span>
@@ -53,13 +53,13 @@
                     <p:commandButton type="button" value="Sign Up"></p:commandButton>
                 </div>
             </div>
-            
+
             <div id="features">
                 <div class="features-content">
                     <span class="feature-title">Omega Features</span>
                     <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium 
                         doloremque.</p>
-                        
+
                     <div class="ui-g">
                         <div class="ui-g-12 ui-md-4">
                             <p:graphicImage name="images/landing/section2_1.png" library="omega-layout" styleClass="feature-icon"/>
@@ -106,52 +106,66 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="mobile">
                 <div class="mobile-content">
-                    <span class="title">Try Our Mobile App!</span>
-                    <span class="subtitle">Available at App Store and Google Play.</span>
-                    <p:graphicImage name="images/landing/section3_mobile.png" library="omega-layout" />
-                    <p:commandButton type="button" value="Learn More"></p:commandButton>
+                    <h:form enctype="multipart/form-data">    
+
+                        <p:fileUpload value="#{LeerXMLBean.file}" mode="simple" />
+                        <p:commandButton actionListener="#{LeerXMLBean.upload}"  value="Send" ajax="false" />
+                        <br></br>
+
+                       
+                        <p:dataTable value="#{LeerXMLBean.listaDetalles}"
+                                     var="det">
+
+                            <p:column headerText="Descripcion">
+                                <h:outputText value="#{det.descripcion}" />
+                            </p:column>
+                            <p:column headerText="Codigo">
+                                <h:outputText value="#{det.codigoPrincipal}" />
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
                 </div>
             </div>
-            
+
             <div id="pricing">
                 <div class="pricing-content">
                     <span class="pricing-title">Pricing</span>
                     <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
                         doloremque laudantium, totam rem aperiam.</p>
-                        
+
                     <div class="ui-g">
                         <div class="ui-g-12 ui-md-4">
                             <div class="pricing-basic pricing-box">
                                 <span class="pricing-name">Basic</span>
                                 <div class="pricing-fee">1$</div>
-                                
+
                                 <p>50GB Disk Space</p>
                                 <p>500GB Monthly Bandwith</p>
                                 <p>20 Email Accounts</p>
                                 <p>5 Subdomain</p>
                             </div>
                         </div>
-                        
+
                         <div class="ui-g-12 ui-md-4">
                             <div class="pricing-standard pricing-box">
                                 <span class="pricing-name">Standard</span>
                                 <div class="pricing-fee">5$</div>
-                                
+
                                 <p>200GB Disk Space</p>
                                 <p>1TB Monthly Bandwith</p>
                                 <p>50 Email Accounts</p>
                                 <p>10 Subdomain</p>
                             </div>
                         </div>
-                        
+
                         <div class="ui-g-12 ui-md-4">
                             <div class="pricing-professional pricing-box">
                                 <span class="pricing-name">Professional</span>
                                 <div class="pricing-fee">10$</div>
-                                
+
                                 <p>2TB Disk Space</p>
                                 <p>10TB Monthly Bandwith</p>
                                 <p>Unlimited Email Accounts</p>
@@ -161,7 +175,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="video">
                 <div class="video-content">
                     <span class="video-title">Video</span>
@@ -172,7 +186,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="landing-footer">
                 <div class="landing-footer-content">
                     <div class="footer-top">
@@ -195,7 +209,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="footer-bottom">
                         All Rights Reserved
                     </div>

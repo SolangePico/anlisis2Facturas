@@ -6,9 +6,11 @@
 package ec.edu.espe.tesis.facturas.facade;
 
 import ec.edu.espe.tesis.facturas.model.InfoTributaria;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +29,16 @@ public class InfoTributariaFacade extends AbstractFacade<InfoTributaria> {
 
     public InfoTributariaFacade() {
         super(InfoTributaria.class);
+    }
+    
+    public List<InfoTributaria> obtenerEstablecimientoPorCriterio(String rucEst, String estab) {
+        String query = "SELECT i FROM InfoTributaria i where i.ruc=:rucEst and i.establecimiento=:estab";
+        Query q = em.createQuery(query);
+        q.setParameter("rucEst", rucEst);
+        q.setParameter("estab", estab);
+        List<InfoTributaria> establecimientos = q
+                .getResultList();
+        return establecimientos;
     }
     
 }
