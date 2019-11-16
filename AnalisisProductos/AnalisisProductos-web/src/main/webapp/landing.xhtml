@@ -109,24 +109,7 @@
 
             <div id="mobile">
                 <div class="mobile-content">
-                    <h:form enctype="multipart/form-data">    
-
-                        <p:fileUpload value="#{LeerXMLBean.file}" mode="simple" />
-                        <p:commandButton actionListener="#{LeerXMLBean.upload}"  value="Send" ajax="false" />
-                        <br></br>
-
-                       
-                        <p:dataTable value="#{LeerXMLBean.listaDetalles}"
-                                     var="det">
-
-                            <p:column headerText="Descripcion">
-                                <h:outputText value="#{det.descripcion}" />
-                            </p:column>
-                            <p:column headerText="Codigo">
-                                <h:outputText value="#{det.codigoPrincipal}" />
-                            </p:column>
-                        </p:dataTable>
-                    </h:form>
+                    
                 </div>
             </div>
 

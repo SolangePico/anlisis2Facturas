@@ -6,9 +6,12 @@
 package ec.edu.espe.tesis.facturas.facade;
 
 import ec.edu.espe.tesis.facturas.model.Factura;
+import ec.edu.espe.tesis.facturas.model.Producto;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +30,16 @@ public class FacturaFacade extends AbstractFacade<Factura> {
 
     public FacturaFacade() {
         super(Factura.class);
+    }
+
+    public List<Factura> obtenerFacturaPorCodigo(String numAu) {
+       String query = "SELECT f FROM Factura f where f.numeroautorizacion=:numAu";
+        Query q = em.createQuery(query);
+        q.setParameter("numAu", numAu);
+        List<Factura> facturas = q
+                .getResultList();
+        return facturas;
+    
     }
     
 }

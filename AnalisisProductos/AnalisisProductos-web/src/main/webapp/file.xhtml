@@ -14,10 +14,30 @@
                     <div class="card">
                         <h1>Advanced</h1>
                         <h:form>
-                            <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                            <p:fileUpload  mode="advanced" dragDropSupport="false"
                                           multiple="true" update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" style="width:100%" />
-        
+
                             <p:growl id="messages" showDetail="true" />
+                            <p:dataTable value="#{controlPreciosBean.listaControlPrecios}"
+                                         var="det">
+
+                                <p:column headerText="Descripcion">
+                                    <h:outputText value="#{det.proCodigo.descripcion}" />
+                                </p:column>
+                                
+                                 <p:column headerText="Ruc">
+                                     <h:outputText value="#{det.facCodigo.infCodigo.ruc}" />
+                                </p:column>
+                                
+                                <p:column headerText="Establecimiento">
+                                    <h:outputText value="#{det.facCodigo.infCodigo.establecimiento}" />
+                                </p:column>
+                                
+                                <p:column headerText="Precio">
+                                    <h:outputText value="#{det.preciounitario}" />
+                                </p:column>
+                            </p:dataTable>
+
                         </h:form>
                     </div>
                 </div>

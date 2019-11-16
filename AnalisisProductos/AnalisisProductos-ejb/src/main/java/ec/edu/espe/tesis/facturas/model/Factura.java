@@ -60,7 +60,7 @@ public class Factura implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario usuCodigo;
     @JoinColumn(name = "INF_CODIGO", referencedColumnName = "CODIGO")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private InfoTributaria infCodigo;
     @OneToMany(mappedBy = "facCodigo", fetch = FetchType.LAZY)
     private List<ControlPrecios> controlPreciosList;

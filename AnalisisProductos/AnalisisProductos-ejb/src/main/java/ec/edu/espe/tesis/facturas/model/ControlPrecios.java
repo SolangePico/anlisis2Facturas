@@ -43,10 +43,10 @@ public class ControlPrecios implements Serializable {
     @Column(name = "PRECIO")
     private BigDecimal precio;
     @JoinColumn(name = "FAC_CODIGO", referencedColumnName = "CODIGO")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Factura facCodigo;
     @JoinColumn(name = "PRO_CODIGO", referencedColumnName = "CODIGO")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Producto proCodigo;
 
     public ControlPrecios() {

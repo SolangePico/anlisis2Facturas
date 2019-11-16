@@ -5,10 +5,13 @@
  */
 package ec.edu.espe.tesis.facturas.facade;
 
+import ec.edu.espe.tesis.facturas.model.Factura;
 import ec.edu.espe.tesis.facturas.model.Usuario;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +31,15 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     public UsuarioFacade() {
         super(Usuario.class);
     }
-    
+
+    public List<Usuario> obtenerUsuarioPorCodigo(int usuCodigo) {
+        String query = "SELECT u FROM Usuario u where u.codigo=:usuCodigo";
+        Query q = em.createQuery(query);
+        q.setParameter("usuCodigo", usuCodigo);
+        List<Usuario> usuarios = q
+                .getResultList();
+        return usuarios;
+
+    }
+
 }

@@ -39,7 +39,6 @@ public class LeerXMLBean implements Serializable {
     @Inject
     FacturaServicio facturaServicio;
 
-    private ArrayList<DetalleXML> listaDetalles = new ArrayList();
     private UploadedFile file;
     private FacturaXML factura;
 
@@ -52,17 +51,9 @@ public class LeerXMLBean implements Serializable {
         for (File archivo : archivos) {
             capturarDatos(archivo);
         }
-        System.out.println("Leidos :" + listaAutorizacion.size());
-        System.out.println("Detalles :" + listaDetalles.size());
     }
 
-    public ArrayList<DetalleXML> getListaDetalles() {
-        return listaDetalles;
-    }
-
-    public void setListaDetalles(ArrayList<DetalleXML> listaDetalles) {
-        this.listaDetalles = listaDetalles;
-    }
+   
 
     private ArrayList<AutorizacionXML> listaAutorizacion = new ArrayList();
 
@@ -131,18 +122,8 @@ public class LeerXMLBean implements Serializable {
             xstream.ignoreUnknownElements();
 
             obj = (AutorizacionXML) xstream.fromXML(file);
-
-            for (int k = 0; k < obj.getComprobante().getFactura().getDetalles().size(); k++) {
-                DetalleXML det;
-                System.out.println("Prod:" + obj.getComprobante().getFactura().getDetalles().get(k).getDescripcion());
-                det = obj.getComprobante().getFactura().getDetalles().get(k);
-                //  if(obj.getComprobante().getFactura().getDetalles().get(k).getDescripcion().contains("LECHE"))
-                listaDetalles.add(det);
-               
-            }
-            listaAutorizacion.add(obj);
             if (obj != null) {
-                facturaServicio.guardarFactura(obj);
+                facturaServicio.guardarFactura(obj, "0");
             }
         } catch (Exception e) {
             System.out.println("");

@@ -6,9 +6,13 @@
 package ec.edu.espe.tesis.facturas.facade;
 
 import ec.edu.espe.tesis.facturas.model.ControlPrecios;
+import ec.edu.espe.tesis.facturas.model.Factura;
+import ec.edu.espe.tesis.facturas.model.Producto;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +32,26 @@ public class ControlPreciosFacade extends AbstractFacade<ControlPrecios> {
     public ControlPreciosFacade() {
         super(ControlPrecios.class);
     }
+
+    public List<ControlPrecios> obtenerControlPedidoPorProducto(Producto cp) {
+        
+    String query = "SELECT c FROM ControlPrecios c where c.proCodigo=:cp";
+        Query q = em.createQuery(query);
+        q.setParameter("cp", cp);
+        List<ControlPrecios> controlPrecios = q
+                .getResultList();
+        return controlPrecios;
+    }
+
+    public List<ControlPrecios> obtenerListaPreciosOrdenada() {
+      String query = "SELECT c FROM ControlPrecios c ORDER BY precioUnitario";
+        Query q = em.createQuery(query);
+        List<ControlPrecios> controlPrecios = q
+                .getResultList();
+        return controlPrecios; 
+    
+    
+    }
+  
     
 }
