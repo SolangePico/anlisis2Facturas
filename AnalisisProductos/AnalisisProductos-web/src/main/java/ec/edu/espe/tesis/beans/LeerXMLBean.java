@@ -23,14 +23,15 @@ import ec.edu.espe.tesis.servicio.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.event.FileUploadEvent;
 
 /**
  *
  * @author AGG
  */
-//@ManagedBean
 @Named(value = "LeerXMLBean")
 @ViewScoped
 
@@ -41,21 +42,8 @@ public class LeerXMLBean implements Serializable {
 
     private UploadedFile file;
     private FacturaXML factura;
-
-    @PostConstruct
-    public void init() {
-        String path = "E:\\Danny\\Descargas\\all\\XML";
-        File carpeta = new File(path);
-        File[] archivos;
-        archivos = carpeta.listFiles();
-        for (File archivo : archivos) {
-            capturarDatos(archivo);
-        }
-    }
-
-   
-
     private ArrayList<AutorizacionXML> listaAutorizacion = new ArrayList();
+    
 
     public ArrayList<AutorizacionXML> getListaAutorizacion() {
         return listaAutorizacion;
@@ -73,35 +61,33 @@ public class LeerXMLBean implements Serializable {
         this.file = file;
     }
 
-    public void upload() {
-        if (file != null && !"".equals(file.getFileName())) {
-            File f;
+    public void fileUploadListener(FileUploadEvent e) {
+        File f;
+        this.file = e.getFile();
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file.getInputstream(), "UTF-8"))) {
+            f = new File("C:\\Users\\alterbios\\Downloads\\factura.xml");
 
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file.getInputstream(), "UTF-8"))) {
-                f = new File("E:\\Danny\\Documentos\\factura.xml");
+            try {
+                FileWriter w = new FileWriter(f);
+                BufferedWriter bw = new BufferedWriter(w);
+                PrintWriter wr = new PrintWriter(bw);
+                wr.write("");//escribimos en el archivo  
 
-                try {
-                    FileWriter w = new FileWriter(f);
-                    BufferedWriter bw = new BufferedWriter(w);
-                    PrintWriter wr = new PrintWriter(bw);
-                    wr.write("");//escribimos en el archivo  
-
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        System.out.println(line);
-                        wr.append(line); //concatenamos en el archivo sin borrar lo existente             
-                    }
-                    wr.close();
-                    bw.close();
-
-                } catch (IOException e) {
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                 //   System.out.println(line);
+                    wr.append(line); //concatenamos en el archivo sin borrar lo existente             
                 }
-                AutorizacionXML obj;
-                obj = LeerArchivo(f);
-                f.delete();
-            } catch (Exception ex) {
-                System.out.println(ex);
+                wr.close();
+                bw.close();
+
+            } catch (IOException p) {
+                System.out.println(" error de leer -----------   " + e);
             }
+            capturarDatos(f);
+            f.delete();
+        } catch (Exception ex) {
+            System.out.println(" error    " + e);
         }
     }
 
@@ -109,7 +95,8 @@ public class LeerXMLBean implements Serializable {
         AutorizacionXML obj;
         try {
             XStream xstream = new XStream();
-
+            
+            xstream.allowTypesByRegExp(new String[] { ".*" });
             // xstream.processAnnotations(Autorizacion.class);
             xstream.alias("autorizacion", AutorizacionXML.class);
             xstream.alias("comprobante", ComprobanteXML.class);
@@ -120,42 +107,17 @@ public class LeerXMLBean implements Serializable {
             xstream.alias("impuesto", ImpuestoXML.class);
             xstream.alias("totalImpuesto", TotalImpuestoXML.class);
             xstream.ignoreUnknownElements();
-
+            
             obj = (AutorizacionXML) xstream.fromXML(file);
+            System.out.println(" ---  "+obj.getNumeroAutorizacion());
             if (obj != null) {
                 facturaServicio.guardarFactura(obj, "0");
+            } else {
+
             }
         } catch (Exception e) {
             System.out.println("");
 
         }
-
     }
-
-    public AutorizacionXML LeerArchivo(File file) {
-
-        AutorizacionXML aut = new AutorizacionXML();
-        try {
-            XStream xstream = new XStream();
-
-            // xstream.processAnnotations(Autorizacion.class);
-            xstream.alias("autorizacion", AutorizacionXML.class);
-            xstream.alias("comprobante", ComprobanteXML.class);
-            xstream.alias("factura", FacturaXML.class);
-            xstream.alias("infoTributaria", InfoTributariaXML.class);
-            xstream.alias("infoFactura", InfoFacturaXML.class);
-            xstream.alias("detalle", DetalleXML.class);
-            xstream.alias("impuesto", ImpuestoXML.class);
-            xstream.alias("totalImpuesto", TotalImpuestoXML.class);
-            xstream.ignoreUnknownElements();
-
-            aut = (AutorizacionXML) xstream.fromXML(file);
-        } catch (Exception e) {
-            System.out.println(e);
-
-        }
-        return aut;
-
-    }
-
 }

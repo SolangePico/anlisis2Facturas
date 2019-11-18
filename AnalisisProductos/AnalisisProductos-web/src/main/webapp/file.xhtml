@@ -14,27 +14,26 @@
                     <div class="card">
                         <h1>Advanced</h1>
                         <h:form>
-                            <p:fileUpload  mode="advanced" dragDropSupport="false"
-                                          multiple="true" update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" style="width:100%" />
-
+                            <p:fileUpload value="#{LeerXMLBean.file}" mode="advanced" multiple="true"
+                                          fileUploadListener="#{LeerXMLBean.fileUploadListener}" allowTypes="/(\.|\/)(xml)$/" style="width:100%"></p:fileUpload>
                             <p:growl id="messages" showDetail="true" />
-                            <p:dataTable value="#{controlPreciosBean.listaControlPrecios}"
+                            <p:dataTable value="#{productoBean.listaProductos}"
                                          var="det">
 
                                 <p:column headerText="Descripcion">
-                                    <h:outputText value="#{det.proCodigo.descripcion}" />
+                                    <h:outputText value="#{det.descripcion}" />
                                 </p:column>
-                                
-                                 <p:column headerText="Ruc">
-                                     <h:outputText value="#{det.facCodigo.infCodigo.ruc}" />
+
+                                <p:column headerText="Ruc">
+                                    <h:outputText value="#{det.codigoauxiliar}" />
                                 </p:column>
-                                
+
                                 <p:column headerText="Establecimiento">
-                                    <h:outputText value="#{det.facCodigo.infCodigo.establecimiento}" />
+                                    <h:outputText value="#{det.descripcion}" />
                                 </p:column>
-                                
+
                                 <p:column headerText="Precio">
-                                    <h:outputText value="#{det.preciounitario}" />
+                                    <h:outputText value="#{det.codigo}" />
                                 </p:column>
                             </p:dataTable>
 

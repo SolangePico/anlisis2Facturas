@@ -25,25 +25,20 @@ import org.primefaces.model.UploadedFile;
 @ManagedBean
 public class FileUploadView {
     
-    private UploadedFile file;
+   UploadedFile file;
 
-    public UploadedFile getFile() {
-        return file;
-    }
+	public UploadedFile getFile() {
+		return file;
+	}
 
-    public void setFile(UploadedFile file) {
-        this.file = file;
-    }
-    
-    public void upload() {
-        if(file != null) {
-            FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-        }
-    }
-    
-    public void handleFileUpload(FileUploadEvent event) {
-		FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+	public void setFile(UploadedFile file) {
+		this.file = file;
+	}
+
+	public void fileUploadListener(FileUploadEvent e){
+		// Get uploaded file from the FileUploadEvent
+		this.file = e.getFile();
+		// Print out the information of the file
+		System.out.println("Uploaded File Name Is :: "+file.getFileName()+" :: Uploaded File Size :: "+file.getSize());
 	}
 }

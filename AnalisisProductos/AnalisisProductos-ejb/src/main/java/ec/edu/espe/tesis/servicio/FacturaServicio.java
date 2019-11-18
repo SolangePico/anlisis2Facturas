@@ -74,7 +74,7 @@ public class FacturaServicio implements Serializable {
                 infoTributaria.setSecuencial(autorizacion.getComprobante().getFactura().getInfoTributaria().getSecuencial());
                 infoTributariaFacade.create(infoTributaria);
             } else {
-                //  System.out.println("Establecimiento ya esta Registrado");
+                  System.out.println("Establecimiento ya esta Registrado");
             }
         } catch (Exception e) {
             System.out.println("" + e);
@@ -100,7 +100,7 @@ public class FacturaServicio implements Serializable {
 
                 facturaFacade.create(factura);
             } else {
-                //   System.out.println("No se ingreso factura");
+                   System.out.println("No se ingreso factura");
             }
 
         } catch (Exception e) {
@@ -148,36 +148,9 @@ public class FacturaServicio implements Serializable {
                 }
             }
         } catch (Exception e) {
-            //System.out.println("No Creo Control");
+            System.out.println("No Creo Control");
         }
-//        int numDetalles = autorizacion.getComprobante().getFactura().getDetalles().size();
-//        int numImpuestosInfoFac = autorizacion.getComprobante().getFactura().getInfoFactura().getTotalImpuestos().size();
-
-//        Factura factura = new Factura();
-//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//        String fecha1 = autorizacion.getFechaAutorizacion();
-//        Date fecha = null;
-//        fecha = df.parse(fecha1);
-//        factura.setNumeroautorizacion(autorizacion.getNumeroAutorizacion());
-//        factura.setFechaautori(fecha);
-//        factura.getInfCodigo().setEstablecimiento(autorizacion.getComprobante().getFactura().getInfoTributaria().getEstab());
-//        factura.getInfCodigo().setRazonsocial(autorizacion.getComprobante().getFactura().getInfoTributaria().getRazonSocial());
-//        factura.getInfCodigo().setRuc(autorizacion.getComprobante().getFactura().getInfoTributaria().getRuc());
-//        factura.getInfCodigo().setSecuencial(autorizacion.getComprobante().getFactura().getInfoTributaria().getSecuencial());
-//        for (int i = 0; i < numDetalles; i++) {
-//            DetalleFactura detalle = new DetalleFactura();
-//            detalle.setCantidad(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCantidad());
-//            int numImpuestoDet = autorizacion.getComprobante().getFactura().getDetalles().get(i).getImpuestos().size();
-//            for (int k = 0; k < numImpuestoDet; k++) {
-//                Impuesto impuesto = new Impuesto();
-//                impuesto.setCodigo(autorizacion.getComprobante().getFactura().getDetalles().get(i).getImpuestos().get(k).getCodigo());
-//            }
-//            factura.getDetalleFacturaList().add(detalle);
-//        }
-//    }
-//
-//    private static java.sql.Date convertUtilDateFromSqlDate(java.util.Date fecha) {
-//        return new java.sql.Date(fecha.getTime());
+       
     }
 
 }

@@ -32,32 +32,32 @@ import javax.annotation.PostConstruct;
  */
 @Named(value = "productoBean")
 @ViewScoped
-public class ProductoBean implements Serializable{
+public class ProductoBean implements Serializable {
 
     /**
      * Creates a new instance of ProductoBean
      */
     @Inject
     ProductoFacade productoFacade;
-    
+
     @Inject
     FacturaServicio facturaServicio;
-        
+
     List<Producto> listaProductos;
-    
+
     @PostConstruct
     public void init() {
         listaProductos = productoFacade.findAll();
-        String path = "E:\\Danny\\Descargas\\all\\XML";
-        File carpeta = new File(path);
-        File[] archivos;
-        archivos = carpeta.listFiles();
-        for (File archivo : archivos) {
-            capturarDatos(archivo);
-        }
+        //  String path = "E:\\Danny\\Descargas\\all\\XML";
+//        String path = "C:\\Users\\alterbios\\Downloads\\all\\XML";
+//        File carpeta = new File(path);
+//        File[] archivos;
+//        archivos = carpeta.listFiles();
+//        for (File archivo : archivos) {
+//            capturarDatos(archivo);
+//        }
     }
 
-   
     public List<Producto> getListaProductos() {
         return listaProductos;
     }
@@ -65,12 +65,13 @@ public class ProductoBean implements Serializable{
     public void setListaProductos(List<Producto> listaProductos) {
         this.listaProductos = listaProductos;
     }
-    
-        public void capturarDatos(File file) {
+
+    public void capturarDatos(File file) {
         AutorizacionXML obj;
         try {
             XStream xstream = new XStream();
-
+            
+            xstream.allowTypesByRegExp(new String[] { ".*" });
             // xstream.processAnnotations(Autorizacion.class);
             xstream.alias("autorizacion", AutorizacionXML.class);
             xstream.alias("comprobante", ComprobanteXML.class);
@@ -85,8 +86,8 @@ public class ProductoBean implements Serializable{
             obj = (AutorizacionXML) xstream.fromXML(file);
             if (obj != null) {
                 facturaServicio.guardarFactura(obj, "0");
-            }else{
-                
+            } else {
+                System.out.println("No Guarda");
             }
         } catch (Exception e) {
             System.out.println("");
