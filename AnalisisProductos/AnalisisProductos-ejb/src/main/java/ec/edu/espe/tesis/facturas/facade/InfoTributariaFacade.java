@@ -40,5 +40,14 @@ public class InfoTributariaFacade extends AbstractFacade<InfoTributaria> {
                 .getResultList();
         return establecimientos;
     }
+
+    public InfoTributaria obtenerEstablecimientoPorCodigo(String cod) {
+          String query = "SELECT i FROM InfoTributaria i where i.codigo=:cod";
+        Query q = em.createQuery(query);
+        q.setParameter("cod", cod);
+              List<InfoTributaria> establecimientos = q
+                .getResultList();
+        return establecimientos.get(0);
+    }
     
 }

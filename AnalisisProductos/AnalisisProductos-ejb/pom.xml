@@ -49,6 +49,12 @@
             <version>1.4</version>
         </dependency>
         <dependency>
+            <groupId>com.alterbios</groupId>
+            <artifactId>marathonGOejb</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>7.0</version>

@@ -6,8 +6,11 @@
 package ec.edu.espe.tesis.beans;
 
 
+import org.primefaces.context.RequestContext;
 import ec.edu.espe.tesis.facturas.model.ControlPrecios;
+import ec.edu.espe.tesis.facturas.model.InfoTributaria;
 import ec.edu.espe.tesis.servicio.ControlPreciosServicio;
+import ec.edu.espe.tesis.servicio.InfoTributariaServicio;
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +19,7 @@ import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import org.omnifaces.util.Messages;
 
 /**
  *
@@ -30,8 +34,37 @@ public class ControlPreciosBean implements Serializable {
      */
     @Inject
      ControlPreciosServicio controlPreciosServicio;
+    @Inject
+     InfoTributariaServicio infoTributariaServicio;
     
-    List<ControlPrecios> listaControlPrecios;
+    private String establecimientoId;
+    private List<ControlPrecios> listaControlPrecios;
+    private List<InfoTributaria> listaEstablecimientos;
+    private InfoTributaria establecimientoSeleccionado;
+
+    public InfoTributaria getEstablecimientoSeleccionado() {
+        return establecimientoSeleccionado;
+    }
+
+    public void setEstablecimientoSeleccionado(InfoTributaria establecimientoSeleccionado) {
+        this.establecimientoSeleccionado = establecimientoSeleccionado;
+    }
+
+    public String getEstablecimientoId() {
+        return establecimientoId;
+    }
+
+    public void setEstablecimientoId(String establecimientoId) {
+        this.establecimientoId = establecimientoId;
+    }
+
+    public List<InfoTributaria> getListaEstablecimientos() {
+        return listaEstablecimientos;
+    }
+
+    public void setListaEstablecimientos(List<InfoTributaria> listaEstablecimientos) {
+        this.listaEstablecimientos = listaEstablecimientos;
+    }
 
     public ControlPreciosServicio getControlPreciosServicio() {
         return controlPreciosServicio;
@@ -52,8 +85,15 @@ public class ControlPreciosBean implements Serializable {
     @PostConstruct
     public void init() {
         listaControlPrecios=controlPreciosServicio.obtenerListaPreciosOrdenada();
-        
+        listaEstablecimientos=infoTributariaServicio.obtenerListaEstablecimientos();
+    }
+    
+    public void buscarEstablecimiento() {
+        establecimientoSeleccionado=infoTributariaServicio.obtenerEstablecimientoPorCodigo(establecimientoId);
     }
 
+    private void cargarControlPrecios() {
+       
+    }
     
 }
