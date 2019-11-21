@@ -5,7 +5,7 @@
  */
 package ec.edu.espe.tesis.facturas.facade;
 
-import com.persist.commons.dao.QueryBuilder;
+//import com.persist.commons.dao.QueryBuilder;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -17,7 +17,7 @@ import javax.persistence.Query;
 public abstract class AbstractFacade<T> {
 
     private Class<T> entityClass;
-    private QueryBuilder<T> queryBuilder;
+//    private QueryBuilder<T> queryBuilder;
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -63,11 +63,12 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-     public List<T> findByExample(T entityExample) {
-        if (queryBuilder == null) {
-            queryBuilder = new QueryBuilder<>(getEntityManager());
-        }
-        Query query = this.queryBuilder.buildQuery(0, entityExample);
-        return query.getResultList();
-    }
+
+//    public List<T> findByExample(T entityExample) {
+//        if (queryBuilder == null) {
+//            queryBuilder = new QueryBuilder<>(getEntityManager());
+//        }
+//        Query query = this.queryBuilder.buildQuery(0, entityExample);
+//        return query.getResultList();
+//    }
 }

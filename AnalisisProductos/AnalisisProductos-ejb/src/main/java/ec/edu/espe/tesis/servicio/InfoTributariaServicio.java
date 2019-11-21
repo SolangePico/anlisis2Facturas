@@ -5,7 +5,7 @@
  */
 package ec.edu.espe.tesis.servicio;
 
-import com.alterbios.marathongo.ejb.exception.BusinessException;
+//import com.alterbios.marathongo.ejb.exception.BusinessException;
 import ec.edu.espe.tesis.facturas.facade.ControlPreciosFacade;
 import ec.edu.espe.tesis.facturas.facade.InfoTributariaFacade;
 import ec.edu.espe.tesis.facturas.model.ControlPrecios;
