@@ -15,6 +15,7 @@ import ec.edu.espe.tesis.facturas.model.Factura;
 import ec.edu.espe.tesis.facturas.model.Impuesto;
 import ec.edu.espe.tesis.facturas.model.InfoTributaria;
 import ec.edu.espe.tesis.facturas.model.Producto;
+import ec.edu.espe.tesis.facturas.model.TotalImpuesto;
 import ec.edu.espe.tesis.modeloXML.AutorizacionXML;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -27,7 +28,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
-import org.jboss.logging.Logger;
+//import org.jboss.logging.Logger;
 
 /**
  *
@@ -43,14 +44,15 @@ public class FacturaServicio implements Serializable {
     @Inject
     private UsuarioFacade usuarioFacade;
 
-//    @Inject
-//    private DetalleFacturaFacade detalleFacturaFacade;
+    @Inject
+    private DetalleFacturaFacade detalleFacturaFacade;
 //
-//    @Inject
-//    private ImpuestoFacade impuestoFacade;
+    @Inject
+    private ImpuestoFacade impuestoFacade;
 //
-//    @Inject
-//    private InfoFacturaFacade infoFacturaFacade;
+    @Inject
+    private TotalImpuestoFacade totalImpuestoFacade;
+
     @Inject
     private InfoTributariaFacade infoTributariaFacade;
 
@@ -74,7 +76,7 @@ public class FacturaServicio implements Serializable {
                 infoTributaria.setSecuencial(autorizacion.getComprobante().getFactura().getInfoTributaria().getSecuencial());
                 infoTributariaFacade.create(infoTributaria);
             } else {
-                  System.out.println("Establecimiento ya esta Registrado");
+                System.out.println("Establecimiento ya esta Registrado");
             }
         } catch (Exception e) {
             System.out.println("" + e);
@@ -99,58 +101,85 @@ public class FacturaServicio implements Serializable {
                 factura.setUsuCodigo(usuarioFacade.obtenerUsuarioPorCodigo(Integer.parseInt(usuCodigo)).get(0));
 
                 facturaFacade.create(factura);
-            } else {
-                   System.out.println("No se ingreso factura");
-            }
 
-        } catch (Exception e) {
+                Producto producto;
+                int numDetalles = autorizacion.getComprobante().getFactura().getDetalles().size();
 
-        }
-        Producto producto;
-        int numDetalles = autorizacion.getComprobante().getFactura().getDetalles().size();
-
-        try {
-            for (int i = 0; i < numDetalles; i++) {
-                producto = new Producto();
-                if (productoFacade.obtenerProductoPorCriterio(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoPrincipal(), autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoAuxiliar()).isEmpty()) {
-                    producto.setCodigo(productoFacade.count());
-                    //  System.out.println("resgistros " + productoFacade.count());
-                    producto.setCodigoauxiliar(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoAuxiliar());
-                    producto.setCodigoprincipal(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoPrincipal());
-                    producto.setDescripcion(autorizacion.getComprobante().getFactura().getDetalles().get(i).getDescripcion());
-                    productoFacade.create(producto);
-                } else {
-                    //    System.out.println("Producto ya esta Registrado");
-                }
-                ControlPrecios controlPrecios = new ControlPrecios();
-                List<ControlPrecios> listaControlPrecios;
-                listaControlPrecios = controlPreciosFacade.obtenerControlPedidoPorProducto(productoFacade.obtenerProductoPorCriterio(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoPrincipal(), autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoAuxiliar()).get(0));
-                controlPrecios.setCodigo(controlPreciosFacade.count());
-                controlPrecios.setFacCodigo(facturaFacade.obtenerFacturaPorCodigo(autorizacion.getNumeroAutorizacion()).get(0));
-                controlPrecios.setDescuento(autorizacion.getComprobante().getFactura().getDetalles().get(i).getDescuento());
-                controlPrecios.setPrecio(autorizacion.getComprobante().getFactura().getDetalles().get(i).getPrecioTotalSinImpuesto());
-                controlPrecios.setPreciounitario(autorizacion.getComprobante().getFactura().getDetalles().get(i).getPrecioUnitario());
-                controlPrecios.setProCodigo(productoFacade.obtenerProductoPorCriterio(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoPrincipal(), autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoAuxiliar()).get(0));
-
-                if (listaControlPrecios.isEmpty()) {
-                    controlPreciosFacade.create(controlPrecios);
-                } else {
-                    for (int k = 0; k < listaControlPrecios.size(); k++) {
-                        if (factura.getInfCodigo().getRuc().equals(listaControlPrecios.get(k).getFacCodigo().getInfCodigo().getRuc())
-                                && factura.getInfCodigo().getEstablecimiento().equals(listaControlPrecios.get(k).getFacCodigo().getInfCodigo().getEstablecimiento())) {
-                            if (listaControlPrecios.get(k).getPreciounitario() != autorizacion.getComprobante().getFactura().getDetalles().get(i).getPrecioUnitario()) {
-                                controlPreciosFacade.create(controlPrecios);
-                            }
+                try {
+                    for (int i = 0; i < numDetalles; i++) {
+                        producto = new Producto();
+                        if (productoFacade.obtenerProductoPorCriterio(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoPrincipal(), autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoAuxiliar()).isEmpty()) {
+                            producto.setCodigo(productoFacade.count());
+                            //  System.out.println("resgistros " + productoFacade.count());
+                            producto.setCodigoauxiliar(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoAuxiliar());
+                            producto.setCodigoprincipal(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoPrincipal());
+                            producto.setDescripcion(autorizacion.getComprobante().getFactura().getDetalles().get(i).getDescripcion());
+                            productoFacade.create(producto);
                         } else {
+                            //    System.out.println("Producto ya esta Registrado");
+                        }
+                        ControlPrecios controlPrecios = new ControlPrecios();
+                        List<ControlPrecios> listaControlPrecios;
+                        listaControlPrecios = controlPreciosFacade.obtenerControlPedidoPorProducto(productoFacade.obtenerProductoPorCriterio(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoPrincipal(), autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoAuxiliar()).get(0));
+                        controlPrecios.setCodigo(controlPreciosFacade.count());
+                        controlPrecios.setFacCodigo(facturaFacade.obtenerFacturaPorCodigo(autorizacion.getNumeroAutorizacion()).get(0));
+                        controlPrecios.setDescuento(autorizacion.getComprobante().getFactura().getDetalles().get(i).getDescuento());
+                        controlPrecios.setPrecio(autorizacion.getComprobante().getFactura().getDetalles().get(i).getPrecioTotalSinImpuesto());
+                        controlPrecios.setPreciounitario(autorizacion.getComprobante().getFactura().getDetalles().get(i).getPrecioUnitario());
+                        controlPrecios.setProCodigo(productoFacade.obtenerProductoPorCriterio(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoPrincipal(), autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoAuxiliar()).get(0));
+
+                        if (listaControlPrecios.isEmpty()) {
                             controlPreciosFacade.create(controlPrecios);
+                        } else {
+                            for (int k = 0; k < listaControlPrecios.size(); k++) {
+                                if (factura.getInfCodigo().getRuc().equals(listaControlPrecios.get(k).getFacCodigo().getInfCodigo().getRuc())
+                                        && factura.getInfCodigo().getEstablecimiento().equals(listaControlPrecios.get(k).getFacCodigo().getInfCodigo().getEstablecimiento())) {
+                                    if (listaControlPrecios.get(k).getPreciounitario() != autorizacion.getComprobante().getFactura().getDetalles().get(i).getPrecioUnitario()) {
+                                        controlPreciosFacade.create(controlPrecios);
+                                    }
+                                } else {
+                                    controlPreciosFacade.create(controlPrecios);
+                                }
+                            }
+                        }
+
+                        DetalleFactura detalleFactura = new DetalleFactura();
+                        detalleFactura.setCodigo(detalleFacturaFacade.count());
+                        detalleFactura.setCantidad(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCantidad());
+                        // detalleFactura.setCodigo(detalleFacturaFacade.count());
+                        detalleFactura.setFacCodigo(factura);
+                        detalleFactura.setProCodigo(productoFacade.obtenerProductoPorCriterio(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoPrincipal(), autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoAuxiliar()).get(0));
+                        detalleFacturaFacade.create(detalleFactura);
+                        for (int j = 0; j < autorizacion.getComprobante().getFactura().getDetalles().get(i).getImpuestos().size(); j++) {
+                            Impuesto impuesto = new Impuesto();
+                            impuesto.setCodigo(impuestoFacade.count() + "");
+                            impuesto.setDetCodigo(detalleFactura);
+                            impuesto.setTarifa(autorizacion.getComprobante().getFactura().getDetalles().get(i).getImpuestos().get(j).getTarifa());
+                            impuestoFacade.create(impuesto);
                         }
                     }
+                } catch (Exception e) {
+                    System.out.println("No Creo Control");
                 }
+
+                for (int i = 0; i < autorizacion.getComprobante().getFactura().getInfoFactura().getTotalImpuestos().size(); i++) {
+                    TotalImpuesto totalImpuesto = new TotalImpuesto();
+                    try {
+                        totalImpuesto.setBaseimponible(autorizacion.getComprobante().getFactura().getInfoFactura().getTotalImpuestos().get(i).getBaseImponible());
+                        totalImpuesto.setCodigo(totalImpuestoFacade.count() + "");
+                        totalImpuesto.setDescuento(autorizacion.getComprobante().getFactura().getInfoFactura().getTotalImpuestos().get(i).getDescuentoAdicional());
+                        totalImpuesto.setFacCodigo(factura);
+                        totalImpuestoFacade.create(totalImpuesto);
+                    } catch (Exception e) {
+                        System.out.println("Error al ingresar total impuesto a la factura " + e);
+                    }
+                }
+            } else {
+                System.out.println("No se ingreso factura");
             }
         } catch (Exception e) {
-            System.out.println("No Creo Control");
+
         }
-       
     }
 
 }

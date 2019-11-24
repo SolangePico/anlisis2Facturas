@@ -6,7 +6,6 @@
 package ec.edu.espe.tesis.beans;
 
 
-import org.primefaces.context.RequestContext;
 import ec.edu.espe.tesis.facturas.model.ControlPrecios;
 import ec.edu.espe.tesis.facturas.model.InfoTributaria;
 import ec.edu.espe.tesis.servicio.ControlPreciosServicio;

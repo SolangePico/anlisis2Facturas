@@ -48,14 +48,14 @@ public class ProductoBean implements Serializable {
     @PostConstruct
     public void init() {
         listaProductos = productoFacade.findAll();
-        //  String path = "E:\\Danny\\Descargas\\all\\XML";
-//        String path = "C:\\Users\\alterbios\\Downloads\\all\\XML";
-//        File carpeta = new File(path);
-//        File[] archivos;
-//        archivos = carpeta.listFiles();
-//        for (File archivo : archivos) {
-//            capturarDatos(archivo);
-//        }
+          String path = "E:\\Danny\\Descargas\\all\\XML";
+        //String path = "C:\\Users\\alterbios\\Downloads\\all\\XML";
+        File carpeta = new File(path);
+        File[] archivos;
+        archivos = carpeta.listFiles();
+        for (File archivo : archivos) {
+            capturarDatos(archivo);
+        }
     }
 
     public List<Producto> getListaProductos() {
@@ -82,13 +82,13 @@ public class ProductoBean implements Serializable {
             xstream.alias("impuesto", ImpuestoXML.class);
             xstream.alias("totalImpuesto", TotalImpuestoXML.class);
             xstream.ignoreUnknownElements();
-
+            try{
             obj = (AutorizacionXML) xstream.fromXML(file);
-            if (obj != null) {
-                facturaServicio.guardarFactura(obj, "0");
-            } else {
-                System.out.println("No Guarda");
+            facturaServicio.guardarFactura(obj, "0");
+            }catch(Exception e){
+                System.out.println("error en formato");
             }
+           
         } catch (Exception e) {
             System.out.println("");
 
