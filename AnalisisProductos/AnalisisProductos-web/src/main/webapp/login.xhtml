@@ -16,36 +16,41 @@
     </h:head>
 
     <h:body styleClass="login-body">
-    
+
         <div id="login-wrapper">
             <p:graphicImage name="images/login-logo.png" library="omega-layout" />
-            
+
             <div id="login-container">
                 <span class="title">Omega</span>
-                
-                <div class="ui-g ui-fluid">
-                    <div class="ui-g-12">
-                        <p:inputText placeholder="Username" />
+
+                <h:form id="formLog" prependId="false">
+                    <!--<p:growl id="growl" life ="3000" />-->
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12">
+                            <p:inputText placeholder="Username" value="#{logBean.usuarioLogin.correo}" id="usuario" />
+                        </div>
+                        <div class="ui-g-12">
+                            <p:password placeholder="Password" value="#{logBean.usuarioLogin.clave}" feedback="false" id="clave"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                            <span class="remember-me">Remember Me</span>
+                            <p:selectBooleanCheckbox />
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                            <p:link>Forgot Password</p:link>
+                        </div>
+                        <div class="ui-g-12">
+                            <!--<p:button outcome="dashboard" value="Login" icon="fa fa-check" />-->
+                            <p:commandButton action="#{logBean.validarUsuario()}" value="Login" icon="fa fa-check"/>
+                            <!-- <h:link outcome="empty" value="Login" />-->
+                        </div>
                     </div>
-                    <div class="ui-g-12">
-                        <p:password placeholder="Password" feedback="false"/>
-                    </div>
-                    <div class="ui-g-12 ui-md-6">
-                        <span class="remember-me">Remember Me</span>
-                        <p:selectBooleanCheckbox />
-                    </div>
-                    <div class="ui-g-12 ui-md-6">
-                        <p:link>Forgot Password</p:link>
-                    </div>
-                    <div class="ui-g-12">
-                        <p:button outcome="dashboard" value="Login" icon="fa fa-check" />
-                    </div>
-                </div>
+                </h:form>
             </div>
-            
+
             <div class="login-footer">PrimeFaces Omega</div>
         </div>
-        
+
         <h:outputStylesheet name="css/layout.css" library="omega-layout" />
     </h:body>
 

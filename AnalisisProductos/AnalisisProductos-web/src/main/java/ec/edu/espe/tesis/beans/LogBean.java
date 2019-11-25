@@ -38,7 +38,7 @@ public class LogBean implements Serializable {
         if (this.servicio.validarUsuario(this.getUsuarioLogin())) {
             // System.out.println("======= OK ========");
             FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.getExternalContext().redirect("dashboard.xhtml");
+            facesContext.getExternalContext().redirect("file.xhtml");
         } else {
             System.out.println("======= NO OK ========");
         }

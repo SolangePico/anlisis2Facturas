@@ -5,7 +5,6 @@
  */
 package ec.edu.espe.tesis.facturas.facade;
 
-import ec.edu.espe.tesis.facturas.model.InfoTributaria;
 import ec.edu.espe.tesis.facturas.model.Producto;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -31,7 +30,7 @@ public class ProductoFacade extends AbstractFacade<Producto> {
     public ProductoFacade() {
         super(Producto.class);
     }
-    
+
     public List<Producto> obtenerProductoPorCriterio(String cp, String ca) {
         String query = "SELECT p FROM Producto p where p.codigoprincipal=:cp or p.codigoauxiliar=:ca";
         Query q = em.createQuery(query);
@@ -41,5 +40,4 @@ public class ProductoFacade extends AbstractFacade<Producto> {
                 .getResultList();
         return productos;
     }
-    
 }

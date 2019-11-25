@@ -6,16 +6,13 @@
 package ec.edu.espe.tesis.facturas.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.math.BigDecimal;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -45,10 +42,9 @@ public class Producto implements Serializable {
     @Size(max = 255)
     @Column(name = "CODIGOAUXILIAR")
     private String codigoauxiliar;
-    @OneToMany(mappedBy = "proCodigo", fetch = FetchType.LAZY)
-    private List<ControlPrecios> controlPreciosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proCodigo", fetch = FetchType.LAZY)
-    private List<DetalleFactura> detalleFacturaList;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "TOTAL")
+    private BigDecimal total;
 
     public Producto() {
     }
@@ -89,20 +85,12 @@ public class Producto implements Serializable {
         this.codigoauxiliar = codigoauxiliar;
     }
 
-    public List<ControlPrecios> getControlPreciosList() {
-        return controlPreciosList;
+    public BigDecimal getTotal() {
+        return total;
     }
 
-    public void setControlPreciosList(List<ControlPrecios> controlPreciosList) {
-        this.controlPreciosList = controlPreciosList;
-    }
-
-    public List<DetalleFactura> getDetalleFacturaList() {
-        return detalleFacturaList;
-    }
-
-    public void setDetalleFacturaList(List<DetalleFactura> detalleFacturaList) {
-        this.detalleFacturaList = detalleFacturaList;
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 
     @Override

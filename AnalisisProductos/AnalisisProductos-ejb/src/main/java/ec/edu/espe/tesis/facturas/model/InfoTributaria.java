@@ -6,16 +6,12 @@
 package ec.edu.espe.tesis.facturas.model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -41,17 +37,26 @@ public class InfoTributaria implements Serializable {
     @Size(min = 1, max = 13)
     @Column(name = "RUC")
     private String ruc;
-    @Size(max = 200)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
     @Column(name = "RAZONSOCIAL")
     private String razonsocial;
-    @Size(max = 50)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "SECUENCIAL")
     private String secuencial;
-    @Size(max = 120)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 120)
     @Column(name = "ESTABLECIMIENTO")
     private String establecimiento;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "infCodigo", fetch = FetchType.LAZY)
-    private List<Factura> facturaList;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "DIRECCION")
+    private String direccion;
 
     public InfoTributaria() {
     }
@@ -60,9 +65,13 @@ public class InfoTributaria implements Serializable {
         this.codigo = codigo;
     }
 
-    public InfoTributaria(Integer codigo, String ruc) {
+    public InfoTributaria(Integer codigo, String ruc, String razonsocial, String secuencial, String establecimiento, String direccion) {
         this.codigo = codigo;
         this.ruc = ruc;
+        this.razonsocial = razonsocial;
+        this.secuencial = secuencial;
+        this.establecimiento = establecimiento;
+        this.direccion = direccion;
     }
 
     public Integer getCodigo() {
@@ -105,12 +114,12 @@ public class InfoTributaria implements Serializable {
         this.establecimiento = establecimiento;
     }
 
-    public List<Factura> getFacturaList() {
-        return facturaList;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setFacturaList(List<Factura> facturaList) {
-        this.facturaList = facturaList;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     @Override

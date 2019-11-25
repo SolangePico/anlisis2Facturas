@@ -7,16 +7,12 @@ package ec.edu.espe.tesis.facturas.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -51,8 +47,8 @@ public class Usuario implements Serializable {
     @Column(name = "FECHAINGRESO")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaingreso;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuCodigo", fetch = FetchType.LAZY)
-    private List<Factura> facturaList;
+    @Column(name = "ESTADO")
+    private Character estado;
 
     public Usuario() {
     }
@@ -101,12 +97,12 @@ public class Usuario implements Serializable {
         this.fechaingreso = fechaingreso;
     }
 
-    public List<Factura> getFacturaList() {
-        return facturaList;
+    public Character getEstado() {
+        return estado;
     }
 
-    public void setFacturaList(List<Factura> facturaList) {
-        this.facturaList = facturaList;
+    public void setEstado(Character estado) {
+        this.estado = estado;
     }
 
     @Override

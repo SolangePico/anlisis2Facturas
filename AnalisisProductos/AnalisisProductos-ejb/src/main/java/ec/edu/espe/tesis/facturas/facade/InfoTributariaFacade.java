@@ -30,7 +30,7 @@ public class InfoTributariaFacade extends AbstractFacade<InfoTributaria> {
     public InfoTributariaFacade() {
         super(InfoTributaria.class);
     }
-    
+
     public List<InfoTributaria> obtenerEstablecimientoPorCriterio(String rucEst, String estab) {
         String query = "SELECT i FROM InfoTributaria i where i.ruc=:rucEst and i.establecimiento=:estab";
         Query q = em.createQuery(query);
@@ -42,12 +42,11 @@ public class InfoTributariaFacade extends AbstractFacade<InfoTributaria> {
     }
 
     public InfoTributaria obtenerEstablecimientoPorCodigo(String cod) {
-          String query = "SELECT i FROM InfoTributaria i where i.codigo=:cod";
+        String query = "SELECT i FROM InfoTributaria i where i.codigo=:cod";
         Query q = em.createQuery(query);
         q.setParameter("cod", cod);
-              List<InfoTributaria> establecimientos = q
+        List<InfoTributaria> establecimientos = q
                 .getResultList();
         return establecimientos.get(0);
     }
-    
 }

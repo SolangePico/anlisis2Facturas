@@ -5,7 +5,6 @@
  */
 package ec.edu.espe.tesis.facturas.facade;
 
-import ec.edu.espe.tesis.facturas.model.Factura;
 import ec.edu.espe.tesis.facturas.model.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -41,5 +40,4 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         return usuarios;
 
     }
-
 }
