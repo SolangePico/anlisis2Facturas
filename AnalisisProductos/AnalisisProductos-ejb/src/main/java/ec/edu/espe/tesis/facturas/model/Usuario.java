@@ -7,12 +7,18 @@ package ec.edu.espe.tesis.facturas.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,8 +37,8 @@ public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "CODIGO")
     private Integer codigo;
     @Size(max = 255)
@@ -41,20 +47,28 @@ public class Usuario implements Serializable {
     @Size(max = 255)
     @Column(name = "CLAVE")
     private String clave;
-    @Column(name = "FECHACREACION")
+    @Column(name = "FECHACREACION", nullable = false, updatable = false, insertable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechacreacion;
-    @Column(name = "FECHAINGRESO")
+    @Column(name = "FECHAINGRESO", nullable = false, updatable = false, insertable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaingreso;
     @Column(name = "ESTADO")
     private Character estado;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuCodigo", fetch = FetchType.LAZY)
+    private List<Factura> facturaList;
 
     public Usuario() {
     }
 
     public Usuario(Integer codigo) {
         this.codigo = codigo;
+    }
+
+    public Usuario(Integer codigo, Date fechacreacion, Date fechaingreso) {
+        this.codigo = codigo;
+        this.fechacreacion = fechacreacion;
+        this.fechaingreso = fechaingreso;
     }
 
     public Integer getCodigo() {
@@ -103,6 +117,14 @@ public class Usuario implements Serializable {
 
     public void setEstado(Character estado) {
         this.estado = estado;
+    }
+
+    public List<Factura> getFacturaList() {
+        return facturaList;
+    }
+
+    public void setFacturaList(List<Factura> facturaList) {
+        this.facturaList = facturaList;
     }
 
     @Override

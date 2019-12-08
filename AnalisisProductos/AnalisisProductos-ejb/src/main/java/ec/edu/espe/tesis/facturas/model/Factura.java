@@ -14,6 +14,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,7 +25,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -38,11 +39,11 @@ public class Factura implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "CODIGO")
     private Integer codigo;
-    @Size(max = 100)
+    @Size(max = 49)
     @Column(name = "NUMEROAUTORIZACION")
     private String numeroautorizacion;
     @Column(name = "FECHAAUTORI")
@@ -54,13 +55,15 @@ public class Factura implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "TOTALSINIMPUESTO")
     private BigDecimal totalsinimpuesto;
-    @Column(name = "IMPORTE_TOTAL")
-    private BigDecimal importeTotal;
+    @Column(name = "TOTALDESCUENTO")
+    private BigDecimal totaldescuento;
+    @Column(name = "IMPORTETOTAL")
+    private BigDecimal importetotal;
     @JoinColumn(name = "USU_CODIGO", referencedColumnName = "CODIGO")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario usuCodigo;
     @JoinColumn(name = "INF_CODIGO", referencedColumnName = "CODIGO")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private InfoTributaria infCodigo;
     @OneToMany(mappedBy = "facCodigo", fetch = FetchType.LAZY)
     private List<ControlPrecios> controlPreciosList;
@@ -116,12 +119,20 @@ public class Factura implements Serializable {
         this.totalsinimpuesto = totalsinimpuesto;
     }
 
-    public BigDecimal getImporteTotal() {
-        return importeTotal;
+    public BigDecimal getTotaldescuento() {
+        return totaldescuento;
     }
 
-    public void setImporteTotal(BigDecimal importeTotal) {
-        this.importeTotal = importeTotal;
+    public void setTotaldescuento(BigDecimal totaldescuento) {
+        this.totaldescuento = totaldescuento;
+    }
+
+    public BigDecimal getImportetotal() {
+        return importetotal;
+    }
+
+    public void setImportetotal(BigDecimal importetotal) {
+        this.importetotal = importetotal;
     }
 
     public Usuario getUsuCodigo() {

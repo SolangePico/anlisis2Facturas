@@ -7,14 +7,19 @@ package ec.edu.espe.tesis.facturas.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -29,8 +34,8 @@ public class Producto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "CODIGO")
     private Integer codigo;
     @Size(max = 255)
@@ -45,6 +50,10 @@ public class Producto implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "TOTAL")
     private BigDecimal total;
+    @OneToMany(mappedBy = "proCodigo", fetch = FetchType.LAZY)
+    private List<ControlPrecios> controlPreciosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proCodigo", fetch = FetchType.LAZY)
+    private List<DetalleFactura> detalleFacturaList;
 
     public Producto() {
     }
@@ -91,6 +100,22 @@ public class Producto implements Serializable {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public List<ControlPrecios> getControlPreciosList() {
+        return controlPreciosList;
+    }
+
+    public void setControlPreciosList(List<ControlPrecios> controlPreciosList) {
+        this.controlPreciosList = controlPreciosList;
+    }
+
+    public List<DetalleFactura> getDetalleFacturaList() {
+        return detalleFacturaList;
+    }
+
+    public void setDetalleFacturaList(List<DetalleFactura> detalleFacturaList) {
+        this.detalleFacturaList = detalleFacturaList;
     }
 
     @Override

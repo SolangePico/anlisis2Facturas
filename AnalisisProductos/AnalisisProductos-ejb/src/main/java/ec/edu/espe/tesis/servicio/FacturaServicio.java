@@ -94,7 +94,7 @@ public class FacturaServicio implements Serializable {
                 fechaEm = fl.parse(fecha2);
                 factura.setFechaautori(fechaAu);
                 factura.setFechaemision(fechaEm);
-                factura.setImporteTotal(autorizacion.getComprobante().getFactura().getInfoFactura().getImporteTotal());
+                factura.setImportetotal(autorizacion.getComprobante().getFactura().getInfoFactura().getImporteTotal());
                 factura.setInfCodigo(infoTributariaFacade.obtenerEstablecimientoPorCriterio(autorizacion.getComprobante().getFactura().getInfoTributaria().getRuc(), autorizacion.getComprobante().getFactura().getInfoTributaria().getEstab()).get(0));
                 factura.setNumeroautorizacion(autorizacion.getNumeroAutorizacion());
                 factura.setTotalsinimpuesto(autorizacion.getComprobante().getFactura().getInfoFactura().getTotalSinImpuestos());

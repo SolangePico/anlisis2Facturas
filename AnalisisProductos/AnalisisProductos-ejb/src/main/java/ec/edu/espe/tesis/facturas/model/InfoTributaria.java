@@ -6,12 +6,18 @@
 package ec.edu.espe.tesis.facturas.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,8 +34,8 @@ public class InfoTributaria implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "CODIGO")
     private Integer codigo;
     @Basic(optional = false)
@@ -37,26 +43,20 @@ public class InfoTributaria implements Serializable {
     @Size(min = 1, max = 13)
     @Column(name = "RUC")
     private String ruc;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     @Column(name = "RAZONSOCIAL")
     private String razonsocial;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "SECUENCIAL")
     private String secuencial;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 120)
+    @Size(max = 120)
     @Column(name = "ESTABLECIMIENTO")
     private String establecimiento;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 255)
     @Column(name = "DIRECCION")
     private String direccion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "infCodigo", fetch = FetchType.LAZY)
+    private List<Factura> facturaList;
 
     public InfoTributaria() {
     }
@@ -65,13 +65,9 @@ public class InfoTributaria implements Serializable {
         this.codigo = codigo;
     }
 
-    public InfoTributaria(Integer codigo, String ruc, String razonsocial, String secuencial, String establecimiento, String direccion) {
+    public InfoTributaria(Integer codigo, String ruc) {
         this.codigo = codigo;
         this.ruc = ruc;
-        this.razonsocial = razonsocial;
-        this.secuencial = secuencial;
-        this.establecimiento = establecimiento;
-        this.direccion = direccion;
     }
 
     public Integer getCodigo() {
@@ -120,6 +116,14 @@ public class InfoTributaria implements Serializable {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public List<Factura> getFacturaList() {
+        return facturaList;
+    }
+
+    public void setFacturaList(List<Factura> facturaList) {
+        this.facturaList = facturaList;
     }
 
     @Override

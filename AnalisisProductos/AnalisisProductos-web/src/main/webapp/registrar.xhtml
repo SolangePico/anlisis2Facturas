@@ -18,30 +18,25 @@
     <h:body styleClass="login-body">
 
         <div id="login-wrapper">
-            <p:graphicImage name="images/login-logo.png" library="omega-layout" />
+            <p:graphicImage name="images/logoBill.PNG" library="omega-layout" />
 
             <div id="login-container">
-                <span class="title">Omega</span>
+                <span class="title">Bill XML</span>
 
                 <h:form id="formLog" prependId="false">
                     <!--<p:growl id="growl" life ="3000" />-->
                     <div class="ui-g ui-fluid">
-                        <div class="ui-g-12">
-                            <p:inputText placeholder="Email" value="#{logBean.correo}" id="usuario" />
+                        <div class="ui-g-12">   
+                            <p:outputLabel for="email" value="Ingrese Email:"/>
+                            <p:inputText placeholder="Email" value="#{logBean.correo}" id="email" />
                         </div>
                         <div class="ui-g-12">
-                            <p:password placeholder="Password" value="#{logBean.password}" feedback="false" id="clave"/>
-                        </div>
-                        <div class="ui-g-12 ui-md-6">
-                            <span class="remember-me">Remember Me</span>
-                            <p:selectBooleanCheckbox />
-                        </div>
-                        <div class="ui-g-12 ui-md-6">
-                            <p:link>Forgot Password</p:link>
-                        </div>
+                            <p:outputLabel for="password" value="Ingrese Contraseña:"/>
+                            <p:password placeholder="Password" value="#{logBean.password}" feedback="false" id="password"/>
+                        </div>                       
                         <div class="ui-g-12">
                             <!--<p:button outcome="dashboard" value="Login" icon="fa fa-check" />-->
-                            <p:commandButton action="#{logBean.validarUsuario()}" value="Login" icon="fa fa-check"/>
+                            <p:commandButton action="#{logBean.registarUsuario()}" value="Registar" icon="fa fa-check"/>
                             <!-- <h:link outcome="empty" value="Login" />-->
                         </div>
                     </div>
