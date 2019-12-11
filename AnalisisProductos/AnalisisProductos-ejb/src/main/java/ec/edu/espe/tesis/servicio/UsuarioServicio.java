@@ -35,6 +35,7 @@ public class UsuarioServicio implements Serializable {
         }
         return usuario;
     }
+    
 
     public Usuario crearUsuario(String correo, String password) {
         Usuario usuario = new Usuario();

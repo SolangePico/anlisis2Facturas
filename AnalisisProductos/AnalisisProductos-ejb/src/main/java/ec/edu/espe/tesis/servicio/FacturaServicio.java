@@ -18,6 +18,7 @@ import ec.edu.espe.tesis.facturas.model.Producto;
 import ec.edu.espe.tesis.facturas.model.TotalImpuesto;
 import ec.edu.espe.tesis.modeloXML.AutorizacionXML;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,11 +70,12 @@ public class FacturaServicio implements Serializable {
         InfoTributaria infoTributaria = new InfoTributaria();
         try {
             if (infoTributariaFacade.obtenerEstablecimientoPorCriterio(autorizacion.getComprobante().getFactura().getInfoTributaria().getRuc(), autorizacion.getComprobante().getFactura().getInfoTributaria().getEstab()).isEmpty()) {
-                infoTributaria.setCodigo(infoTributariaFacade.count());
+                //infoTributaria.setCodigo(infoTributariaFacade.count());
                 infoTributaria.setRuc(autorizacion.getComprobante().getFactura().getInfoTributaria().getRuc());
                 infoTributaria.setEstablecimiento(autorizacion.getComprobante().getFactura().getInfoTributaria().getEstab());
                 infoTributaria.setRazonsocial(autorizacion.getComprobante().getFactura().getInfoTributaria().getRazonSocial());
                 infoTributaria.setSecuencial(autorizacion.getComprobante().getFactura().getInfoTributaria().getSecuencial());
+                infoTributaria.setDireccion(autorizacion.getComprobante().getFactura().getInfoFactura().getDirEstablecimiento());
                 infoTributariaFacade.create(infoTributaria);
             } else {
                 System.out.println("Establecimiento ya esta Registrado");
@@ -84,7 +86,7 @@ public class FacturaServicio implements Serializable {
         Factura factura = new Factura();
         try {
             if (facturaFacade.obtenerFacturaPorCodigo(autorizacion.getNumeroAutorizacion()).isEmpty()) {
-                factura.setCodigo(facturaFacade.count());
+                // factura.setCodigo(facturaFacade.count());
                 String fecha1 = autorizacion.getFechaAutorizacion();
                 String fecha2 = autorizacion.getComprobante().getFactura().getInfoFactura().getFechaEmision();
                 Date fechaAu = null;
@@ -109,19 +111,22 @@ public class FacturaServicio implements Serializable {
                     for (int i = 0; i < numDetalles; i++) {
                         producto = new Producto();
                         if (productoFacade.obtenerProductoPorCriterio(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoPrincipal(), autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoAuxiliar()).isEmpty()) {
-                            producto.setCodigo(productoFacade.count());
-                            //  System.out.println("resgistros " + productoFacade.count());
+//                            producto.setCodigo(productoFacade.count());
+                            BigDecimal tot = new BigDecimal(1);
                             producto.setCodigoauxiliar(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoAuxiliar());
                             producto.setCodigoprincipal(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoPrincipal());
                             producto.setDescripcion(autorizacion.getComprobante().getFactura().getDetalles().get(i).getDescripcion());
+                            producto.setTotal(tot);
                             productoFacade.create(producto);
                         } else {
-                            //    System.out.println("Producto ya esta Registrado");
+
+                            producto = productoFacade.obtenerProductoPorCriterio(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoPrincipal(), autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoAuxiliar()).get(0);
+                            producto.setTotal(producto.getTotal().add(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCantidad()));
                         }
                         ControlPrecios controlPrecios = new ControlPrecios();
                         List<ControlPrecios> listaControlPrecios;
                         listaControlPrecios = controlPreciosFacade.obtenerControlPedidoPorProducto(productoFacade.obtenerProductoPorCriterio(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoPrincipal(), autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoAuxiliar()).get(0));
-                        controlPrecios.setCodigo(controlPreciosFacade.count());
+                        // controlPrecios.setCodigo(controlPreciosFacade.count());
                         controlPrecios.setFacCodigo(facturaFacade.obtenerFacturaPorCodigo(autorizacion.getNumeroAutorizacion()).get(0));
                         controlPrecios.setDescuento(autorizacion.getComprobante().getFactura().getDetalles().get(i).getDescuento());
                         controlPrecios.setPrecio(autorizacion.getComprobante().getFactura().getDetalles().get(i).getPrecioTotalSinImpuesto());
@@ -142,18 +147,18 @@ public class FacturaServicio implements Serializable {
                                 }
                             }
                         }
-
+//                        
                         DetalleFactura detalleFactura = new DetalleFactura();
-                        detalleFactura.setCodigo(detalleFacturaFacade.count());
+                        //detalleFactura.setCodigo(detalleFacturaFacade.count());
                         detalleFactura.setCantidad(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCantidad());
                         // detalleFactura.setCodigo(detalleFacturaFacade.count());
-                        detalleFactura.setFacCodigo(factura);
+                        detalleFactura.setFacCodigo(facturaFacade.obtenerFacturaPorCodigo(autorizacion.getNumeroAutorizacion()).get(0));
                         detalleFactura.setProCodigo(productoFacade.obtenerProductoPorCriterio(autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoPrincipal(), autorizacion.getComprobante().getFactura().getDetalles().get(i).getCodigoAuxiliar()).get(0));
                         detalleFacturaFacade.create(detalleFactura);
                         for (int j = 0; j < autorizacion.getComprobante().getFactura().getDetalles().get(i).getImpuestos().size(); j++) {
                             Impuesto impuesto = new Impuesto();
                             impuesto.setCodigo(impuestoFacade.count() + "");
-                            impuesto.setDetCodigo(detalleFactura);
+                            impuesto.setDetCodigo(detalleFacturaFacade.obtenerUltimoRegistro().get(0));
                             impuesto.setTarifa(autorizacion.getComprobante().getFactura().getDetalles().get(i).getImpuestos().get(j).getTarifa());
                             impuestoFacade.create(impuesto);
                         }
@@ -166,7 +171,7 @@ public class FacturaServicio implements Serializable {
                     TotalImpuesto totalImpuesto = new TotalImpuesto();
                     try {
                         totalImpuesto.setBaseimponible(autorizacion.getComprobante().getFactura().getInfoFactura().getTotalImpuestos().get(i).getBaseImponible());
-                        totalImpuesto.setCodigo(totalImpuestoFacade.count() + "");
+                        //  totalImpuesto.setCodigo(totalImpuestoFacade.count() + "");
                         totalImpuesto.setDescuento(autorizacion.getComprobante().getFactura().getInfoFactura().getTotalImpuestos().get(i).getDescuentoAdicional());
                         totalImpuesto.setFacCodigo(factura);
                         totalImpuestoFacade.create(totalImpuesto);
@@ -180,6 +185,22 @@ public class FacturaServicio implements Serializable {
         } catch (Exception e) {
 
         }
+    }
+    public int obtenerFacturasPorUsuario(String usuarioId) {
+        int total=0;
+            total=facturaFacade.totalFacturasPorUsuario(usuarioId);
+        return total;
+    }
+    public double obtenerTotalGastado(String usuarioId) {
+        double total=0;
+            total=facturaFacade.totalGastadoPorUsuario(usuarioId);
+        return total;
+    }
+    
+    public double obtenerPromedioFactura (String usuarioId){
+         double total;
+            total=facturaFacade.promedioFactura(usuarioId);
+        return total;
     }
 
 }

@@ -7,6 +7,8 @@ package ec.edu.espe.tesis.facturas.facade;
 
 import ec.edu.espe.tesis.facturas.model.Factura;
 import ec.edu.espe.tesis.facturas.model.Producto;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -39,6 +41,44 @@ public class FacturaFacade extends AbstractFacade<Factura> {
         List<Factura> facturas = q
                 .getResultList();
         return facturas;
+    
+    }
+     public int totalFacturasPorUsuario(String usuCodigo) {
+           String query = "select count(*) from factura where usu_codigo="+usuCodigo+";";
+        Query q = em.createNativeQuery(query);
+        return ((BigInteger) q.getSingleResult()).intValue();
+       
+    
+    }
+     public double totalGastadoPorUsuario(String usuCodigo) {
+           String query = "select sum(importetotal) from factura where usu_codigo="+usuCodigo+";";
+        Query q = em.createNativeQuery(query);
+        return ((BigDecimal) q.getSingleResult()).doubleValue();
+       
+    
+    }
+     
+     public double promedioFactura(String usuCodigo) {
+           String query = "select avg(importetotal) from factura where usu_codigo="+usuCodigo+";";
+        Query q = em.createNativeQuery(query);
+        return ((BigDecimal) q.getSingleResult()).doubleValue();
+       
+    
+    }
+     
+     public double maxGastadoFactura(String usuCodigo) {
+           String query = "select max(importetotal) from factura where usu_codigo="+usuCodigo+";";
+        Query q = em.createNativeQuery(query);
+        return ((BigDecimal) q.getSingleResult()).doubleValue();
+       
+    
+    }
+     
+     public String fechaUltimaFactura(String usuCodigo) {
+           String query = "select max(fechaautori) from factura where usu_codigo="+usuCodigo+";";
+        Query q = em.createNativeQuery(query);
+        return  q.getSingleResult().toString();
+       
     
     }
     

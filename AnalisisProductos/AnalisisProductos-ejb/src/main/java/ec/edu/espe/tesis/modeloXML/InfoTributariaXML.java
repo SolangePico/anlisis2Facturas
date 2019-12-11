@@ -14,20 +14,10 @@ public class InfoTributariaXML {
      String ruc;
      String estab;
      String secuencial;
-    String k="PPPP";
-
+    
     public InfoTributariaXML() {
     }
     
-
-    public String getK() {
-        return k;
-    }
-
-    public void setK(String k) {
-        this.k = k;
-    }
-  
 
     public String getRazonSocial() {
         return razonSocial;

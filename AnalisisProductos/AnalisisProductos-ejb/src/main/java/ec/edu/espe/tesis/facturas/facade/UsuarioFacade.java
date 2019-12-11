@@ -6,6 +6,7 @@
 package ec.edu.espe.tesis.facturas.facade;
 
 import ec.edu.espe.tesis.facturas.model.Usuario;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -56,4 +57,6 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         }
         return temp;
     }
+
+   
 }

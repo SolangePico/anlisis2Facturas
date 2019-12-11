@@ -40,4 +40,11 @@ public class ProductoFacade extends AbstractFacade<Producto> {
                 .getResultList();
         return productos;
     }
+
+//    public List<String> obtenerDescripcionProducto(String usuarioId) {
+//        List<String> Descripcion;
+//    
+//    }
+    
+    
 }

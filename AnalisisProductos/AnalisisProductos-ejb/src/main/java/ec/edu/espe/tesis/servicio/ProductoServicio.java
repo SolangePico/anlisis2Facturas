@@ -5,10 +5,30 @@
  */
 package ec.edu.espe.tesis.servicio;
 
+import ec.edu.espe.tesis.facturas.facade.ProductoFacade;
+import java.io.Serializable;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
+
 /**
  *
  * @author danny
  */
-public class ProductoServicio {
+@Stateless
+public class ProductoServicio implements Serializable{
+
+    @Inject
+    ProductoFacade productoFacade;
+    
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<String> obtenerProductosPorUsuario(String usuarioId) {
+        List<String> listaMasComprados = null;
+//            listaMasComprados=productoFacade.obtenerDescripcionProducto(usuarioId);
+//            
+        return listaMasComprados;
+    }
     
 }

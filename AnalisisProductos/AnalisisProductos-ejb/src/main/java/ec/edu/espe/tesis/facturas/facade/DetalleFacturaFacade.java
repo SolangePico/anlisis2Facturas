@@ -6,9 +6,12 @@
 package ec.edu.espe.tesis.facturas.facade;
 
 import ec.edu.espe.tesis.facturas.model.DetalleFactura;
+import ec.edu.espe.tesis.facturas.model.InfoTributaria;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +30,14 @@ public class DetalleFacturaFacade extends AbstractFacade<DetalleFactura> {
 
     public DetalleFacturaFacade() {
         super(DetalleFactura.class);
+    }
+     public List<DetalleFactura> obtenerUltimoRegistro() {
+        String query = "SELECT d FROM DetalleFactura d order by codigo desc";
+        Query q = em.createQuery(query);
+        
+        List<DetalleFactura> detalles = q
+                .getResultList();
+        return detalles;
     }
     
 }

@@ -19,6 +19,15 @@ public class InfoFacturaXML {
     BigDecimal totalDescuento;
     List<TotalImpuestoXML> totalImpuestos;
     BigDecimal importeTotal;
+    String dirEstablecimiento;
+
+    public String getDirEstablecimiento() {
+        return dirEstablecimiento;
+    }
+
+    public void setDirEstablecimiento(String dirEstablecimiento) {
+        this.dirEstablecimiento = dirEstablecimiento;
+    }
 
     public InfoFacturaXML() {
        

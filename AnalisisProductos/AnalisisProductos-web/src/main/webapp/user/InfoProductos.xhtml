@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Información de Perfil</ui:define>
+
+    <ui:define name="content">
+        <div class="container">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card">
+                        <h1>Información</h1>
+                        <h:form>
+                            <h1>Productos más comprados</h1>
+                            < <p:dataTable value="#{productoBean.listaMasComprados}"
+                                         var="det">
+
+                                <p:column headerText="Descripcion">
+                                    <h:outputText value="#{det}" />
+                                </p:column>
+
+
+                            </p:dataTable>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

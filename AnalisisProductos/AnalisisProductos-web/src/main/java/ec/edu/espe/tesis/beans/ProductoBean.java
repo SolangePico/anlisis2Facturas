@@ -38,25 +38,28 @@ public class ProductoBean implements Serializable {
      * Creates a new instance of ProductoBean
      */
     @Inject
-    ProductoFacade productoFacade;
+    ProductoServicio productoServicio;
 
     @Inject
     FacturaServicio facturaServicio;
 
-    List<Producto> listaProductos;
+   private List<Producto> listaProductos;
+   private List<String> listaMasComprados;
 
     @PostConstruct
     public void init() {
-        listaProductos = productoFacade.findAll();
-        //String path = "E:\\Danny\\Descargas\\all\\XML";
-        //String path = "C:\\Users\\alterbios\\Downloads\\all\\XML";
-        String path = "C:\\Users\\solan\\OneDrive\\Escritorio\\versionesTesis\\all\\XML";
-        File carpeta = new File(path);
-        File[] archivos;
-        archivos = carpeta.listFiles();
-        for (File archivo : archivos) {
-            capturarDatos(archivo);
-        }
+        
+        listaMasComprados=productoServicio.obtenerProductosPorUsuario("1");
+//        listaProductos = productoFacade.findAll();
+//        //String path = "E:\\Danny\\Descargas\\all\\XML";
+//        String path = "C:\\Users\\alterbios\\Downloads\\all\\XML";
+//       // String path = "C:\\Users\\solan\\OneDrive\\Escritorio\\versionesTesis\\all\\XML";
+//        File carpeta = new File(path);
+//        File[] archivos;
+//        archivos = carpeta.listFiles();
+//        for (File archivo : archivos) {
+//            capturarDatos(archivo);
+//        }
     }
 
     public List<Producto> getListaProductos() {
@@ -85,7 +88,7 @@ public class ProductoBean implements Serializable {
             xstream.ignoreUnknownElements();
             try {
                 obj = (AutorizacionXML) xstream.fromXML(file);
-                facturaServicio.guardarFactura(obj, "2");
+                facturaServicio.guardarFactura(obj, "1");
             } catch (Exception e) {
                 System.out.println("error en formato");
             }
