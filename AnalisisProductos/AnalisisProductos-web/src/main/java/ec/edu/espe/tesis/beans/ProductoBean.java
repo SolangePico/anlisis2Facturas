@@ -23,8 +23,10 @@ import javax.inject.Inject;
 import ec.edu.espe.tesis.servicio.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -41,16 +43,25 @@ public class ProductoBean implements Serializable {
     ProductoServicio productoServicio;
 
     @Inject
+    ControlPreciosServicio controlPrecioServicio;
+
+    @Inject
+    ProductoFacade productoFacade;
+
+    @Inject
     FacturaServicio facturaServicio;
 
-   private List<Producto> listaProductos;
-   private List<String> listaMasComprados;
+    private List<Producto> listaProductos;
+    private List<Object[]> listaPrecioProducto;
+    private List<Object[]> listaMasComprados;
+    private Producto productoSeleccionado;
+    private Object[] codigoProducto;
 
     @PostConstruct
     public void init() {
-        
-        listaMasComprados=productoServicio.obtenerProductosPorUsuario("1");
-//        listaProductos = productoFacade.findAll();
+        codigoProducto = null;
+        listaMasComprados = productoServicio.obtenerProductosPorUsuario("1");
+        listaProductos = productoFacade.findAll();
 //        //String path = "E:\\Danny\\Descargas\\all\\XML";
 //        String path = "C:\\Users\\alterbios\\Downloads\\all\\XML";
 //       // String path = "C:\\Users\\solan\\OneDrive\\Escritorio\\versionesTesis\\all\\XML";
@@ -60,6 +71,38 @@ public class ProductoBean implements Serializable {
 //        for (File archivo : archivos) {
 //            capturarDatos(archivo);
 //        }
+    }
+
+    public List<Object[]> getListaPrecioProducto() {
+        return listaPrecioProducto;
+    }
+
+    public void setListaPrecioProducto(List<Object[]> listaPrecioProducto) {
+        this.listaPrecioProducto = listaPrecioProducto;
+    }
+
+    public Object[] getCodigoProducto() {
+        return codigoProducto;
+    }
+
+    public void setCodigoProducto(Object[] codigoProducto) {
+        this.codigoProducto = codigoProducto;
+    }
+
+    public Producto getProductoSeleccionado() {
+        return productoSeleccionado;
+    }
+
+    public void setProductoSeleccionado(Producto productoSeleccionado) {
+        this.productoSeleccionado = productoSeleccionado;
+    }
+
+    public List<Object[]> getListaMasComprados() {
+        return listaMasComprados;
+    }
+
+    public void setListaMasComprados(List<Object[]> listaMasComprados) {
+        this.listaMasComprados = listaMasComprados;
     }
 
     public List<Producto> getListaProductos() {
@@ -99,4 +142,20 @@ public class ProductoBean implements Serializable {
         }
 
     }
+
+    public void cerrarVentana() {
+
+        RequestContext.getCurrentInstance().execute("PF('producto').hide();");
+    }
+
+    public void abrirInfo() {
+        cargarSeleccionado();
+        RequestContext.getCurrentInstance().execute("PF('producto').show();");
+    }
+
+    public void cargarSeleccionado() {
+        listaPrecioProducto = controlPrecioServicio.obtenerListaPreciosPorProducto((Integer) codigoProducto[0]);
+        productoSeleccionado = productoFacade.obtenerProductoPorCodigoP((Integer) codigoProducto[0]).get(0);
+    }
+
 }

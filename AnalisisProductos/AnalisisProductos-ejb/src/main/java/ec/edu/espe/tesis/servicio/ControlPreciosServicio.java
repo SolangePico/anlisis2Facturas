@@ -13,6 +13,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +29,9 @@ public class ControlPreciosServicio implements Serializable{
      List<ControlPrecios> listaControlPrecios;
         listaControlPrecios=controlPreciosFacade.obtenerListaPreciosOrdenada();
         return listaControlPrecios;
+    }
+    
+    public List<Object[]> obtenerListaPreciosPorProducto(int codigoProducto) {
+       return controlPreciosFacade.obtenerListaPreciosPorProducto(codigoProducto+"");
     }
 }

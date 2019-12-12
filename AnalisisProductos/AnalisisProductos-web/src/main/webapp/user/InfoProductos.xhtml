@@ -6,25 +6,74 @@
                 template="/WEB-INF/template.xhtml">
 
     <ui:define name="title">Información de Perfil</ui:define>
-
+     <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#007be5', '#20d077'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
     <ui:define name="content">
         <div class="container">
             <div class="ui-g">
                 <div class="ui-g-12">
                     <div class="card">
                         <h1>Información</h1>
-                        <h:form>
-                            <h1>Productos más comprados</h1>
-                            < <p:dataTable value="#{productoBean.listaMasComprados}"
-                                         var="det">
-
-                                <p:column headerText="Descripcion">
-                                    <h:outputText value="#{det}" />
+                        <h:form id="ProductoForm">
+                          
+                            <h3>Productos más comprados</h3>
+                            <div class="card">
+                            <p:dataTable   selection="#{productoBean.codigoProducto}" id="tablaProductos" 
+                                        value="#{productoBean.listaMasComprados}"
+                                         selectionMode="single"
+                                         rowKey="#{det[0]}"
+                                         var="det"
+                                         rows="10"
+                                                                                  >
+                                 <p:ajax event="rowSelect" update="ProductoForm:btn_mostrar"/>
+                                <p:column   headerText="Código">
+                                    <h:outputText value="#{det[0]}" />
+                                </p:column>
+                                <p:column headerText="Descripción">
+                                    <h:outputText value="#{det[1]}" />
+                                </p:column>
+                                <p:column headerText="Total Comprados">
+                                    <h:outputText value="#{det[2]}" />
                                 </p:column>
 
 
                             </p:dataTable>
+                                </div>
+                            <p:commandButton id="btn_mostrar"
+                                             disabled="#{empty productoBean.codigoProducto}"
+                                             value="Mostrar Información" 
+                                             actionListener="#{productoBean.abrirInfo}" 
+                                             style="margin-top: 10px;"
+                                             update=":mostrarInfoProd"/>
                         </h:form>
+                        <ui:include src="../dialog/producto.xhtml"/>
                     </div>
                 </div>
             </div>

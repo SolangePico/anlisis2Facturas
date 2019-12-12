@@ -39,4 +39,10 @@ public class InfoTributariaServicio implements Serializable {
        
         return infoTributariaFacade.obtenerEstablecimientoPorCodigo(codigo);
     }
+    
+     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<Object[]> obtenerEstablecimientoPorUsuario(int codigo) {
+       
+        return infoTributariaFacade.obtenerEstablecimientoPorUsuario(codigo);
+    }
 }

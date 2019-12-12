@@ -24,9 +24,9 @@ public class ProductoServicio implements Serializable{
     ProductoFacade productoFacade;
     
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public List<String> obtenerProductosPorUsuario(String usuarioId) {
-        List<String> listaMasComprados = null;
-//            listaMasComprados=productoFacade.obtenerDescripcionProducto(usuarioId);
+    public List<Object[]> obtenerProductosPorUsuario(String usuarioId) {
+        List<Object[]> listaMasComprados = null;
+            listaMasComprados=productoFacade.obtenerDescripcionProducto(usuarioId);
 //            
         return listaMasComprados;
     }

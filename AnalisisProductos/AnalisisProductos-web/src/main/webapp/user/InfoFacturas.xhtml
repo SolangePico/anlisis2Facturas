@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card">
+                    <h1>Facturas</h1>
+                    <p:dataTable var="fac" value="#{facturaBean.listaFacturas}" selectionMode="single" reflow="true"
+                                 selection="#{facturaBean.facturaSeleccionada}" rowKey="#{fac.codigo}" paginator="true" rows="10">
+                            <f:facet name="header">
+                                Facturas Subidas
+                            </f:facet>
+                            <p:column headerText="Id" sortBy="#{fac.codigo}">
+                                <h:outputText value="#{fac.codigo}" />
+                            </p:column>
+
+                        <p:column headerText="Fecha Emisión" sortBy="#{fac.fechaemision}">
+                                <h:outputText value="#{fac.fechaemision}" />
+                            </p:column>
+
+                        <p:column headerText="Brand" sortBy="#{fac.importetotal}">
+                                <h:outputText value="#{fac.importetotal}" />
+                            </p:column>
+
+                        <p:column headerText="Establecimiento" sortBy="#{fac.infCodigo}">
+                                <h:outputText value="#{fac.infCodigo}" />
+                            </p:column>
+                        </p:dataTable>
+                </div>
+            </div>
+        </div>
+        
+    </ui:define>
+
+</ui:composition>

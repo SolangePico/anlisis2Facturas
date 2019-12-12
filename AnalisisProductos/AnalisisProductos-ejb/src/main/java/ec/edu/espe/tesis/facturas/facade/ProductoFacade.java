@@ -41,10 +41,27 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         return productos;
     }
 
-//    public List<String> obtenerDescripcionProducto(String usuarioId) {
-//        List<String> Descripcion;
-//    
-//    }
-    
-    
+    public List<Object[]> obtenerDescripcionProducto(String usuarioId) {
+        String query = "SELECT p.codigo, p.descripcion, count(d.pro_codigo) as tot "
+                + "FROM producto p, detalle_factura d, usuario u, factura f "
+                + "where u.CODIGO='"+usuarioId+"' and f.USU_CODIGO='"+usuarioId+"' and d.FAC_CODIGO=f.CODIGO and d.PRO_CODIGO=p.codigo "
+                + "group by p.descripcion "
+                + "order by tot desc limit 5;";
+        Query q = em.createNativeQuery(query);
+
+        List<Object[]> result = q.getResultList();
+        return result;
+    }
+
+    public List<Producto> obtenerProductoPorCodigoP(int cod) {
+         String query = "SELECT p FROM Producto p where p.codigo=:cod";
+        Query q = em.createQuery(query);
+        q.setParameter("cod", cod);
+        List<Producto> productos = q
+                .getResultList();
+        return productos;
+    }
+
 }
+
+

@@ -5,8 +5,12 @@
  */
 package ec.edu.espe.tesis.beans;
 
+import ec.edu.espe.tesis.facturas.model.InfoTributaria;
 import ec.edu.espe.tesis.servicio.FacturaServicio;
+import ec.edu.espe.tesis.servicio.InfoTributariaServicio;
 import ec.edu.espe.tesis.servicio.UsuarioServicio;
+import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.bean.ViewScoped;
@@ -18,18 +22,21 @@ import javax.inject.Inject;
  */
 @Named(value = "infoBean")
 @ViewScoped
-public class InfoBean {
+public class InfoBean implements Serializable {
 
     private int totalFacturas;
     private int ultimaFactura;
     private double totalGastado;
     private double totalAhorrado;
     private double promedioFactura;
+    private  List<Object[]> infoTributaria;
     
     @Inject
     UsuarioServicio usuarioServicio;
      @Inject
     FacturaServicio facturaServicio;
+     @Inject
+     InfoTributariaServicio infoTributariaServicio;
 
     public double getTotalAhorrado() {
         return totalAhorrado;
@@ -71,12 +78,21 @@ public class InfoBean {
         this.totalGastado = totalGastado;
     }
 
+    public List<Object[]> getInfoTributaria() {
+        return infoTributaria;
+    }
+
+    public void setInfoTributaria(List<Object[]> infoTributaria) {
+        this.infoTributaria = infoTributaria;
+    }
+
     
      @PostConstruct
     public void Init() {
         totalFacturas = facturaServicio.obtenerFacturasPorUsuario("1");
         totalGastado= facturaServicio.obtenerTotalGastado("1");
         promedioFactura = facturaServicio.obtenerPromedioFactura("1");
+        infoTributaria=infoTributariaServicio.obtenerEstablecimientoPorUsuario(1);
     }
     /**
      * Creates a new instance of infoBean

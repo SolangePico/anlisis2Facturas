@@ -34,11 +34,12 @@ public class LogBean implements Serializable {
     @PostConstruct
     public void Inicializar() {
         usuarioLogin = null;
+        //usuarioServicio.crearUsuario("Daniel", "1234");
+        usuarioLogin = usuarioServicio.validarUsuario("Daniel", "1234");
     }
-
+    
     public void validarUsuario() throws IOException {
         //System.out.println(this.servicio.validarUsuario(this.getUsuarioLogin()));
-        System.out.println("entra");
         FacesContext facesContext = FacesContext.getCurrentInstance();
         usuarioLogin = usuarioServicio.validarUsuario(correo, password);
         if (usuarioLogin == null) {

@@ -3,10 +3,46 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="title">Información de Perfil</ui:define>
-
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#007be5', '#20d077'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
     <ui:define name="content">
         <div class="container">
             <div class="ui-g">
@@ -14,12 +50,42 @@
                     <div class="card">
                         <h1>Información</h1>
                         <h:form>
-                            <h1>Total Facturas</h1><h2><h:outputText value="#{infoBean.totalFacturas}" /></h2>
-                            <br></br>
-                            <h1>Total Gastado</h1><h2><h:outputText value="S#{infoBean.totalGastado}" /></h2>
-                            <br></br>
-                            <h1>Promedio Gastado por factura</h1><h2><h:outputText value="S#{infoBean.promedioFactura}" /></h2>
-                            <br></br>
+                            <div class="ui-g ui-fluid dashboard">
+                                <div class="ui-g-12 ui-md-6">
+                                    <div class="card clearfix summary">
+                                        <span class="title">Total Facturas</span>
+                                        <span class="detail">Ultima subida:     </span>
+                                        <span class="detail">#{logBean.usuarioLogin.fechaingreso}</span>
+                                        <h1><span class="count visitors">#{infoBean.totalFacturas}</span></h1>
+                                    </div>
+                                </div>
+                                <br></br>
+                                <br></br>
+                                <div class="ui-g-12 ui-md-6">
+                                    <div class="card clearfix summary">
+                                        <span class="title">Total Gastado</span>
+                                        <span class="detail">Promedio por Factura:</span>
+                                        <span class="detail">$ #{infoBean.promedioFactura}</span>
+                                        <h1> <span class="count revenue">$ #{infoBean.totalGastado}</span></h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g ui-fluid dashboard">
+                                <div class="ui-g-12 ui-md-12">
+
+                                    <div class="card clearfix summary" >
+                                        <h1><span class="title">Establecimiento más concurrido</span></h1>
+                                        <div align="center" >
+                                            <span class="title">#{infoBean.infoTributaria.get(0)[1]} </span>
+                                            <span class="detail">#{infoBean.infoTributaria.get(0)[0]}</span>
+                                             <span class="detail">#{infoBean.infoTributaria.get(0)[0]}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
                         </h:form>
                     </div>
                 </div>

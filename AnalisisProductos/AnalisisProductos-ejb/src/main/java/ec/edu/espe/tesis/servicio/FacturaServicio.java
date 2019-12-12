@@ -202,5 +202,10 @@ public class FacturaServicio implements Serializable {
             total=facturaFacade.promedioFactura(usuarioId);
         return total;
     }
+    
+    public List<Factura> obtenerFacturas(String usuarioId){
+       // return facturaFacade.findAll();
+       return null;
+    }
 
 }

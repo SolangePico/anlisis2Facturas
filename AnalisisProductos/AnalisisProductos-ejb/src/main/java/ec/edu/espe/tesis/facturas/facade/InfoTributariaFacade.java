@@ -49,4 +49,18 @@ public class InfoTributariaFacade extends AbstractFacade<InfoTributaria> {
                 .getResultList();
         return establecimientos.get(0);
     }
+
+    public List<Object[]> obtenerEstablecimientoPorUsuario(int usu) {
+        String query = "select i.direccion ,i.razonsocial, f.inf_codigo, count(f.codigo) as tot "
+                + "from factura f , info_tributaria i "
+                + "where f.USU_CODIGO='"+usu+"' and f.INF_CODIGO=i.codigo "
+                + "group by f.inf_codigo , i.establecimiento "
+                + "order by tot desc;";
+        Query q = em.createNativeQuery(query);
+
+        List<Object[]> result = q.getResultList();
+        return result;
+    }
+
+
 }
