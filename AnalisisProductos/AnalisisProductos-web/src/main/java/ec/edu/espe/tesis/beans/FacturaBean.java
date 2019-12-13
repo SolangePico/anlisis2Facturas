@@ -20,14 +20,24 @@ import javax.inject.Inject;
  */
 @Named(value = "facturaBean")
 @ViewScoped
-public class FacturaBean implements Serializable{
+public class FacturaBean implements Serializable {
+
+    Factura facturaSeleccionada;
+    String prueba;
+    List<Object[]> listaFacturasPorEstab;
+    List<Factura> listaFacturas;
 
     @Inject
     FacturaServicio facturaServicio;
-    
-    private List<Factura> listaFacturas;
-    private Factura facturaSeleccionada;
 
+    public List<Object[]> getListaFacturasPorEstab() {
+        return listaFacturasPorEstab;
+    }
+
+    public void setListaFacturasPorEstab(List<Object[]> listaFacturasPorEstab) {
+        this.listaFacturasPorEstab = listaFacturasPorEstab;
+    }
+ 
     public List<Factura> getListaFacturas() {
         return listaFacturas;
     }
@@ -43,10 +53,13 @@ public class FacturaBean implements Serializable{
     public void setFacturaSeleccionada(Factura facturaSeleccionada) {
         this.facturaSeleccionada = facturaSeleccionada;
     }
-    
+
     @PostConstruct
     public void Init() {
-       // listaFacturas=facturaServicio.obtenerFacturas("1");
+
+        listaFacturas = facturaServicio.obtenerFacturasConCriterio(1);
+        listaFacturasPorEstab=facturaServicio.obtenerFacturasPorEstablecimiento("1");
+
     }
-    
+
 }

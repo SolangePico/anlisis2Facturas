@@ -46,7 +46,7 @@ public class ProductoFacade extends AbstractFacade<Producto> {
                 + "FROM producto p, detalle_factura d, usuario u, factura f "
                 + "where u.CODIGO='"+usuarioId+"' and f.USU_CODIGO='"+usuarioId+"' and d.FAC_CODIGO=f.CODIGO and d.PRO_CODIGO=p.codigo "
                 + "group by p.descripcion "
-                + "order by tot desc limit 5;";
+                + "order by tot desc limit 10;";
         Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();

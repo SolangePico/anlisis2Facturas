@@ -202,10 +202,18 @@ public class FacturaServicio implements Serializable {
             total=facturaFacade.promedioFactura(usuarioId);
         return total;
     }
+   
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<Factura> obtenerFacturasConCriterio(int usuarioId){
+      List<Factura> listaFacturas=facturaFacade.obtenerFacturasConCriterio(usuarioId);
+        return listaFacturas;
+       //return null;
+    }
     
-    public List<Factura> obtenerFacturas(String usuarioId){
-       // return facturaFacade.findAll();
-       return null;
+     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<Object[]> obtenerFacturasPorEstablecimiento(String string) {
+       
+        return facturaFacade.obtenerFacturaPorEstablecimiento(string);
     }
 
 }

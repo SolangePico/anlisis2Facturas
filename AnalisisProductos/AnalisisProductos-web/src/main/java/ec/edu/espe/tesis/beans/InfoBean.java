@@ -5,7 +5,6 @@
  */
 package ec.edu.espe.tesis.beans;
 
-import ec.edu.espe.tesis.facturas.model.InfoTributaria;
 import ec.edu.espe.tesis.servicio.FacturaServicio;
 import ec.edu.espe.tesis.servicio.InfoTributariaServicio;
 import ec.edu.espe.tesis.servicio.UsuarioServicio;

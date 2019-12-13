@@ -55,7 +55,7 @@ public class InfoTributaria implements Serializable {
     @Size(max = 255)
     @Column(name = "DIRECCION")
     private String direccion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "infCodigo", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "infCodigo", fetch = FetchType.EAGER)
     private List<Factura> facturaList;
 
     public InfoTributaria() {
