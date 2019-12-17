@@ -6,32 +6,21 @@
     xmlns:p="http://primefaces.org/ui">
 
     <div class="topbar clearfix">
-        <a id="omega-menu-button" href="#">
-            <span class="fa fa-bars"></span>
-        </a>
+       
         
-        <span class="topbar-title"><ui:insert name="title"></ui:insert></span>
+        <span class="topbar-title"><ui:insert name="title">Bill Xml</ui:insert></span>
         
         <a id="options-menu-button" href="#">
             <span class="fa fa-ellipsis-h"></span>
         </a>
         
         <div id="topbar-icons" class="animated">
-            <span class="topbar-search">
-                <input type="text" placeholder="Search"/>
-                <span class="topbar-search-icon fa fa-search"></span>
-            </span>
+       
+       
+          
             <a href="#">
-                <span class="topbar-item-text">Messages</span>
-                <span class="topbar-icon fa fa-envelope-o animated swing"></span>
-                <span class="topbar-badge animated rubberBand">5</span>
-            </a>
-            <a href="#">
-                <span class="topbar-item-text">Settings</span>
-                <span class="topbar-icon fa fa-gear"></span>
-            </a>
-            <a href="#">
-                <span class="topbar-item-text">User</span>
+                #{logBean.correo}
+                <span class="topbar-item-text"></span>
                 <span class="topbar-icon fa fa-user"></span>
             </a>
         </div>

@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -20,9 +21,9 @@ import org.mindrot.jbcrypt.BCrypt;
 @Stateless
 public class UsuarioServicio implements Serializable {
 
-    private static final Logger LOG = Logger.getLogger(UsuarioServicio.class.getName());
+   // private static final Logger LOG = Logger.getLogger(UsuarioServicio.class.getName());
 
-    @EJB
+    @Inject
     private UsuarioFacade usuarioFacade;
 
     public Usuario validarUsuario(String correo, String password) {
@@ -46,7 +47,7 @@ public class UsuarioServicio implements Serializable {
             usuario.setEstado('S');
             usuarioFacade.create(usuario);
         } catch (Exception ex) {
-            LOG.severe(ex.toString());
+            
         }
         return usuario;
     }
