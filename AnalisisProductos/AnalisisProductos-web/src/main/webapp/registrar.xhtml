@@ -12,7 +12,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
-        <title>PrimeFaces Omega</title>
+        <title>Bill XML</title>
     </h:head>
 
     <h:body styleClass="login-body">
@@ -21,29 +21,36 @@
             <p:graphicImage name="images/logoBill.PNG" library="omega-layout" />
 
             <div id="login-container">
-                <span class="title">Bill XML</span>
+                <span class="title">Bill XML - Registro</span>
 
-                <h:form id="formLog" prependId="false">
+                <h:form id="formLog" prependId="false" >
+                      <p:growl id="growl" showDetail="true" sticky="true" /> 
+         
                     <!--<p:growl id="growl" life ="3000" />-->
                     <div class="ui-g ui-fluid">
-                        <div class="ui-g-12">   
-                            <p:outputLabel for="email" value="Ingrese Email:"/>
-                            <p:inputText placeholder="Email" value="#{logBean.correo}" id="email" />
+                        <div class="ui-g-12 " >  
+                            
+                            <p:outputLabel style="font-size: 20px; "  value="Correo:"/>
+                            <p:inputText  type="email" value="#{logBean.correo}" id="email" />
                         </div>
                         <div class="ui-g-12">
-                            <p:outputLabel for="password" value="Ingrese Contraseña:"/>
-                            <p:password placeholder="Password" value="#{logBean.password}" feedback="false" id="password"/>
-                        </div>                       
+                            <p:outputLabel  value="Ingrese Contraseña:"/>
+                            <p:password  value="#{logBean.password}"  id="password"/>
+                        </div>
+                         <div class="ui-g-12">
+                            <p:outputLabel  value="Confirmar Contraseña:"/>
+                            <p:password  value="#{logBean.cPassword}"  id="confirm"/>
+                         </div>  
                         <div class="ui-g-12">
                             <!--<p:button outcome="dashboard" value="Login" icon="fa fa-check" />-->
-                            <p:commandButton action="#{logBean.registarUsuario()}" value="Registar" icon="fa fa-check"/>
+                            <p:commandButton update="formLog" actionListener="#{logBean.registarUsuario()}" value="Registar" icon="fa fa-check"/>
                             <!-- <h:link outcome="empty" value="Login" />-->
                         </div>
                     </div>
                 </h:form>
             </div>
 
-            <div class="login-footer">PrimeFaces Omega</div>
+            <div class="login-footer">Bill XML</div>
         </div>
 
         <h:outputStylesheet name="css/layout.css" library="omega-layout" />

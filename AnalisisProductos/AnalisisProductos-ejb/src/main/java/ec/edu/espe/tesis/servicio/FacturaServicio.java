@@ -39,6 +39,8 @@ import javax.inject.Inject;
 
 public class FacturaServicio implements Serializable {
 
+   
+    
     @Inject
     private FacturaFacade facturaFacade;
 
@@ -68,7 +70,7 @@ public class FacturaServicio implements Serializable {
 
     public void guardarFactura(AutorizacionXML autorizacion, String usuCodigo) {
         InfoTributaria infoTributaria = new InfoTributaria();
-        try {
+//        try {
             if (infoTributariaFacade.obtenerEstablecimientoPorCriterio(autorizacion.getComprobante().getFactura().getInfoTributaria().getRuc(), autorizacion.getComprobante().getFactura().getInfoTributaria().getEstab()).isEmpty()) {
                 //infoTributaria.setCodigo(infoTributariaFacade.count());
                 infoTributaria.setRuc(autorizacion.getComprobante().getFactura().getInfoTributaria().getRuc());
@@ -80,9 +82,9 @@ public class FacturaServicio implements Serializable {
             } else {
                 System.out.println("Establecimiento ya esta Registrado");
             }
-        } catch (Exception e) {
-            System.out.println("" + e);
-        }
+//        } catch (Exception e) {
+//            System.out.println("" + e);
+//        }
         Factura factura = new Factura();
         try {
             if (facturaFacade.obtenerFacturaPorCodigo(autorizacion.getNumeroAutorizacion()).isEmpty()) {
@@ -103,7 +105,7 @@ public class FacturaServicio implements Serializable {
                 factura.setUsuCodigo(usuarioFacade.obtenerUsuarioPorCodigo(Integer.parseInt(usuCodigo)).get(0));
 
                 facturaFacade.create(factura);
-
+                
                 Producto producto;
                 int numDetalles = autorizacion.getComprobante().getFactura().getDetalles().size();
 
@@ -215,5 +217,7 @@ public class FacturaServicio implements Serializable {
        
         return facturaFacade.obtenerFacturaPorEstablecimiento(string);
     }
+
+   
 
 }

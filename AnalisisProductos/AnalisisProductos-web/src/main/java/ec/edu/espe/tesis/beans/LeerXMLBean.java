@@ -19,6 +19,8 @@ import java.io.PrintWriter;
 import javax.inject.Named;
 import org.primefaces.model.UploadedFile;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.io.xml.XppDriver;
 import ec.edu.espe.tesis.servicio.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 
 /**
@@ -40,10 +43,12 @@ public class LeerXMLBean implements Serializable {
     @Inject
     FacturaServicio facturaServicio;
 
+    @Inject
+    HttpSessionHandler sesion;
+
     private UploadedFile file;
     private FacturaXML factura;
     private ArrayList<AutorizacionXML> listaAutorizacion = new ArrayList();
-    
 
     public ArrayList<AutorizacionXML> getListaAutorizacion() {
         return listaAutorizacion;
@@ -65,7 +70,8 @@ public class LeerXMLBean implements Serializable {
         File f;
         this.file = e.getFile();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file.getInputstream(), "UTF-8"))) {
-            f = new File("C:\\Users\\solan\\OneDrive\\Escritorio\\factura.xml");
+            //f = new File("C:\\Users\\solan\\OneDrive\\Escritorio\\factura.xml");
+            f = new File("E:\\Danny\\Escritorio\\anlisis2Facturas\\factura.xml");
 
             try {
                 FileWriter w = new FileWriter(f);
@@ -75,17 +81,17 @@ public class LeerXMLBean implements Serializable {
 
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
-                 //   System.out.println(line);
+                    //   System.out.println(line);
                     wr.append(line); //concatenamos en el archivo sin borrar lo existente             
                 }
                 wr.close();
                 bw.close();
 
             } catch (IOException p) {
-                System.out.println(" error de leer -----------   " + e);
             }
             capturarDatos(f);
             f.delete();
+
         } catch (Exception ex) {
             System.out.println(" error    " + e);
         }
@@ -95,8 +101,8 @@ public class LeerXMLBean implements Serializable {
         AutorizacionXML obj;
         try {
             XStream xstream = new XStream();
-            
-            xstream.allowTypesByRegExp(new String[] { ".*" });
+
+            xstream.allowTypesByRegExp(new String[]{".*"});
             // xstream.processAnnotations(Autorizacion.class);
             xstream.alias("autorizacion", AutorizacionXML.class);
             xstream.alias("comprobante", ComprobanteXML.class);
@@ -107,17 +113,21 @@ public class LeerXMLBean implements Serializable {
             xstream.alias("impuesto", ImpuestoXML.class);
             xstream.alias("totalImpuesto", TotalImpuestoXML.class);
             xstream.ignoreUnknownElements();
-            
-            obj = (AutorizacionXML) xstream.fromXML(file);
-            System.out.println(" ---  "+obj.getNumeroAutorizacion());
-            if (obj != null) {
-                facturaServicio.guardarFactura(obj, "0");
-            } else {
-
+            xstream.ignoreUnknownElements("<![CDATA[");
+            xstream.ignoreUnknownElements("]]>");
+            try {
+                obj = (AutorizacionXML) xstream.fromXML(file);
+               System.out.println("lalal "+obj.getComprobante().getFactura().getInfoTributaria().getRazonSocial());
+                facturaServicio.guardarFactura(obj, sesion.getId());
+            } catch (Exception e) {
+                System.out.println("error en formato"+e);
             }
+
         } catch (Exception e) {
             System.out.println("");
 
         }
+
     }
+
 }

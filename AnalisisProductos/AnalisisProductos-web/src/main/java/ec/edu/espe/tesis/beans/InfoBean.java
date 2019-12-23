@@ -28,14 +28,16 @@ public class InfoBean implements Serializable {
     private double totalGastado;
     private double totalAhorrado;
     private double promedioFactura;
-    private  List<Object[]> infoTributaria;
-    
+    private List<Object[]> infoTributaria;
+
+    @Inject
+    HttpSessionHandler sesion;
     @Inject
     UsuarioServicio usuarioServicio;
-     @Inject
+    @Inject
     FacturaServicio facturaServicio;
-     @Inject
-     InfoTributariaServicio infoTributariaServicio;
+    @Inject
+    InfoTributariaServicio infoTributariaServicio;
 
     public double getTotalAhorrado() {
         return totalAhorrado;
@@ -85,17 +87,18 @@ public class InfoBean implements Serializable {
         this.infoTributaria = infoTributaria;
     }
 
-    
-     @PostConstruct
+    @PostConstruct
     public void Init() {
-        totalFacturas = facturaServicio.obtenerFacturasPorUsuario("1");
-        totalGastado= facturaServicio.obtenerTotalGastado("1");
-        promedioFactura = facturaServicio.obtenerPromedioFactura("1");
-        infoTributaria=infoTributariaServicio.obtenerEstablecimientoPorUsuario(1);
+        totalFacturas = facturaServicio.obtenerFacturasPorUsuario(sesion.getId());
+        if (totalFacturas > 0) {
+            totalGastado = facturaServicio.obtenerTotalGastado(sesion.getId());
+            promedioFactura = facturaServicio.obtenerPromedioFactura(sesion.getId());
+            infoTributaria = infoTributariaServicio.obtenerEstablecimientoPorUsuario(Integer.parseInt(sesion.getId()));
+
+        }
     }
     /**
      * Creates a new instance of infoBean
      */
-    
-  
+
 }

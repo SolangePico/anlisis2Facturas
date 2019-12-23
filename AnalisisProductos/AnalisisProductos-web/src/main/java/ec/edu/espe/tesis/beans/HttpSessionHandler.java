@@ -1,6 +1,5 @@
 package ec.edu.espe.tesis.beans;
 
-
 import ec.edu.espe.tesis.facturas.model.Usuario;
 import java.io.IOException;
 import java.io.Serializable;
@@ -14,28 +13,31 @@ import org.omnifaces.util.Faces;
  *
  * @author alterbios
  */
-@Named("session")//para poder usar desde UI con el nombre de sesionQF
+@Named("sesionBean")//para poder usar desde UI con el nombre de sesionQF
 @SessionScoped
 public class HttpSessionHandler implements Serializable {
 
-    private HttpSession session;
-    private String idUsuario = "";
-    private String idPerfil = "";
-    private String identificacionUsuario = "";
-    private String menuXHTML = "";
-    private String nombreUsuario = "";
-    private String nombrePerfil = "";
+    HttpSession session;
+    private String correo;
+    private String id;
+    private boolean flag;
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
     
-
-
-    public String getNombreUsuario() {
-        return nombreUsuario;
+    public String getId() {
+        return id;
     }
 
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+    public void setId(String id) {
+        this.id = id;
     }
-
+    
     public HttpSession getSession() {
         return session;
     }
@@ -44,71 +46,39 @@ public class HttpSessionHandler implements Serializable {
         this.session = session;
     }
 
-    public String getIdPerfil() {
-        return idPerfil;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setIdPerfil(String idPerfil) {
-        this.idPerfil = idPerfil;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
-    public String getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public String getIdentificacionUsuario() {
-        return identificacionUsuario;
-    }
-
-    public void setIdentificacionUsuario(String identificacionUsuario) {
-        this.identificacionUsuario = identificacionUsuario;
-    }
-
-    public String getMenuXHTML() {
-        return menuXHTML;
-    }
-
-    public void setMenuXHTML(String menuXHTML) {
-        this.menuXHTML = menuXHTML;
-    }
-
-    public String getNombrePerfil() {
-        return nombrePerfil;
-    }
-
-    public void setNombrePerfil(String nombrePerfil) {
-        this.nombrePerfil = nombrePerfil;
-    }
-
-    public void login(String idUsuario, String idPerfil, HttpSession _session) {
+    public void login(String correo, String id ,HttpSession _session) {
         setSession(_session);
         session.setMaxInactiveInterval(60 * 60 * 6);
-        setIdUsuario(idUsuario);
-       // setIdPerfil(idPerfil);
-        
+        setCorreo(correo);
+       setId(id);
+
     }
 
-    public void loginReceptor(String idUsuario, String idPerfil, String identificacion, HttpSession _session) {
+    public void loginReceptor(String correo, String id ,HttpSession _session) {
         setSession(session);
         session.setMaxInactiveInterval(60 * 60 * 6);
-        setIdUsuario(idUsuario);
-        setIdentificacionUsuario(identificacion);
-       // setIdPerfil(idPerfil);
+        setCorreo(correo);
+        // setIdentificacionUsuario(identificacion);
+         setId(id);
     }
 
     public boolean isLoggedIn() {
-        return session != null && idUsuario != null && !idUsuario.isEmpty();
+        return session != null && correo != null && !correo.isEmpty();
     }
 
     public void cerrarSesion() {
-        Usuario u = new Usuario(Integer.valueOf(idUsuario));
-        
+
         session.invalidate();
-        idUsuario = null;
+        correo = null;
+        id=null;
         session = null;
         try {
             Faces.redirect("login.xhtml?faces-redirect=true");

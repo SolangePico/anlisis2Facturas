@@ -62,8 +62,8 @@ public class ProductoBean implements Serializable {
         codigoProducto = null;
         listaMasComprados = productoServicio.obtenerProductosPorUsuario("1");
         listaProductos = productoFacade.findAll();
-//        //String path = "E:\\Danny\\Descargas\\all\\XML";
-//        String path = "C:\\Users\\alterbios\\Downloads\\all\\XML";
+//        String path = "E:\\Danny\\Descargas\\all\\XML";
+////        String path = "C:\\Users\\alterbios\\Downloads\\all\\XML";
 //       // String path = "C:\\Users\\solan\\OneDrive\\Escritorio\\versionesTesis\\all\\XML";
 //        File carpeta = new File(path);
 //        File[] archivos;
@@ -113,35 +113,7 @@ public class ProductoBean implements Serializable {
         this.listaProductos = listaProductos;
     }
 
-    public void capturarDatos(File file) {
-        AutorizacionXML obj;
-        try {
-            XStream xstream = new XStream();
-
-            xstream.allowTypesByRegExp(new String[]{".*"});
-            // xstream.processAnnotations(Autorizacion.class);
-            xstream.alias("autorizacion", AutorizacionXML.class);
-            xstream.alias("comprobante", ComprobanteXML.class);
-            xstream.alias("factura", FacturaXML.class);
-            xstream.alias("infoTributaria", InfoTributariaXML.class);
-            xstream.alias("infoFactura", InfoFacturaXML.class);
-            xstream.alias("detalle", DetalleXML.class);
-            xstream.alias("impuesto", ImpuestoXML.class);
-            xstream.alias("totalImpuesto", TotalImpuestoXML.class);
-            xstream.ignoreUnknownElements();
-            try {
-                obj = (AutorizacionXML) xstream.fromXML(file);
-                facturaServicio.guardarFactura(obj, "1");
-            } catch (Exception e) {
-                System.out.println("error en formato");
-            }
-
-        } catch (Exception e) {
-            System.out.println("");
-
-        }
-
-    }
+   
 
     public void cerrarVentana() {
 
@@ -154,6 +126,8 @@ public class ProductoBean implements Serializable {
     }
 
     public void cargarSeleccionado() {
+        
+        
         listaPrecioProducto = controlPrecioServicio.obtenerListaPreciosPorProducto((Integer) codigoProducto[0]);
         productoSeleccionado = productoFacade.obtenerProductoPorCodigoP((Integer) codigoProducto[0]).get(0);
     }

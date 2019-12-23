@@ -5,20 +5,26 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">File</ui:define>
+    <ui:define name="title">Subir Facturas</ui:define>
 
     <ui:define name="content">
         <div class="container">
             <div class="ui-g">
                 <div class="ui-g-12">
                     <div class="card">
-                        <h1>Carga facturas para que puedas acceder a tu información</h1>
+                        <h1>Carga tus facturas</h1>
                         <h:form>
                             <p:fileUpload value="#{LeerXMLBean.file}" mode="advanced" multiple="true"
                                           fileUploadListener="#{LeerXMLBean.fileUploadListener}" allowTypes="/(\.|\/)(xml)$/" style="width:100%"></p:fileUpload>
                             <p:growl id="messages" showDetail="true" />
-                           
-
+                            <div class="ui-g-12 ui-md-6">
+                                <div class="card clearfix summary">
+                                    <span class="title">Total Facturas</span>
+                                    <span class="detail">Ultima subida:     </span>
+                                    <span class="detail">#{logBean.usuarioLogin.fechaingreso}</span>
+                                    <h1><span class="count visitors">#{infoBean.totalFacturas}</span></h1>
+                                </div>
+                            </div>
                         </h:form>
                     </div>
                 </div>

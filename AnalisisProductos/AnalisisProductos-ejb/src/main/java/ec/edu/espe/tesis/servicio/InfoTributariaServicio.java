@@ -36,13 +36,18 @@ public class InfoTributariaServicio implements Serializable {
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public InfoTributaria obtenerEstablecimientoPorCodigo(String codigo) {
-       
+
         return infoTributariaFacade.obtenerEstablecimientoPorCodigo(codigo);
     }
-    
-     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Object[]> obtenerEstablecimientoPorUsuario(int codigo) {
-       
-        return infoTributariaFacade.obtenerEstablecimientoPorUsuario(codigo);
+        if (infoTributariaFacade.obtenerEstablecimientoPorUsuario(codigo) != null) {
+            return infoTributariaFacade.obtenerEstablecimientoPorUsuario(codigo);
+        } else {
+            return null;
+        }
+
     }
+
 }
