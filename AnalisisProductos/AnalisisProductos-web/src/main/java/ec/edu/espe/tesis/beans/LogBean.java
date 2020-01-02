@@ -29,19 +29,21 @@ public class LogBean implements Serializable {
     private Usuario usuarioLogin;
     private String correo;
     private String password;
-    private HttpSessionHandler session;
+    
+    @Inject
+    HttpSessionHandler session;
 
     @Inject
     private UsuarioServicio usuarioServicio;
 
     @PostConstruct
-    public void Inicializar() {
+    public void Init() {
         //usuarioLogin = null;
         //usuarioServicio.crearUsuario("Daniel", "1234");
        // usuarioLogin = usuarioServicio.validarUsuario("Daniel", "1234");
     }
     
-    public void validarUsuario(){
+    public void validarUsuario() throws IOException{
         //System.out.println(this.servicio.validarUsuario(this.getUsuarioLogin()));
         FacesContext facesContext = FacesContext.getCurrentInstance();
         usuarioLogin = usuarioServicio.validarUsuario(correo, password);
@@ -49,7 +51,7 @@ public class LogBean implements Serializable {
             facesContext.addMessage(null, new FacesMessage("Usuario no registrado", "Registrese! "));
         } else {
             //session.setIdPerfil("1");
-            session.setIdUsuario(correo);
+            session.setCorreo(usuarioLogin.getCorreo());
             finalizeLogin();
             
         }
@@ -61,14 +63,14 @@ public class LogBean implements Serializable {
         if (usuarioLogin == null) {
             facesContext.addMessage(null, new FacesMessage("Usuario no ingresado", "Registrese! "));
         } else {
-            facesContext.getExternalContext().redirect("sample.xhtml");
+            facesContext.getExternalContext().redirect("login.xhtml");
         }
     }
     
     public void finalizeLogin() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
-            facesContext.getExternalContext().redirect("user/InfoPerfil.xhtml");
+            facesContext.getExternalContext().redirect("/user/InfoPerfil");
         } catch (IOException ex) {
             Logger.getLogger(LogBean.class.getName()).log(Level.SEVERE, null, ex);
         }

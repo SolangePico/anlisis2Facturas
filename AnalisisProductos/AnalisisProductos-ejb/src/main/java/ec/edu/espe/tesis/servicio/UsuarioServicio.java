@@ -9,7 +9,6 @@ import ec.edu.espe.tesis.facturas.facade.UsuarioFacade;
 import ec.edu.espe.tesis.facturas.model.Usuario;
 import java.io.Serializable;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.mindrot.jbcrypt.BCrypt;
@@ -21,7 +20,7 @@ import org.mindrot.jbcrypt.BCrypt;
 @Stateless
 public class UsuarioServicio implements Serializable {
 
-   // private static final Logger LOG = Logger.getLogger(UsuarioServicio.class.getName());
+    private static final Logger LOG = Logger.getLogger(UsuarioServicio.class.getName());
 
     @Inject
     private UsuarioFacade usuarioFacade;
@@ -47,7 +46,7 @@ public class UsuarioServicio implements Serializable {
             usuario.setEstado('S');
             usuarioFacade.create(usuario);
         } catch (Exception ex) {
-            
+            usuario=null;
         }
         return usuario;
     }

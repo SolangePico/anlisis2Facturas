@@ -87,7 +87,7 @@ public class FacturaServicio implements Serializable {
         try {
             if (facturaFacade.obtenerFacturaPorCodigo(autorizacion.getNumeroAutorizacion()).isEmpty()) {
                 // factura.setCodigo(facturaFacade.count());
-                String fecha1 = autorizacion.getFechaAutorizacion();
+                String fecha1 = autorizacion.getComprobante().getFactura().getInfoFactura().getFechaEmision();
                 String fecha2 = autorizacion.getComprobante().getFactura().getInfoFactura().getFechaEmision();
                 Date fechaAu = null;
                 Date fechaEm = null;
@@ -214,6 +214,11 @@ public class FacturaServicio implements Serializable {
     public List<Object[]> obtenerFacturasPorEstablecimiento(String string) {
        
         return facturaFacade.obtenerFacturaPorEstablecimiento(string);
+    }
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<Object[]> obtenerDetallesFactura(String codigoFactura) {
+       
+        return facturaFacade.obtenerDetallesFactura(codigoFactura);
     }
 
 }

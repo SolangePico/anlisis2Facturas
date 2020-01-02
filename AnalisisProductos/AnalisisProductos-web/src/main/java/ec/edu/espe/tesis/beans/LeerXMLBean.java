@@ -65,7 +65,8 @@ public class LeerXMLBean implements Serializable {
         File f;
         this.file = e.getFile();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file.getInputstream(), "UTF-8"))) {
-            f = new File("C:\\Users\\solan\\OneDrive\\Escritorio\\factura.xml");
+            //f = new File("C:\\Users\\solan\\OneDrive\\Escritorio\\factura.xml");
+            f= new File("C:\\Users\\alterbios\\Desktop\\Releases-MARATHON-GO\\factura.xml");
 
             try {
                 FileWriter w = new FileWriter(f);
@@ -76,6 +77,12 @@ public class LeerXMLBean implements Serializable {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                  //   System.out.println(line);
+                 if(line.contains("<![CDATA[<?xml version = '1.0' encoding = 'UTF-8'?>")){
+                     line = line.replace("<![CDATA[<?xml version = '1.0' encoding = 'UTF-8'?>","");
+                 }
+                 if(line.contains("]]>")){
+                     line=line.replaceAll("]]>", "");
+                 }
                     wr.append(line); //concatenamos en el archivo sin borrar lo existente             
                 }
                 wr.close();
@@ -109,14 +116,14 @@ public class LeerXMLBean implements Serializable {
             xstream.ignoreUnknownElements();
             
             obj = (AutorizacionXML) xstream.fromXML(file);
-            System.out.println(" ---  "+obj.getNumeroAutorizacion());
+            System.out.println(" ---  "+obj.getComprobante().getFactura().getInfoTributaria().getRuc());
             if (obj != null) {
-                facturaServicio.guardarFactura(obj, "0");
+                facturaServicio.guardarFactura(obj, "1");
             } else {
 
             }
         } catch (Exception e) {
-            System.out.println("");
+            System.out.println(""+e);
 
         }
     }

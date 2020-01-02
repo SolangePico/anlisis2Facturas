@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -23,12 +24,29 @@ import javax.inject.Inject;
 public class FacturaBean implements Serializable {
 
     Factura facturaSeleccionada;
-    String prueba;
     List<Object[]> listaFacturasPorEstab;
+    List<Object[]> listaDetallesFacturaSeleccionada;
     List<Factura> listaFacturas;
+    String codigoFactura;
 
     @Inject
     FacturaServicio facturaServicio;
+
+    public List<Object[]> getListaDetallesFacturaSeleccionada() {
+        return listaDetallesFacturaSeleccionada;
+    }
+
+    public void setListaDetallesFacturaSeleccionada(List<Object[]> listaDetallesFacturaSeleccionada) {
+        this.listaDetallesFacturaSeleccionada = listaDetallesFacturaSeleccionada;
+    }
+
+    public String getCodigoFactura() {
+        return codigoFactura;
+    }
+
+    public void setCodigoFactura(String codigoFactura) {
+        this.codigoFactura = codigoFactura;
+    }
 
     public List<Object[]> getListaFacturasPorEstab() {
         return listaFacturasPorEstab;
@@ -56,10 +74,24 @@ public class FacturaBean implements Serializable {
 
     @PostConstruct
     public void Init() {
-
+        facturaSeleccionada=null;
         listaFacturas = facturaServicio.obtenerFacturasConCriterio(1);
         listaFacturasPorEstab=facturaServicio.obtenerFacturasPorEstablecimiento("1");
 
+    }
+    
+    public void cargarDetallesFactura(){
+        listaDetallesFacturaSeleccionada=facturaServicio.obtenerDetallesFactura(facturaSeleccionada.getCodigo().toString());
+    }
+    
+    public void cerrarVentana() {
+        facturaSeleccionada=null;
+        RequestContext.getCurrentInstance().execute("PF('factura').hide();");
+    }
+
+    public void abrirInfo() {
+        cargarDetallesFactura();
+        RequestContext.getCurrentInstance().execute("PF('factura').show();");
     }
 
 }

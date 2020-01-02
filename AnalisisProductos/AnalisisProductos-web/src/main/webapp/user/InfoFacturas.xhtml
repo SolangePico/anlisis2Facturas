@@ -25,7 +25,7 @@
                                      emptyMessage="No existen facturas subidas por el usuario."
 
                                      >
-                            <p:ajax event="rowSelect" update="facturaForm:tablaFactura"/>
+                            <p:ajax event="rowSelect" update="facturaForm:tablaFactura facturaForm:btn_mostrarFactura"/>
                             <f:facet name="header">
                                 FACTURAS
                             </f:facet>
@@ -52,6 +52,12 @@
                                 <h:outputText value="#{fac.infCodigo.direccion}" />
                             </p:column>
                         </p:dataTable>
+                        <p:commandButton id="btn_mostrarFactura"
+                                             disabled="#{empty facturaBean.facturaSeleccionada}"
+                                             value="Mostrar Información" 
+                                             actionListener="#{facturaBean.abrirInfo()}" 
+                                             style="margin-top: 10px;"
+                                             update=":mostrarInfoFac"/>
                         <br></br><br></br><br></br>
                         <h1>Facturas Por establecimiento</h1>
                         <p:dataTable id="tablaFacturaEstab" 
@@ -86,6 +92,7 @@
 
                     </div>
                 </h:form>
+                 <ui:include src="../dialog/factura.xhtml"/>
             </div>
         </div>
 
