@@ -12,30 +12,12 @@
             <div class="ui-g">
                 <div class="ui-g-12">
                     <div class="card">
-                        <h1>Advanced</h1>
+                        <h1>Carga facturas para que puedas acceder a tu información</h1>
                         <h:form>
                             <p:fileUpload value="#{LeerXMLBean.file}" mode="advanced" multiple="true"
                                           fileUploadListener="#{LeerXMLBean.fileUploadListener}" allowTypes="/(\.|\/)(xml)$/" style="width:100%"></p:fileUpload>
                             <p:growl id="messages" showDetail="true" />
-                            <p:dataTable value="#{productoBean.listaProductos}"
-                                         var="det">
-
-                                <p:column headerText="Descripcion">
-                                    <h:outputText value="#{det.descripcion}" />
-                                </p:column>
-
-                                <p:column headerText="Ruc">
-                                    <h:outputText value="#{det.codigoauxiliar}" />
-                                </p:column>
-
-                                <p:column headerText="Establecimiento">
-                                    <h:outputText value="#{det.descripcion}" />
-                                </p:column>
-
-                                <p:column headerText="Precio">
-                                    <h:outputText value="#{det.codigo}" />
-                                </p:column>
-                            </p:dataTable>
+                           
 
                         </h:form>
                     </div>

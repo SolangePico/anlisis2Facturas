@@ -2089,6 +2089,7 @@ html {
   width: 56px;
   margin: 0 auto;
 }
+
 .wrapper .sidebar .profile > a {
   display: inline-block;
   margin-bottom: 10px;
@@ -2177,7 +2178,7 @@ html {
   color: #2399e5;
 }
 .wrapper .sidebar ul li > a:hover .menu-badge {
-  color:   #ffffff;
+  color: #ffffff;
 }
 .wrapper .sidebar ul li.active-menuitem > a {
   border-bottom: 0 none;
@@ -2396,12 +2397,18 @@ html {
 #login-wrapper #login-container {
   margin-top: 20px;
   box-sizing: border-box;
-  height: 300px;
+  height: 350px;
   background-color: #ffffff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   padding: 2em;
   text-align: center;
   color: #4f575b;
+}
+#panelGrid {
+  border-style: none;
+}
+#label{
+    font-size: 30px;
 }
 #login-wrapper #login-container .title {
   font-size: 20px;
@@ -2429,6 +2436,7 @@ html {
 }
 #login-wrapper #login-container .ui-g-12, #login-wrapper #login-container .ui-g-6 {
   padding: 0.8em;
+  align-items: flex-start;
 }
 #login-wrapper #login-container .ui-button {
   font-size: 16px;
@@ -2564,6 +2572,7 @@ h2 {
 
 .ui-g {
   -ms-flex-wrap: wrap;
+  
 }
 
 /* Dashboard */
@@ -2738,6 +2747,7 @@ h2 {
   padding: 0;
   margin: 0;
   padding: 0;
+  background-color: #B1B0BF;
 }
 
 .landing-wrapper #menu-button {
@@ -2756,12 +2766,13 @@ h2 {
   color: #77c7ff;
 }
 .landing-wrapper .landing-header {
-  height: 80px;
-  background-color: #0388e5;
+  height: 70px;
+  background-color: #1f3b59;
   position: fixed;
   left: 0;
   width: 100%;
   z-index: 101;
+  font-size: 110%;
 }
 .landing-wrapper .landing-header .landing-header-content {
   width: 960px;
@@ -2832,16 +2843,18 @@ h2 {
   padding: 1em 5em;
 }
 .landing-wrapper #features {
-  background-color: #ffffff;
+  background-color: #B1B0BF;
   padding: 100px 0;
+  
 }
 .landing-wrapper #features .features-content {
   width: 960px;
   margin: 0 auto;
   text-align: center;
+   
 }
 .landing-wrapper #features .features-content p {
-  color: #a4a4a4;
+  color: #1f2023;
 }
 .landing-wrapper #features .features-content > p {
   font-size: 20px;
@@ -2853,7 +2866,7 @@ h2 {
   text-align: left;
 }
 .landing-wrapper #features .features-content .ui-g > div {
-  margin-top: 50px;
+  margin-top: 2px;
 }
 .landing-wrapper #features .features-content .feature-icon {
   vertical-align: top;
@@ -3179,6 +3192,7 @@ h2 {
 
 .ui-fluid .ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
   padding-left: 2px;
+  
 }
 
 .ui-selectcheckboxmenu .ui-selectcheckboxmenu-label {
@@ -4025,6 +4039,7 @@ h2 {
 
 .ui-panelgrid.ui-panelgrid-blank .ui-grid-responsive .ui-grid-row {
   border: 0 none;
+  text-align: left;
 }
 
 .ui-fluid .ui-selectonebutton.ui-buttonset.ui-buttonset-3 .ui-button, .ui-fluid .ui-selectmanybutton.ui-buttonset.ui-buttonset-3 .ui-button {

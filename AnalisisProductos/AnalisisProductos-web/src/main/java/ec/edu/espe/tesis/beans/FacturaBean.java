@@ -31,6 +31,9 @@ public class FacturaBean implements Serializable {
 
     @Inject
     FacturaServicio facturaServicio;
+    
+    @Inject
+    HttpSessionHandler sesion;
 
     public List<Object[]> getListaDetallesFacturaSeleccionada() {
         return listaDetallesFacturaSeleccionada;
@@ -75,8 +78,8 @@ public class FacturaBean implements Serializable {
     @PostConstruct
     public void Init() {
         facturaSeleccionada=null;
-        listaFacturas = facturaServicio.obtenerFacturasConCriterio(1);
-        listaFacturasPorEstab=facturaServicio.obtenerFacturasPorEstablecimiento("1");
+        listaFacturas = facturaServicio.obtenerFacturasConCriterio(Integer.parseInt(sesion.getId()));
+        listaFacturasPorEstab=facturaServicio.obtenerFacturasPorEstablecimiento(sesion.getId());
 
     }
     

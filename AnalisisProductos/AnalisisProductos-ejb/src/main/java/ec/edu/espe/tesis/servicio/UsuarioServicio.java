@@ -35,19 +35,34 @@ public class UsuarioServicio implements Serializable {
         }
         return usuario;
     }
+    public boolean buscarUsuarioPorCorreo(String correo){
+       Usuario usuario;  
+        usuario = usuarioFacade.validarUsuario(correo);
+        return usuario==null;
+    }
     
-
+    public void actualizarUsuario(Usuario usuario){
+        try{
+            usuarioFacade.edit(usuario);
+        }catch(Exception e){
+        }
+    }
     public Usuario crearUsuario(String correo, String password) {
         Usuario usuario = new Usuario();
         try {
             usuario.setCorreo(correo);
             String hashPassw = BCrypt.hashpw(password, BCrypt.gensalt());
             usuario.setClave(hashPassw);
-            usuario.setEstado('S');
+            usuario.setEstado('N');
             usuarioFacade.create(usuario);
         } catch (Exception ex) {
+
             usuario=null;
+
+            System.out.println("Error al crear Usuario");
+
         }
         return usuario;
+       
     }
 }

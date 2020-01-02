@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>Bill XML</title>
+    </h:head>
+
+    <h:body styleClass="login-body">
+        <h:form id="formLog" prependId="false">
+            <p:growl id="growl" showDetail="true" sticky="true" /> 
+            <div id="login-wrapper">
+                <p:graphicImage name="images/logo-login.PNG" library="omega-layout" />
+
+                <div id="login-container">
+                    <span class="title">BILL    XML</span>
+
+                    <!--<p:growl id="growl" life ="3000" />-->
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12">
+                            <p:inputText required="true" requiredMessage="Ingrese Email" placeholder="Email" value="#{logBean.correo}" id="usuario" />
+                        </div>
+                        <div class="ui-g-12">
+                            <p:password required="true" requiredMessage="Ingrese Contraseña" placeholder="Password" value="#{logBean.password}" feedback="false" id="clave"/>
+                        </div>
+
+                        <div class="ui-g-12 ui-md-6">
+                            <p:link style="color: #006de5; font-size: 10px" value="Registrarse" href="registrar.xhtml"> </p:link>
+                        </div>
+                        <div class="ui-g-12">
+                            <!--<p:button outcome="dashboard" value="Login" icon="fa fa-check" />-->
+                            <p:commandButton update="formLog" action="#{logBean.validarUsuario()}" value="Login" icon="fa fa-check"/>
+                            <!-- <h:link outcome="empty" value="Login" />-->
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="login-footer">Bill XML</div>
+            </div>
+        </h:form>
+        <h:outputStylesheet name="css/layout.css" library="omega-layout" />
+    </h:body>
+
+</html>

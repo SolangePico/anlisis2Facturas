@@ -1,0 +1,101 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-100">
+                <h:form id="facturaForm">
+                    <div class="card">
+
+                        <h1>Facturas Subidas</h1>
+                        <p:dataTable id="tablaFactura" 
+                                     var="fac" 
+                                     reflow="true"
+                                     value="#{facturaBean.listaFacturas}"
+                                     selection="#{facturaBean.facturaSeleccionada}"
+                                     selectionMode="single"
+                                     rowKey="#{fac.codigo}"
+                                     paginator="true"
+                                     paginatorPosition="bottom"
+                                     rows="10"
+                                     emptyMessage="No existen facturas subidas por el usuario."
+
+                                     >
+                            <p:ajax event="rowSelect" update="facturaForm:tablaFactura facturaForm:btn_mostrarFactura"/>
+                            <f:facet name="header">
+                                FACTURAS
+                            </f:facet>
+                            <p:column headerText="Código" sortBy="#{fac.codigo}" style="width: 80px">
+                                <h:outputText value="#{fac.codigo}" />
+                            </p:column>
+                            <p:column headerText="Fecha Emisión" sortBy="#{fac.fechaemision}" style="width: 80px" >
+                                <h:outputText value="#{fac.fechaemision}" >
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Total" sortBy="#{fac.importetotal}" style="width: 150px">
+                                <h:outputText value="#{fac.importetotal}" >
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Total sin Impuestos" sortBy="#{fac.totalsinimpuesto}">
+                                <h:outputText value="#{fac.totalsinimpuesto}" />
+                            </p:column>
+                            <p:column headerText="Total" style="width: 50px" sortBy="#{fac.detalleFacturaList.size()}">
+                                <h:outputText value="#{fac.detalleFacturaList.size()}" >
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Dirección" sortBy="#{fac.infCodigo.direccion}">
+                                <h:outputText value="#{fac.infCodigo.direccion}" />
+                            </p:column>
+                        </p:dataTable>
+                        <p:commandButton id="btn_mostrarFactura"
+                                             disabled="#{empty facturaBean.facturaSeleccionada}"
+                                             value="Mostrar Información" 
+                                             actionListener="#{facturaBean.abrirInfo()}" 
+                                             style="margin-top: 10px;"
+                                             update=":mostrarInfoFac"/>
+                        <br></br><br></br><br></br>
+                        <h1>Facturas Por establecimiento</h1>
+                        <p:dataTable id="tablaFacturaEstab" 
+                                     var="fac" 
+                                     reflow="true"
+                                     value="#{facturaBean.listaFacturasPorEstab}"
+                                     paginator="true"
+                                     paginatorPosition="bottom"
+                                     rows="10"
+                                     emptyMessage="No existen facturas subidas por el usuario."
+                                     style="margin-left: 100px;margin-right: 100px"
+                                     >
+                            <p:ajax event="rowSelect" update="facturaForm:tablaFactura"/>
+                            <f:facet name="header">
+                                FACTURAS POR ESTABLECIMIENTO
+                            </f:facet>
+                            <p:column headerText="Establecimiento" sortBy="#{fac[0]}" style="width: 200px">
+                                <h:outputText value="#{fac[0]}" />
+                            </p:column>
+                            <p:column headerText="Dirección" sortBy="#{fac[1]}"  >
+                                <h:outputText value="#{fac[1]}" >
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Total Facturas" sortBy="#{fac[2]}" style="width: 100px">
+                                <h:outputText value="#{fac[2]}" >
+                                </h:outputText>
+                            </p:column>
+
+                        </p:dataTable>
+
+
+
+                    </div>
+                </h:form>
+                 <ui:include src="../dialog/factura.xhtml"/>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

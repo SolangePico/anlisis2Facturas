@@ -50,7 +50,12 @@ public class FacturaFacade extends AbstractFacade<Factura> {
     }
 
     public int totalFacturasPorUsuario(String usuCodigo) {
-        String query = "select count(*) from factura where usu_codigo=" + usuCodigo + ";";
+        String query;
+        if (!"-1".equals(usuCodigo)) {
+            query = "select count(*) from factura where usu_codigo=" + usuCodigo + ";";
+        } else {
+            query = "select count(*) from factura;";
+        }
         Query q = em.createNativeQuery(query);
         return ((BigInteger) q.getSingleResult()).intValue();
 
@@ -97,16 +102,16 @@ public class FacturaFacade extends AbstractFacade<Factura> {
     public List<Object[]> obtenerFacturaPorEstablecimiento(String usuCodigo) {
         String query = "SELECT i.establecimiento, i.direccion, count(f.inf_codigo) as tot "
                 + "from info_tributaria i, factura f  "
-                + "where i.codigo=f.INF_CODIGO and f.USU_CODIGO='"+usuCodigo+"' "
+                + "where i.codigo=f.INF_CODIGO and f.USU_CODIGO='" + usuCodigo + "' "
                 + "group by i.establecimiento, i.direccion order by tot desc;";
         Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();
         return result;
     }
-    
+
     public List<Object[]> obtenerDetallesFactura(String codigoFactura) {
-        String query = "SELECT p.descripcion, f.cantidad, c.preciounitario, c.PRECIO FROM detalle_factura f, producto p, control_precios c where f.fac_codigo='"+codigoFactura+"' and f.PRO_CODIGO=p.CODIGO and c.pro_codigo=p.CODIGO and c.fac_codigo=f.FAC_CODIGO;";
+        String query = "SELECT p.descripcion, f.cantidad, c.preciounitario, c.PRECIO FROM detalle_factura f, producto p, control_precios c where f.fac_codigo='" + codigoFactura + "' and f.PRO_CODIGO=p.CODIGO and c.pro_codigo=p.CODIGO and c.fac_codigo=f.FAC_CODIGO;";
         Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();

@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 xmlns:o="http://omnifaces.org/ui">
+
+    <p:dialog header="Detalle Factura" 
+              widgetVar="producto" 
+              modal="true" 
+              showEffect="fade" 
+              hideEffect="fade"
+              closeOnEscape="false"
+              draggable="false"
+              closable="false"
+              resizable="false"
+              appendTo="@(body)"
+              responsive="true">
+        <o:form id="mostrarInfoFac" useRequestURI="true" >
+            <p:panel styleClass="ui-panelgrid-blank" >
+                <div class="ui-g ui-fluid">
+                    <p:growl id="growl"  sticky="true" /> 
+
+                    <div class="ui-g-12 ui-lg-6">
+                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" id="datos">
+                            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" >
+                                <h1><h:outputText value="#{productoBean.productoSeleccionado.descripcion} "  /></h1>
+                                <h2><h:outputText value="#{productoBean.productoSeleccionado.codigoprincipal}" /></h2>
+                            </p:panelGrid>
+                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-g-6,ui-g-6">
+                                <p:dataTable style=" height: 200px; width: 500px; " id="tablaPrecios" 
+                                             value="#{productoBean.listaPrecioProducto}"
+                                             var="det"
+                                             rows="4"
+                                            
+                                             reflow="true"
+                                             >
+
+                                    <p:column   headerText="Fecha">
+                                        <h:outputText value="#{det[0]}" />
+                                    </p:column>
+                                    <p:column   headerText="Precio">
+                                        <h:outputText value="#{det[1]}" />
+                                    </p:column>
+                                    <p:column   headerText="Establecimiento">
+                                        <h:outputText value="#{det[2]}" />
+                                    </p:column>
+
+
+                                </p:dataTable>
+                            </p:panelGrid>
+                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-g-6,ui-g-6"
+                                         styleClass="ui-panelgrid-blank form-group" >
+
+                            </p:panelGrid>
+                                <p:commandButton value="Cerrar" immediate="true" icon="fa fa-sign-out"
+                                                 actionListener="#{productoBean.cerrarVentana()}" update=":ProductoForm:tablaProductos" />
+                        </p:panelGrid>
+                    </div>
+                </div>
+            </p:panel>
+        </o:form>
+    </p:dialog>
+</ui:composition>

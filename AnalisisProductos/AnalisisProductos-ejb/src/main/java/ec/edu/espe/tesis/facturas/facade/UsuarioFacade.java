@@ -54,6 +54,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
                     .getSingleResult();
         } catch (Exception ex) {
             LOG.warning(ex.toString());
+            temp=null;
         }
         return temp;
     }

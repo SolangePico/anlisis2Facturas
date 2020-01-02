@@ -1,0 +1,30 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <div class="topbar clearfix">
+       
+        
+        <span class="topbar-title"><ui:insert name="title">Bill Xml</ui:insert></span>
+        
+        <a id="options-menu-button" href="#">
+            <span class="fa fa-ellipsis-h"></span>
+        </a>
+        
+        <div id="topbar-icons" class="animated">
+       
+       
+          
+            <a href="#">
+                #{logBean.correo}
+                <span class="topbar-item-text"></span>
+                <span class="topbar-icon fa fa-user"></span>
+            </a>
+        </div>
+        
+    </div>
+    
+</ui:composition>

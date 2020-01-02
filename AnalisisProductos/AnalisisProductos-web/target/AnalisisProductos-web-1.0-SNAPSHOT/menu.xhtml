@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!--<ui:composition template="/templates/plantilla.xhtml">-->
+        <ui:define name="contenido">
+            <p:panel id="mainPnl" header="Men&#250;" style="width: 50%; margin: auto;">
+                <p:dataTable var="itemMenu" value="#{menuBean.itemsMenu}" 
+                             selectionMode="single" selection="#{menuBean.itemMenuSel}" rowKey="#{itemMenu.codigo}">
+                    <p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form" />
+                    <p:column headerText="Codigo">
+                        <h:outputText value="#{itemMenu.codigo}" />
+                    </p:column>
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{itemMenu.nombre}" />
+                    </p:column>
+                    <p:column headerText="Descripci&#243;n">
+                        <h:outputText value="#{itemMenu.descripcion}" />
+                    </p:column>
+                    <p:column headerText="Precio">
+                        <h:outputText value="#{itemMenu.precio}" />
+                    </p:column>
+                    <p:column headerText="Tipo">
+                        <h:outputText value="#{itemMenu.tipo.texto}" />
+                    </p:column>
+                </p:dataTable>
+                <p:messages id="messages" showDetail="true" closable="true" />
+                <p:commandButton value="Agregar" actionListener="#{menuBean.agregar()}" update="@form"/>
+                <p:commandButton id="modBtn" value="Modificar" actionListener="#{menuBean.modificar()}" update="@form" disabled="#{menuBean.itemMenuSel eq null}"/>
+                <p:commandButton value="Eliminar" actionListener="#{menuBean.eliminar()}" update="@form" disabled="#{menuBean.itemMenuSel eq null}" >
+                    <p:confirm header="Confirmaci&#243;n" message="Desea eliminar el tipo de alimentacion: #{menuBean.itemMenuSel.descripcion}}" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:panel header="#{menuBean.titulo} &#237;tem al men&#250;" visible="#{menuBean.habilitaForm}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="codigo" value="Codigo" />
+                        <p:inputText id="codigo" value="#{menuBean.itemMenu.codigo}" disabled="#{menuBean.enModificar}" />
+                        <p:outputLabel for="nombre" value="Nombre" />
+                        <p:inputText id="nombre" value="#{menuBean.itemMenu.nombre}"  />
+                        <p:outputLabel for="descripcion" value="Descripci&#243;n" />
+                        <p:inputTextarea id="descripcion" value="#{menuBean.itemMenu.descripcion}" rows="2" cols="20" />
+                        <p:outputLabel for="precio" value="Precio" />
+                        <p:inputText id="precio" value="#{menuBean.itemMenu.precio}"  />
+                        <p:outputLabel for="tipo" value="Tipo" />
+                        <h:selectOneMenu value="#{menuBean.itemMenu.tipo}" style="background-color: black" >
+                            <f:selectItems id="tipo" value="#{menuBean.tiposMenu}" var="tipoMenu" itemValue="#{tipoMenu}" itemLabel="#{tipoMenu.texto}"  />                          
+                        </h:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton value="Aceptar" actionListener="#{menuBean.guardar}" update="@form" />
+                    <p:commandButton value="Cancelar" actionListener="#{menuBean.cancelar}" update="@form" />
+                </p:panel>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </ui:define>
+    <!--</ui:composition>-->
+</html>

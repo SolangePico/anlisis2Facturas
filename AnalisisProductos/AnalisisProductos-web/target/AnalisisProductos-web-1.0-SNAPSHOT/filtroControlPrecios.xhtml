@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card">
+                    <h1>Busqueda de productos</h1>
+                    <p:panelGrid id="principalPanel" columns="5" layout="grid"   
+                                 styleClass="ui-panelgrid-blank form-group">
+                        <h:panelGroup layout="block">
+                            <p:outputLabel for="establecimientos" value="Establecimiento"/>
+                            <p:inputText id="establecimientoId" value="#{controlPreciosBean.vendedorId}"
+                                         onkeydown="if (event.keyCode === 13) {
+                                                     buscarEstablecimiento();
+                                                     return false;
+                                                 }"/>
+                            <p:selectOneMenu id="establecimientos" title="Establecimiento" 
+                                             converter="omnifaces.SelectItemsConverter"
+                                             filter="true"
+                                             label="Establecimiento" value="#{controlPreciosBean.establecimientoId}" autoWidth="false"
+                                             style="width: 200px;">
+                                <f:selectItem itemLabel="Seleccione uno" noSelectionOption="true" />
+                                <f:selectItems value="#{controlPreciosBean.listaEstablecimientos}" var="estab" 
+                                               itemLabel="#{estab.ruc} - #{estab.establecimiento} - #{estab.razonsocial}" itemValue="#{estab}" />
+                                <p:ajax event="change" listener="#{controlPreciosBean.seleccionEstablecimiento()}" update="establecimientoId" />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                      
+                    </p:panelGrid>
+                    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" style="text-align: center;">
+                        <p:dataTable id="tablaPedidos" 
+                                     var="control" 
+                                     reflow="true"
+                                     value="#{controlPreciosBean.listaControlPrecios}"
+                                     paginator="true"
+                                     paginatorPosition="bottom"
+                                     rows="10"
+                                     editable="true"
+                                     emptyMessage="No hay información."
+                                     lazy="true" 
+                                     rowStyleClass="#{control.facCodigo.infCodigo.codigo eq 'pedido' ? 'SoftGreenBack' : control.facCodigo.codigo eq 'predevuelto' ? 'TurquoiseBack' : null}">
+                            <p:column headerText="Producto" style="width: 6%;">
+                                <h:outputText value="#{control.proCodigo.descripcion}" style="center"/> 
+                            </p:column>
+                            <p:column headerText="Precio" style="width: 6%;">
+                                <h:outputText value="#{control.preciounitario}" style="center"/> 
+                            </p:column>
+                            <p:column headerText="Establecimiento" style="width: 6%;">
+                                <h:outputText value="#{control.facCodigo.infCodigo.razonsocial}"/> 
+                            </p:column>
+                            <p:column headerText="Sucursal" style="width: 6%;">
+                                <h:outputText value="#{control.facCodigo.infCodigo.establecimiento}"/> 
+                            </p:column>
+                            <p:column headerText="Fecha Emision" style="width: 4%;">
+                                <h:outputText value="#{control.facCodigo.fechaemision}"/> 
+                            </p:column>
+                           
+                        </p:dataTable>
+                    </p:panelGrid>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

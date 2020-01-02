@@ -9,11 +9,13 @@ import ec.edu.espe.tesis.servicio.FacturaServicio;
 import ec.edu.espe.tesis.servicio.InfoTributariaServicio;
 import ec.edu.espe.tesis.servicio.UsuarioServicio;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
@@ -28,17 +30,28 @@ public class InfoBean implements Serializable {
     private double totalGastado;
     private double totalAhorrado;
     private double promedioFactura;
-    private  List<Object[]> infoTributaria;
-    
+    private List<Object[]> infoTributaria;
+    private PieChartModel chartEstablecimientos;
+
+    @Inject
+    HttpSessionHandler sesion;
     @Inject
     UsuarioServicio usuarioServicio;
-     @Inject
+    @Inject
     FacturaServicio facturaServicio;
-     @Inject
-     InfoTributariaServicio infoTributariaServicio;
+    @Inject
+    InfoTributariaServicio infoTributariaServicio;
 
     public double getTotalAhorrado() {
         return totalAhorrado;
+    }
+
+    public PieChartModel getChartEstablecimientos() {
+        return chartEstablecimientos;
+    }
+
+    public void setChartEstablecimientos(PieChartModel chartEstablecimientos) {
+        this.chartEstablecimientos = chartEstablecimientos;
     }
 
     public void setTotalAhorrado(double totalAhorrado) {
@@ -85,17 +98,33 @@ public class InfoBean implements Serializable {
         this.infoTributaria = infoTributaria;
     }
 
-    
-     @PostConstruct
+    @PostConstruct
     public void Init() {
-        totalFacturas = facturaServicio.obtenerFacturasPorUsuario("1");
-        totalGastado= facturaServicio.obtenerTotalGastado("1");
-        promedioFactura = facturaServicio.obtenerPromedioFactura("1");
-        infoTributaria=infoTributariaServicio.obtenerEstablecimientoPorUsuario(1);
+        totalFacturas = facturaServicio.obtenerFacturasPorUsuario(sesion.getId());
+        if (totalFacturas > 0) {
+            totalGastado = facturaServicio.obtenerTotalGastado(sesion.getId());
+            promedioFactura = facturaServicio.obtenerPromedioFactura(sesion.getId());
+            infoTributaria = infoTributariaServicio.obtenerEstablecimientoPorUsuario(Integer.parseInt(sesion.getId()));
+            crearChartEstablecimientos();
+        }
+    }
+    
+    private void crearChartEstablecimientos() {
+        chartEstablecimientos = new PieChartModel();
+        
+        for (int i = 0; i < infoTributaria.size(); i++) {
+            int aux=0;
+            aux=Integer.parseInt(infoTributaria.get(i)[3].toString());
+            chartEstablecimientos.set((String)infoTributaria.get(i)[0],aux);
+            
+        }
+             
+        chartEstablecimientos.setTitle("Establecimientos más comprados");
+        chartEstablecimientos.setLegendPosition("w");
+        chartEstablecimientos.setExtender("skinPie");
     }
     /**
      * Creates a new instance of infoBean
      */
-    
-  
+
 }
