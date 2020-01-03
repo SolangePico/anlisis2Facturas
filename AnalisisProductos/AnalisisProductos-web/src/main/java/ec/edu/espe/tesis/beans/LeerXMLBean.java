@@ -90,6 +90,16 @@ public class LeerXMLBean implements Serializable {
                  if(line.contains("<![CDATA[<?xml version = '1.0' encoding = 'UTF-8'?>")){
                      line = line.replace("<![CDATA[<?xml version = '1.0' encoding = 'UTF-8'?>","");
                  }
+                 if(line.contains("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>")){
+                     line = line.replace("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>","");
+                 }
+                  if(line.contains("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>")){
+                     line = line.replace("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>","");
+                 }
+                  if(line.contains("<![CDATA[<?xml version = \"1.0\" encoding = \"UTF-8\"?>")){
+                     line = line.replace("<![CDATA[<?xml version = \"1.0\" encoding = \"UTF-8\"?>","");
+                 }
+                 
                  if(line.contains("]]>")){
                      line=line.replaceAll("]]>", "");
                  }
