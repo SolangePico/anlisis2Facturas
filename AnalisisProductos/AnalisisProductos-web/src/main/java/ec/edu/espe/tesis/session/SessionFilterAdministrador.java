@@ -70,7 +70,7 @@ public class SessionFilterAdministrador implements Filter {
                             }
         } else {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
-            httpResponse.sendRedirect(requestHttp.getContextPath() + "/noSesion.xhtml");
+            httpResponse.sendRedirect(requestHttp.getContextPath() + "/access.xhtml");
         }
     }
 

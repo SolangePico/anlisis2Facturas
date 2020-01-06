@@ -24,11 +24,14 @@
                 <div class="ui-g ui-fluid">
                     <p:growl id="growl"  sticky="true" /> 
 
-                    <div class="ui-g-12 ui-lg-6">
+                    <div class="ui-g-12 ui-lg-12">
+                        <p:commandButton value="Cerrar" immediate="true" icon="fa fa-sign-out"
+                                         actionListener="#{facturaBean.cerrarVentana()}" update="facturaForm:tablaFactura" />
+
                         <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" id="datos">
                             <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" >
-                                <h1><h:outputText value="#{facturaBean.facturaSeleccionada.fechaemision} "  /></h1>
-                                <h2><h:outputText value="#{facturaBean.facturaSeleccionada.codigo}" /></h2>
+                                <h1><h:outputText value="Fecha emisión: #{facturaBean.facturaSeleccionada.fechaemision} "  /></h1>
+                                <h2><h:outputText value="Codigo de Factura: #{facturaBean.facturaSeleccionada.codigo}" /></h2>
                             </p:panelGrid>
                             <p:panelGrid columns="1" layout="grid" columnClasses="ui-g-6,ui-g-6">
                                 <p:dataTable style=" height: 200px; width: 500px; " id="tablaDetalles" 
@@ -57,8 +60,6 @@
                                          styleClass="ui-panelgrid-blank form-group" >
 
                             </p:panelGrid>
-                            <p:commandButton value="Cerrar" immediate="true" icon="fa fa-sign-out"
-                                             actionListener="#{facturaBean.cerrarVentana()}" update="facturaForm:tablaFactura" />
                         </p:panelGrid>
                     </div>
                 </div>
