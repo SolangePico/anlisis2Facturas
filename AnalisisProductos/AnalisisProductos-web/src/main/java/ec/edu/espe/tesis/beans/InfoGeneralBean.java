@@ -8,15 +8,11 @@ package ec.edu.espe.tesis.beans;
 import ec.edu.espe.tesis.servicio.FacturaServicio;
 import ec.edu.espe.tesis.servicio.InfoTributariaServicio;
 import ec.edu.espe.tesis.servicio.ProductoServicio;
-import ec.edu.espe.tesis.servicio.UsuarioServicio;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import org.primefaces.model.chart.PieChartModel;
 
 /**
  *

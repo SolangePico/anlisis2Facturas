@@ -14,8 +14,17 @@ public class InfoTributariaXML {
      String ruc;
      String estab;
      String secuencial;
+     String claveAcceso;
     
     public InfoTributariaXML() {
+    }
+
+    public String getClaveAcceso() {
+        return claveAcceso;
+    }
+
+    public void setClaveAcceso(String claveAcceso) {
+        this.claveAcceso = claveAcceso;
     }
     
 

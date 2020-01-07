@@ -45,7 +45,8 @@ public class FacturaFacade extends AbstractFacade<Factura> {
         q.setParameter("numAu", numAu);
         List<Factura> facturas = q
                 .getResultList();
-        return facturas;
+           return facturas;
+        
 
     }
 

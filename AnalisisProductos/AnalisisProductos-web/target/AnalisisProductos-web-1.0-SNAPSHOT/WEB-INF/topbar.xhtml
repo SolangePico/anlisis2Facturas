@@ -6,28 +6,28 @@
     xmlns:p="http://primefaces.org/ui">
 
     <div class="topbar clearfix">
-       
-        
+
+
         <span class="topbar-title"><ui:insert name="title">Bill Xml</ui:insert></span>
-        
+
         <a id="options-menu-button" href="#">
             <span class="fa fa-ellipsis-h"></span>
         </a>
-        
+
         <div id="topbar-icons" class="animated">
-       
-       
-          
-            <p:link outcome="CargarFactura">
-                <a>
+
+
+
+            <span class="topbar-icon fa fa-upload"><p:link value="Cargar Facturas" outcome="/user/CargarFactura"></p:link></span>
+            <a>
                 #{logBean.correo}
                 <span class="topbar-item-text"></span>
                 <span class="topbar-icon fa fa-upload"></span>
             </a>
-            </p:link>
-            
+
+
         </div>
-        
+
     </div>
-    
+
 </ui:composition>

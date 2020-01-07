@@ -27,7 +27,7 @@ public class ProductoServicio implements Serializable{
     public List<Object[]> obtenerProductosPorUsuario(String usuarioId) {
         List<Object[]> listaMasComprados = null;
             listaMasComprados=productoFacade.obtenerDescripcionProducto(usuarioId);
-//            
+            //            
         return listaMasComprados;
     }
     

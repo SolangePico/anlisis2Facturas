@@ -9,6 +9,7 @@ import ec.edu.espe.tesis.modeloXML.TotalImpuestoXML;
 import ec.edu.espe.tesis.modeloXML.FacturaXML;
 import ec.edu.espe.tesis.modeloXML.DetalleXML;
 import ec.edu.espe.tesis.modeloXML.AutorizacionXML;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,16 +20,16 @@ import java.io.PrintWriter;
 import javax.inject.Named;
 import org.primefaces.model.UploadedFile;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-import com.thoughtworks.xstream.io.xml.XppDriver;
+import ec.edu.espe.tesis.facturas.model.Usuario;
 import ec.edu.espe.tesis.servicio.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 
 /**
@@ -42,6 +43,8 @@ public class LeerXMLBean implements Serializable {
 
     @Inject
     FacturaServicio facturaServicio;
+    @Inject
+    UsuarioServicio usuarioServicio;
 
     @Inject
     HttpSessionHandler sesion;
@@ -49,6 +52,16 @@ public class LeerXMLBean implements Serializable {
     private UploadedFile file;
     private FacturaXML factura;
     private ArrayList<AutorizacionXML> listaAutorizacion = new ArrayList();
+    private int totFacturas;
+    private int facturasSubidas;
+
+    public int getTotFacturas() {
+        return totFacturas;
+    }
+
+    public void setTotFacturas(int totFacturas) {
+        this.totFacturas = totFacturas;
+    }
 
     public ArrayList<AutorizacionXML> getListaAutorizacion() {
         return listaAutorizacion;
@@ -72,11 +85,9 @@ public class LeerXMLBean implements Serializable {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file.getInputstream(), "UTF-8"))) {
             //f = new File("C:\\Users\\solan\\OneDrive\\Escritorio\\factura.xml");
 
-            f= new File("C:\\Users\\alterbios\\Desktop\\Releases-MARATHON-GO\\factura.xml");
+            f = new File("C:\\Users\\alterbios\\Desktop\\Releases-MARATHON-GO\\factura.xml");
 
 //            f = new File("E:\\Danny\\Escritorio\\anlisis2Facturas\\factura.xml");
-
-
             try {
                 FileWriter w = new FileWriter(f);
                 BufferedWriter bw = new BufferedWriter(w);
@@ -86,23 +97,23 @@ public class LeerXMLBean implements Serializable {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
 
-                 //   System.out.println(line);
-                 if(line.contains("<![CDATA[<?xml version = '1.0' encoding = 'UTF-8'?>")){
-                     line = line.replace("<![CDATA[<?xml version = '1.0' encoding = 'UTF-8'?>","");
-                 }
-                 if(line.contains("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>")){
-                     line = line.replace("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>","");
-                 }
-                  if(line.contains("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>")){
-                     line = line.replace("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>","");
-                 }
-                  if(line.contains("<![CDATA[<?xml version = \"1.0\" encoding = \"UTF-8\"?>")){
-                     line = line.replace("<![CDATA[<?xml version = \"1.0\" encoding = \"UTF-8\"?>","");
-                 }
-                 
-                 if(line.contains("]]>")){
-                     line=line.replaceAll("]]>", "");
-                 }
+                    //   System.out.println(line);
+                    if (line.contains("<![CDATA[<?xml version = '1.0' encoding = 'UTF-8'?>")) {
+                        line = line.replace("<![CDATA[<?xml version = '1.0' encoding = 'UTF-8'?>", "");
+                    }
+                    if (line.contains("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>")) {
+                        line = line.replace("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
+                    }
+                    if (line.contains("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>")) {
+                        line = line.replace("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", "");
+                    }
+                    if (line.contains("<![CDATA[<?xml version = \"1.0\" encoding = \"UTF-8\"?>")) {
+                        line = line.replace("<![CDATA[<?xml version = \"1.0\" encoding = \"UTF-8\"?>", "");
+                    }
+
+                    if (line.contains("]]>")) {
+                        line = line.replaceAll("]]>", "");
+                    }
 
                     wr.append(line); //concatenamos en el archivo sin borrar lo existente             
                 }
@@ -117,10 +128,38 @@ public class LeerXMLBean implements Serializable {
         } catch (Exception ex) {
             System.out.println(" error    " + e);
         }
+        verificarFacturas();
+
+    }
+
+    @PostConstruct
+    public void init() {
+        totFacturas = facturaServicio.obtenerFacturasPorUsuario(sesion.getId());
+        facturasSubidas = 0;
+
+    }
+
+    public void verificarFacturas() {
+
+        Usuario usu;
+        usu = usuarioServicio.obtenerUsuarioPorCorreo(sesion.getCorreo());
+
+        if (facturaServicio.obtenerFacturasPorUsuario(sesion.getId()) > 0) {
+            usu.setEstado('S');
+            sesion.setFlag(false);
+            totFacturas = facturaServicio.obtenerFacturasPorUsuario(sesion.getId());
+            PrimeFaces.current().ajax().update("@all");
+        } else {
+            sesion.setFlag(false);
+            usu.setEstado('N');
+        }
+        usuarioServicio.actualizarUsuario(usu);
+
     }
 
     public void capturarDatos(File file) {
         AutorizacionXML obj;
+        FacturaXML obj1;
         try {
             XStream xstream = new XStream();
 
@@ -136,21 +175,46 @@ public class LeerXMLBean implements Serializable {
             xstream.alias("totalImpuesto", TotalImpuestoXML.class);
             xstream.ignoreUnknownElements();
 
-            
             obj = (AutorizacionXML) xstream.fromXML(file);
-            System.out.println(" ---  "+obj.getComprobante().getFactura().getInfoTributaria().getRuc());
             if (obj != null) {
                 facturaServicio.guardarFactura(obj, sesion.getId());
+                facturasSubidas++;
             } else {
 
-
             }
-            
 
         } catch (Exception e) {
-            System.out.println(""+e);
+            try {
+                XStream xstream = new XStream();
+
+                xstream.allowTypesByRegExp(new String[]{".*"});
+                // xstream.processAnnotations(Autorizacion.class);
+//                xstream.alias("autorizacion", AutorizacionXML.class);
+//                xstream.alias("comprobante", ComprobanteXML.class);
+                xstream.alias("factura", FacturaXML.class);
+                xstream.alias("infoTributaria", InfoTributariaXML.class);
+                xstream.alias("infoFactura", InfoFacturaXML.class);
+                xstream.alias("detalle", DetalleXML.class);
+                xstream.alias("impuesto", ImpuestoXML.class);
+                xstream.alias("totalImpuesto", TotalImpuestoXML.class);
+                xstream.ignoreUnknownElements();
+
+                obj1 = (FacturaXML) xstream.fromXML(file);
+                if (obj1 != null) {
+                    facturaServicio.guardarFacturaTipo2(obj1, sesion.getId());
+                    facturasSubidas++;
+                } else {
+
+                }
+
+            } catch (Exception g) {
+
+            }
 
         }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se han subido " + facturasSubidas + " facturas"));
+        totFacturas = facturaServicio.obtenerFacturasPorUsuario(sesion.getId());
+        PrimeFaces.current().ajax().update("@all");
 
     }
 

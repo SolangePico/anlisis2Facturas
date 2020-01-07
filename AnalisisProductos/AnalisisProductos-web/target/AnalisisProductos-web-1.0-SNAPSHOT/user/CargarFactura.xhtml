@@ -14,15 +14,19 @@
                     <div class="card">
                         <h1>Carga tus facturas</h1>
                         <h:form>
-                            <p:fileUpload value="#{LeerXMLBean.file}" mode="advanced" multiple="true"
-                                          fileUploadListener="#{LeerXMLBean.fileUploadListener}" allowTypes="/(\.|\/)(xml)$/" style="width:100%"></p:fileUpload>
+                            <p:growl id="growl" showDetail="true" sticky="true" /> 
+
+                            <p:fileUpload uploadLabel="Cargar" label="Seleccionar Archivos" cancelLabel="Cancelar" value="#{LeerXMLBean.file}" mode="advanced" multiple="true"
+                                          fileUploadListener="#{LeerXMLBean.fileUploadListener}" allowTypes="/(\.|\/)(xml)$/" style="width:100%">
+
+                            </p:fileUpload>
                             <p:growl id="messages" showDetail="true" />
                             <div class="ui-g-12 ui-md-6">
                                 <div class="card clearfix summary">
                                     <span class="title">Total Facturas</span>
                                     <span class="detail">Ultima subida:     </span>
                                     <span class="detail">#{logBean.usuarioLogin.fechaingreso}</span>
-                                    <h1><span class="count visitors">#{infoBean.totalFacturas}</span></h1>
+                                    <h1><span class="count visitors">#{LeerXMLBean.totFacturas}</span></h1>
                                 </div>
                             </div>
                         </h:form>

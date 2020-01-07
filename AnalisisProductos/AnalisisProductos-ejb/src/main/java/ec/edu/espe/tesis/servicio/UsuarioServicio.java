@@ -41,6 +41,12 @@ public class UsuarioServicio implements Serializable {
         return usuario==null;
     }
     
+     public Usuario obtenerUsuarioPorCorreo(String correo){
+       Usuario usuario;  
+        usuario = usuarioFacade.validarUsuario(correo);
+        return usuario;
+    }
+    
     public void actualizarUsuario(Usuario usuario){
         try{
             usuarioFacade.edit(usuario);
