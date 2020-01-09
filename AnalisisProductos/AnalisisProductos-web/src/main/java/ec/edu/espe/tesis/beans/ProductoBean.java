@@ -5,6 +5,7 @@
  */
 package ec.edu.espe.tesis.beans;
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import com.thoughtworks.xstream.XStream;
 import ec.edu.espe.tesis.facturas.facade.ProductoFacade;
 import ec.edu.espe.tesis.facturas.model.Producto;
@@ -22,11 +23,23 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import ec.edu.espe.tesis.servicio.*;
 import java.io.File;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
 
 /**
  *
@@ -50,7 +63,7 @@ public class ProductoBean implements Serializable {
 
     @Inject
     FacturaServicio facturaServicio;
-    
+
     @Inject
     HttpSessionHandler sesion;
 
@@ -59,21 +72,91 @@ public class ProductoBean implements Serializable {
     private List<Object[]> listaMasComprados;
     private Producto productoSeleccionado;
     private Object[] codigoProducto;
+    private LineChartModel chartProducto;
 
     @PostConstruct
     public void init() {
         codigoProducto = null;
         listaMasComprados = productoServicio.obtenerProductosPorUsuario(sesion.getId());
         listaProductos = productoFacade.findAll();
-//        String path = "E:\\Danny\\Descargas\\all\\XML";
-////        String path = "C:\\Users\\alterbios\\Downloads\\all\\XML";
-//       // String path = "C:\\Users\\solan\\OneDrive\\Escritorio\\versionesTesis\\all\\XML";
-//        File carpeta = new File(path);
-//        File[] archivos;
-//        archivos = carpeta.listFiles();
-//        for (File archivo : archivos) {
-//            capturarDatos(archivo);
-//        }
+        if (listaMasComprados.size() > 0) {
+            try {
+                listaPrecioProducto = controlPrecioServicio.obtenerListaPreciosPorProducto(Integer.parseInt(listaMasComprados.get(0)[0].toString()));
+                createLineModels();
+            } catch (ParseException ex) {
+                Logger.getLogger(ProductoBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private void createLineModels() throws ParseException {
+        Double precioMaximo = 0.0;
+        for (int i = 0; i < listaPrecioProducto.size(); i++) {
+            if (precioMaximo < (Double.parseDouble(listaPrecioProducto.get(i)[0].toString()))) {
+                precioMaximo = Double.parseDouble(listaPrecioProducto.get(i)[0].toString());
+            }
+        }
+        chartProducto = initLinearModel();
+        chartProducto.setTitle("Cambio de precio en el tiempo");
+        chartProducto.setLegendPosition("e");
+
+        Axis yAxis = chartProducto.getAxis(AxisType.Y);
+        Axis xAxis = chartProducto.getAxis(AxisType.X);
+        xAxis.setMin(0);
+        xAxis.setMax(12);
+        xAxis.setTickInterval("1");
+        yAxis.setMin(0);
+        yAxis.setMax(precioMaximo*2);
+        chartProducto.setExtender("skinChart");
+    }
+
+    private LineChartModel initLinearModel() throws ParseException {
+        LineChartModel model = new LineChartModel();
+
+        LineChartSeries series1 = new LineChartSeries();
+
+        int flag = 0;
+        for (int i = 0; i < listaPrecioProducto.size(); i++) {
+            Calendar cal = null;
+            Calendar cal1 = null;
+            Date date;
+            Date date2;
+            int dia;
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+            try {
+                date = (Date) formatter.parse(listaPrecioProducto.get(i)[1].toString());
+                cal = Calendar.getInstance();
+                cal.setTime(date);
+                dia = cal.get(Calendar.DAY_OF_YEAR);
+                if (i > 0) {
+                    date2 = (Date) formatter.parse(listaPrecioProducto.get(i - 1)[1].toString());
+                    cal1 = Calendar.getInstance();
+                    cal1.setTime(date2);
+                    if (cal.get(Calendar.YEAR) != cal1.get(Calendar.YEAR)) {
+                        model.addSeries(series1);
+                        series1 = new LineChartSeries();
+                        series1.setLabel(cal.get(Calendar.YEAR) + "");
+                    }
+                }else{
+                   series1.setLabel(cal.get(Calendar.YEAR) + ""); 
+                }
+            } catch (ParseException e) {
+                dia = i;
+            }
+
+            series1.set(dia*12/366, Double.parseDouble(listaPrecioProducto.get(i)[0].toString()));
+        }
+
+        return model;
+    }
+
+    public LineChartModel getChartProducto() {
+        return chartProducto;
+    }
+
+    public void setChartProducto(LineChartModel chartProducto) {
+        this.chartProducto = chartProducto;
     }
 
     public List<Object[]> getListaPrecioProducto() {
@@ -116,8 +199,6 @@ public class ProductoBean implements Serializable {
         this.listaProductos = listaProductos;
     }
 
-   
-
     public void cerrarVentana() {
 
         RequestContext.getCurrentInstance().execute("PF('producto').hide();");
@@ -129,10 +210,14 @@ public class ProductoBean implements Serializable {
     }
 
     public void cargarSeleccionado() {
-        
-        
-        listaPrecioProducto = controlPrecioServicio.obtenerListaPreciosPorProducto((Integer) codigoProducto[0]);
-        productoSeleccionado = productoFacade.obtenerProductoPorCodigoP((Integer) codigoProducto[0]).get(0);
+        try {
+            listaPrecioProducto = controlPrecioServicio.obtenerListaPreciosPorProducto((Integer) codigoProducto[0]);
+            productoSeleccionado = productoFacade.obtenerProductoPorCodigoP((Integer) codigoProducto[0]).get(0);
+            createLineModels();
+        } catch (ParseException ex) {
+            Logger.getLogger(ProductoBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }

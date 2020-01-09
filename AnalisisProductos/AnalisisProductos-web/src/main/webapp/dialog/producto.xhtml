@@ -13,55 +13,24 @@
               modal="true" 
               showEffect="fade" 
               hideEffect="fade"
-              closeOnEscape="false"
+              closeOnEscape="true"
               draggable="false"
-              closable="false"
+              closable="true"
               resizable="false"
               appendTo="@(body)"
               responsive="true">
         <o:form id="mostrarInfoProd" useRequestURI="true" >
-            <p:panel styleClass="ui-panelgrid-blank" >
                 <div class="ui-g ui-fluid">
                     <p:growl id="growl"  sticky="true" /> 
 
-                    <div class="ui-g-12 ui-lg-6">
-                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" id="datos">
-                            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" >
-                                <h1><h:outputText value="#{productoBean.productoSeleccionado.descripcion} "  /></h1>
-                                <h2><h:outputText value="#{productoBean.productoSeleccionado.codigoprincipal}" /></h2>
-                            </p:panelGrid>
-                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-g-6,ui-g-6">
-                                <p:dataTable style=" height: 200px; width: 500px; " id="tablaPrecios" 
-                                             value="#{productoBean.listaPrecioProducto}"
-                                             var="det"
-                                             rows="4"
-                                            
-                                             reflow="true"
-                                             >
+                  
+                        <h1 class="centerText">#{productoBean.productoSeleccionado.descripcion} </h1>
+                        <h2 class="centerText">Total registrados: #{productoBean.listaPrecioProducto.size()} </h2>
 
-                                    <p:column   headerText="Precio">
-                                        <h:outputText value="#{det[0]}" />
-                                    </p:column>
-                                    <p:column   headerText="Fecha">
-                                        <h:outputText value="#{det[1]}" />
-                                    </p:column>
-                                    <p:column   headerText="Establecimiento">
-                                        <h:outputText value="#{det[2]}" />
-                                    </p:column>
-
-
-                                </p:dataTable>
-                            </p:panelGrid>
-                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-g-6,ui-g-6"
-                                         styleClass="ui-panelgrid-blank form-group" >
-
-                            </p:panelGrid>
-                                <p:commandButton value="Cerrar" immediate="true" icon="fa fa-sign-out"
-                                                 actionListener="#{productoBean.cerrarVentana()}" update=":ProductoForm:tablaProductos" />
-                        </p:panelGrid>
-                    </div>
+                        <p:chart id="line" type="line" model="#{productoBean.chartProducto}" responsive="false" />
+               
                 </div>
-            </p:panel>
+        
         </o:form>
     </p:dialog>
 </ui:composition>

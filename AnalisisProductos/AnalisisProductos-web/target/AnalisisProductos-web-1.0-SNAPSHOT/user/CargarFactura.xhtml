@@ -6,28 +6,30 @@
                 template="/WEB-INF/template.xhtml">
 
     <ui:define name="title">Subir Facturas</ui:define>
-
     <ui:define name="content">
         <div class="container">
             <div class="ui-g">
                 <div class="ui-g-12">
                     <div class="card">
                         <h1>Carga tus facturas</h1>
-                        <h:form>
+                        <h:form id="cargarForm">
                             <p:growl id="growl" showDetail="true" sticky="true" /> 
+                            <div class="card clearfix summary">
+                                <span class="title" style="font-size: 200%">Total Facturas</span>
 
-                            <p:fileUpload uploadLabel="Cargar" label="Seleccionar Archivos" cancelLabel="Cancelar" value="#{LeerXMLBean.file}" mode="advanced" multiple="true"
+                                <h1><p:outputLabel id="totalFacturas" style="font-size: 150%"  value="#{LeerXMLBean.totFacturas}"/></h1>
+                            </div>
+                            <p:fileUpload oncomplete="#{LeerXMLBean.terminarCarga()}" update=":cargarForm:totalFacturas"  uploadLabel="Cargar" label="Seleccionar Archivos" cancelLabel="Cancelar" value="#{LeerXMLBean.file}" mode="advanced" multiple="true"
                                           fileUploadListener="#{LeerXMLBean.fileUploadListener}" allowTypes="/(\.|\/)(xml)$/" style="width:100%">
 
                             </p:fileUpload>
                             <p:growl id="messages" showDetail="true" />
-                            <div class="ui-g-12 ui-md-6">
-                                <div class="card clearfix summary">
-                                    <span class="title">Total Facturas</span>
-                                    <span class="detail">Ultima subida:     </span>
-                                    <span class="detail">#{logBean.usuarioLogin.fechaingreso}</span>
-                                    <h1><span class="count visitors">#{LeerXMLBean.totFacturas}</span></h1>
+                            <div class="ui-g-12 ui-md-12">
+                                <div  class="spinner-grow" role="status">
+
+                                    <span class="sr-only">Cargando...</span>
                                 </div>
+
                             </div>
                         </h:form>
                     </div>

@@ -48,15 +48,25 @@ public class LeerXMLBean implements Serializable {
 
     @Inject
     HttpSessionHandler sesion;
-
+    
+ 
     private UploadedFile file;
     private FacturaXML factura;
     private ArrayList<AutorizacionXML> listaAutorizacion = new ArrayList();
     private int totFacturas;
     private int facturasSubidas;
+    private boolean flagCargar;
 
     public int getTotFacturas() {
         return totFacturas;
+    }
+
+    public boolean isFlagCargar() {
+        return flagCargar;
+    }
+
+    public void setFlagCargar(boolean flagCargar) {
+        this.flagCargar = flagCargar;
     }
 
     public void setTotFacturas(int totFacturas) {
@@ -80,6 +90,7 @@ public class LeerXMLBean implements Serializable {
     }
 
     public void fileUploadListener(FileUploadEvent e) {
+        flagCargar = false;
         File f;
         this.file = e.getFile();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file.getInputstream(), "UTF-8"))) {
@@ -136,6 +147,7 @@ public class LeerXMLBean implements Serializable {
     public void init() {
         totFacturas = facturaServicio.obtenerFacturasPorUsuario(sesion.getId());
         facturasSubidas = 0;
+        flagCargar=true;
 
     }
 
@@ -148,7 +160,7 @@ public class LeerXMLBean implements Serializable {
             usu.setEstado('S');
             sesion.setFlag(false);
             totFacturas = facturaServicio.obtenerFacturasPorUsuario(sesion.getId());
-            PrimeFaces.current().ajax().update("@all");
+
         } else {
             sesion.setFlag(false);
             usu.setEstado('N');
@@ -214,8 +226,11 @@ public class LeerXMLBean implements Serializable {
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se han subido " + facturasSubidas + " facturas"));
         totFacturas = facturaServicio.obtenerFacturasPorUsuario(sesion.getId());
-        PrimeFaces.current().ajax().update("@all");
 
+    }
+
+    public void terminarCarga() {
+        flagCargar = true;
     }
 
 }

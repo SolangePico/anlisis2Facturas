@@ -56,7 +56,7 @@ public class ControlPreciosFacade extends AbstractFacade<ControlPrecios> {
         String query = "SELECT c.PRECIOUNITARIO, f.FECHAEMISION, i.RAZONSOCIAL , i.DIRECCION "
                 + "FROM control_precios c, factura f, info_tributaria i "
                 + "WHERE c.FAC_CODIGO=f.CODIGO and i.CODIGO=f.INF_CODIGO and c.PRO_CODIGO='"+codigoProducto+"' "
-                + "order by f.FECHAEMISION desc;";
+                + "order by f.FECHAEMISION;";
         Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();
