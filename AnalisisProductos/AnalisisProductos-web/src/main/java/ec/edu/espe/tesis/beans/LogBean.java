@@ -32,25 +32,15 @@ public class LogBean implements Serializable {
     private String correo;
     private String password;
 
-    
     @Inject
     HttpSessionHandler session;
 
     private String cPassword;
 
-
     @Inject
     FacturaServicio facturaServicio;
-
-
-   
-    
-   
-
-   
     @Inject
-    private UsuarioServicio usuarioServicio;
-
+    UsuarioServicio usuarioServicio;
 
     public Usuario getUsuarioLogin() {
         return usuarioLogin;
@@ -89,7 +79,7 @@ public class LogBean implements Serializable {
         correo = "";
         password = "";
         cPassword = "";
-    
+
     }
 
     public void validarUsuario() {

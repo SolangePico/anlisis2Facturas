@@ -8,8 +8,16 @@ package ec.edu.espe.tesis.beans;
 import ec.edu.espe.tesis.facturas.model.Factura;
 import ec.edu.espe.tesis.servicio.FacturaServicio;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -23,11 +31,13 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class FacturaBean implements Serializable {
 
-    Factura facturaSeleccionada;
-    List<Object[]> listaFacturasPorEstab;
-    List<Object[]> listaDetallesFacturaSeleccionada;
-    List<Factura> listaFacturas;
-    String codigoFactura;
+    private Factura facturaSeleccionada;
+    private List<Object[]> listaFacturasPorEstab;
+    private List<Object[]> listaDetallesFacturaSeleccionada;
+    private List<Factura> listaFacturas;
+    private String codigoFactura;
+    private Date fechaInicio;
+    private Date fechaFin;
 
     @Inject
     FacturaServicio facturaServicio;
@@ -35,6 +45,24 @@ public class FacturaBean implements Serializable {
     @Inject
     HttpSessionHandler sesion;
 
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public Date getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+  
+    
     public List<Object[]> getListaDetallesFacturaSeleccionada() {
         return listaDetallesFacturaSeleccionada;
     }
@@ -77,10 +105,36 @@ public class FacturaBean implements Serializable {
 
     @PostConstruct
     public void Init() {
+        
         facturaSeleccionada=null;
+        fechaFin=new Date();
+        fechaInicio=new Date();
         listaFacturas = facturaServicio.obtenerFacturasConCriterio(Integer.parseInt(sesion.getId()));
         listaFacturasPorEstab=facturaServicio.obtenerFacturasPorEstablecimiento(sesion.getId());
 
+    }
+    public Date getToday() {
+        Calendar c = Calendar.getInstance();
+        return c.getTime();
+    }
+
+    public void buscarRangoFechas(){
+        if(fechaInicio.before(fechaFin)||fechaInicio.equals(fechaFin)){
+            try {
+                Date fechaIni = null;
+                Date fechaF = null;
+                SimpleDateFormat fl = new SimpleDateFormat("EEE MM dd kk:mm:ss zzzz yyyy");
+                fechaIni = fl.parse(fechaInicio.toString());
+                fechaF = fl.parse(fechaFin.toString());
+                listaFacturas = facturaServicio.obtenerFacturasPorFecha(fechaIni,fechaF,sesion.getId());
+                if(listaFacturas.isEmpty()){
+                      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se encuentran facturas en este rango de fechas"));
+
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(FacturaBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     public void cargarDetallesFactura(){

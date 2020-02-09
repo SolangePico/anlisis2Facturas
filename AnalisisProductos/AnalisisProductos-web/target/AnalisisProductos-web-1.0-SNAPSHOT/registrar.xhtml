@@ -15,21 +15,23 @@
         <title>Bill XML</title>
     </h:head>
 
-    <h:body styleClass="login-body">
+    <h:body style="padding: 0 !important;" styleClass="login-body">
 
-        <div id="login-wrapper">
-            <p:graphicImage name="images/logoBill.PNG" library="omega-layout" />
-
+        <div id="login-wrapper" style="padding: 0px">
+            <p:link outcome="landing"> 
+                <p:graphicImage width="200" height="200" name="images/logo.png" library="omega-layout" />
+            </p:link>
             <div id="login-container">
                 <span class="title">Bill XML - Registro</span>
 
                 <h:form id="formLog" prependId="false" >
-                      <p:growl id="growl" showDetail="true" sticky="true" /> 
-         
+                    <p:growl id="growl" showDetail="true" sticky="true" /> 
+
                     <!--<p:growl id="growl" life ="3000" />-->
                     <div class="ui-g ui-fluid">
+
                         <div class="ui-g-12 " >  
-                            
+
                             <p:outputLabel style="font-size: 20px; "  value="Correo:"/>
                             <p:inputText  type="email" value="#{logBean.correo}" id="email" />
                         </div>
@@ -37,10 +39,10 @@
                             <p:outputLabel  value="Ingrese Contraseña:"/>
                             <p:password  value="#{logBean.password}"  id="password"/>
                         </div>
-                         <div class="ui-g-12">
+                        <div class="ui-g-12">
                             <p:outputLabel  value="Confirmar Contraseña:"/>
                             <p:password  value="#{logBean.cPassword}"  id="confirm"/>
-                         </div>  
+                        </div>  
                         <div class="ui-g-12">
                             <!--<p:button outcome="dashboard" value="Login" icon="fa fa-check" />-->
                             <p:commandButton update="formLog" actionListener="#{logBean.registarUsuario()}" value="Registar" icon="fa fa-check"/>
@@ -49,6 +51,7 @@
                     </div>
                 </h:form>
             </div>
+
 
             <div class="login-footer">Bill XML</div>
         </div>

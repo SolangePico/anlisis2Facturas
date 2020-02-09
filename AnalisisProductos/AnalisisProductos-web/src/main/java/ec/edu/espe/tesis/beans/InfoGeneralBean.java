@@ -25,9 +25,8 @@ public class InfoGeneralBean implements Serializable {
     private int totalFacturas;
     private Object[] infoTributaria;
     private Object[] producto;
- 
 
-   @Inject 
+    @Inject
     private ProductoServicio productoServicio;
     @Inject
     private FacturaServicio facturaServicio;
@@ -61,15 +60,11 @@ public class InfoGeneralBean implements Serializable {
     @PostConstruct
     public void Init() {
         totalFacturas = facturaServicio.obtenerFacturasPorUsuario("-1");
-        if (totalFacturas > 0) {
-            infoTributaria = infoTributariaServicio.obtenerEstablecimientoPorUsuario(-1).get(0);
+             infoTributaria = infoTributariaServicio.obtenerEstablecimientoPorUsuario(-1).get(0);
             producto = productoServicio.obtenerProductosPorUsuario("-1").get(0);
-        }
     }
-    
 
     /**
      * Creates a new instance of infoBean
      */
-
 }

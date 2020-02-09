@@ -24,19 +24,19 @@
 
                             <li><a href="#"><i class="fa fa-fw fa-sliders"></i><span>Cuenta</span></a></li>
                             <li><a><p:commandButton style=" background: none !important;
-                                                  border-style: none;
-                                                  " icon="fa fa-fw fa-sign-out" value="Cerrar Sesión" action="#{sesionBean.cerrarSesion()}"/>
-                          </a></li>
+                                                    border-style: none;
+                                                    " icon="fa fa-fw fa-sign-out" value="Cerrar Sesión" action="#{sesionBean.cerrarSesion()}"/>
+                                </a></li>
                         </ul>
                     </div>
 
                     <div class="menu">
                         <po:menu>
                             <p:menuitem id="info_perfil" disabled="#{sesionBean.flag}" value="Perfil" icon="fa fa-home" outcome="/user/InfoPerfil"/>
-                            <p:menuitem id="info_productos" disabled="#{sesionBean.flag}" value="Productos" icon="fa fa-area-chart" outcome="/user/InfoProductos"/>
-                            <p:menuitem id="info_facturas" disabled="#{sesionBean.flag}" value="Facturas" icon="fa fa-area-chart" outcome="/user/InfoFacturas"/>
-
-
+                            <p:menuitem id="info_productos" disabled="#{sesionBean.flag}" value="Productos" icon="fa fa-cubes" outcome="/user/InfoProductos"/>
+                            <p:menuitem id="info_facturas" disabled="#{sesionBean.flag}" value="Facturas" icon="fa fa-file-code-o" outcome="/user/InfoFacturas"/>
+                            <p:menuitem id="info_gastos" disabled="#{sesionBean.flag}" value="Gastos" icon="fa fa-money" outcome="/user/InfoGastos"/>
+                            <p:menuitem id="info_analisis" disabled="#{sesionBean.flag}" value="Análisis de Productos" icon="fa fa-line-chart" outcome="/user/AnalisisProductos"/>
                         </po:menu>
                     </div>
                 </div>

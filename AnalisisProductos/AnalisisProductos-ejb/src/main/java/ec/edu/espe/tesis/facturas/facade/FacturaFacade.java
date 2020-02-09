@@ -10,6 +10,7 @@ import ec.edu.espe.tesis.facturas.model.Producto;
 import ec.edu.espe.tesis.facturas.model.Usuario;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -45,8 +46,7 @@ public class FacturaFacade extends AbstractFacade<Factura> {
         q.setParameter("numAu", numAu);
         List<Factura> facturas = q
                 .getResultList();
-           return facturas;
-        
+        return facturas;
 
     }
 
@@ -100,6 +100,16 @@ public class FacturaFacade extends AbstractFacade<Factura> {
         return facturas;
     }
 
+    public List<Factura> obtenerFacturasOrdenadas(int usuarioId) {
+        Usuario usu;
+        usu = usuarioFacade.obtenerUsuarioPorCodigo(usuarioId).get(0);
+        String query = "SELECT f FROM Factura f where f.usuCodigo=:usuCodigo order by f.fechaemision desc";
+        Query q = em.createQuery(query);
+        q.setParameter("usuCodigo", usu);
+        List<Factura> facturas = q.getResultList();
+        return facturas;
+    }
+
     public List<Object[]> obtenerFacturaPorEstablecimiento(String usuCodigo) {
         String query = "SELECT i.establecimiento, i.direccion, count(f.inf_codigo) as tot "
                 + "from info_tributaria i, factura f  "
@@ -111,12 +121,44 @@ public class FacturaFacade extends AbstractFacade<Factura> {
         return result;
     }
 
+    public Object obtenerGastoPromedioPorAnio(String usuCodigo, int year) {
+        String query = "select round(avg(f.importeTotal),2) from factura f, "
+                + "usuario u where f.USU_CODIGO=u.CODIGO and "
+                + "u.CODIGO=" + usuCodigo + " and year(f.FECHAEMISION)='" + year + "';";
+        Query q = em.createNativeQuery(query);
+
+        Object result = q.getSingleResult();
+        return result;
+    }
+
+    public Object obtenerTotalFacturasPorAnio(String usuCodigo, int year) {
+        String query = "select count(*) from factura f, "
+                + "usuario u where f.USU_CODIGO=u.CODIGO and "
+                + "u.CODIGO=" + usuCodigo + " and year(f.FECHAEMISION)='" + year + "';";
+        Query q = em.createNativeQuery(query);
+
+        Object result = q.getSingleResult();
+        return result;
+    }
+
     public List<Object[]> obtenerDetallesFactura(String codigoFactura) {
         String query = "SELECT p.descripcion, f.cantidad, c.preciounitario, c.PRECIO FROM detalle_factura f, producto p, control_precios c where f.fac_codigo='" + codigoFactura + "' and f.PRO_CODIGO=p.CODIGO and c.pro_codigo=p.CODIGO and c.fac_codigo=f.FAC_CODIGO;";
         Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();
         return result;
+    }
+
+    public List<Factura> obtenerFacturasPorFecha(Date fechaInicio, Date fechaFin, String id) {
+        Usuario usu;
+        usu = usuarioFacade.obtenerUsuarioPorCodigo(Integer.parseInt(id)).get(0);
+        String query = "SELECT f FROM Factura f where f.usuCodigo=:usuCodigo and f.fechaemision<=:fechaFin and f.fechaemision>=:fechaInicio";
+        Query q = em.createQuery(query);
+        q.setParameter("usuCodigo", usu);
+        q.setParameter("fechaInicio", fechaInicio);
+        q.setParameter("fechaFin", fechaFin);
+        List<Factura> facturas = q.getResultList();
+        return facturas;
     }
 
 }

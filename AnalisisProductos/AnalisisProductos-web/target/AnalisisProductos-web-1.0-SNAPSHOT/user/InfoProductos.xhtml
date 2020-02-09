@@ -5,15 +5,13 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Información de Perfil</ui:define>
+    <ui:define name="title">Información de Productos</ui:define>
     <ui:define name="head">
         <script type="text/javascript">
-            // Blue : #3E98D3  |  Red : #EF3F61  |  Green : #2BB673  |  Orange : #F15732
-
             function skinChart() {
                 this.cfg.shadow = false;
                 this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8','#B7D666','#DA5E5B'];
+                this.cfg.seriesColors = ['#DA5E5B', '#EA9624', '#5BA5D8', '#B7D666'];
                 this.cfg.grid = {
                     background: '#ffffff',
                     borderColor: '#ffffff',
@@ -39,7 +37,7 @@
             function skinBar() {
                 this.cfg.shadow = false;
                 this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8','#B7D666','#DA5E5B'];
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
                 this.cfg.grid = {
                     background: '#ffffff',
                     borderColor: '#ffffff',
@@ -66,7 +64,7 @@
             function skinArea() {
                 this.cfg.shadow = false;
                 this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8','#B7D666','#DA5E5B'];
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
                 this.cfg.grid = {
                     background: '#ffffff',
                     borderColor: '#ffffff',
@@ -92,7 +90,7 @@
             function skinBubble() {
                 this.cfg.shadow = false;
                 this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8','#B7D666','#DA5E5B'];
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
                 this.cfg.grid = {
                     background: '#ffffff',
                     borderColor: '#ffffff',
@@ -119,7 +117,7 @@
             function skinZoom() {
                 this.cfg.shadow = false;
                 this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8','#B7D666','#DA5E5B'];
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
                 this.cfg.grid = {
                     background: '#ffffff',
                     borderColor: '#ffffff',
@@ -144,8 +142,8 @@
 
             function skinPie() {
                 this.cfg.shadow = false;
-                this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8','#B7D666','#DA5E5B'];
+                this.cfg.title = 'Establecimientos';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
                 this.cfg.grid = {
                     background: '#ffffff',
                     borderColor: '#ffffff',
@@ -159,11 +157,11 @@
                 };
                 this.cfg.seriesDefaults = {
                     renderer: $.jqplot.PieRenderer,
-                    shadow: false,
+                    shadow: true,
                     lineWidth: 1,
                     markerOptions: {
                         shadow: false,
-                        size: 7,
+                        size: 10,
                         style: 'circle'
                     }
                 }
@@ -172,7 +170,7 @@
             function skinDonut() {
                 this.cfg.shadow = false;
                 this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8','#B7D666','#DA5E5B'];
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
                 this.cfg.grid = {
                     background: '#ffffff',
                     borderColor: '#ffffff',
@@ -199,7 +197,7 @@
             function skinBarAndLine() {
                 this.cfg.shadow = false;
                 this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8','#B7D666','#DA5E5B'];
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
                 this.cfg.grid = {
                     background: '#ffffff',
                     borderColor: '#ffffff',
@@ -242,7 +240,7 @@
             function skinMultiAxis() {
                 this.cfg.shadow = false;
                 this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8','#B7D666','#DA5E5B'];
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
                 this.cfg.grid = {
                     background: '#ffffff',
                     borderColor: '#ffffff',
@@ -256,7 +254,7 @@
                 };
                 this.cfg.seriesDefaults = {
                     shadow: false,
-                    lineWidth:1,
+                    lineWidth: 1,
                     renderer: $.jqplot.BarRenderer,
                     markerOptions: {
                         shadow: false,
@@ -267,8 +265,8 @@
             }
         </script>
         <style type="text/css">
-            .jqplot-target, .jqplot-axis {
-                color: #546E7A;
+            .main-content {
+                padding: 0;
             }
         </style>
     </ui:define>
@@ -288,16 +286,18 @@
                                                selectionMode="single"
                                                rowKey="#{det[0]}"
                                                var="det"
+                                               reflow="true"
+                                               paginator="true"
                                                rows="10"
                                                >
                                     <p:ajax event="rowSelect" update="ProductoForm:btn_mostrar"/>
-                                    <p:column   headerText="Nombre Producto">
+                                    <p:column  sortBy="#{det[1]}" headerText="Nombre Producto">
                                         <h:outputText value="#{det[1]}" />
                                     </p:column>
-                                    <p:column headerText="Total Comprados">
+                                    <p:column sortBy="#{det[2]}" headerText="Total Comprados">
                                         <h:outputText value="#{det[2]}" />
                                     </p:column>
-                                    <p:column headerText="Precio Unitario Promedio">
+                                    <p:column sortBy="#{det[3]}" headerText="Precio Unitario Promedio">
                                         <h:outputText value="#{det[3]}" />
                                     </p:column>
 
@@ -315,11 +315,12 @@
                                              style="margin-top: 10px;"
                                              update=":mostrarInfoProd mostrarInfoProd:line"/>
                         </h:form>
-                        <ui:include src="../dialog/producto.xhtml"/>
+
                     </div>
                 </div>
             </div>
         </div>
+        <ui:include src="../dialog/producto.xhtml"/>
     </ui:define>
 
 </ui:composition>

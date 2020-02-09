@@ -91,9 +91,13 @@ public class ProductoBean implements Serializable {
 
     private void createLineModels() throws ParseException {
         Double precioMaximo = 0.0;
+        Double precioMinimo=0.0;
         for (int i = 0; i < listaPrecioProducto.size(); i++) {
             if (precioMaximo < (Double.parseDouble(listaPrecioProducto.get(i)[0].toString()))) {
                 precioMaximo = Double.parseDouble(listaPrecioProducto.get(i)[0].toString());
+            }
+            if (precioMinimo > (Double.parseDouble(listaPrecioProducto.get(i)[0].toString()))) {
+                precioMinimo = Double.parseDouble(listaPrecioProducto.get(i)[0].toString());
             }
         }
         chartProducto = initLinearModel();
@@ -104,9 +108,11 @@ public class ProductoBean implements Serializable {
         Axis xAxis = chartProducto.getAxis(AxisType.X);
         xAxis.setMin(0);
         xAxis.setMax(12);
+        xAxis.setLabel("Mes");
         xAxis.setTickInterval("1");
-        yAxis.setMin(0);
-        yAxis.setMax(precioMaximo*2);
+        yAxis.setMin(precioMinimo*0.7);
+        yAxis.setMax(precioMaximo*1.3);
+        yAxis.setLabel("Precio");
         chartProducto.setExtender("skinChart");
     }
 
@@ -146,8 +152,11 @@ public class ProductoBean implements Serializable {
             }
 
             series1.set(dia*12/366, Double.parseDouble(listaPrecioProducto.get(i)[0].toString()));
+            if((i+1)==listaPrecioProducto.size()){
+              model.addSeries(series1);   
+            }
         }
-
+        
         return model;
     }
 

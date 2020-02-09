@@ -57,6 +57,17 @@ public class ControlPreciosFacade extends AbstractFacade<ControlPrecios> {
                 + "FROM control_precios c, factura f, info_tributaria i "
                 + "WHERE c.FAC_CODIGO=f.CODIGO and i.CODIGO=f.INF_CODIGO and c.PRO_CODIGO='"+codigoProducto+"' "
                 + "order by f.FECHAEMISION;";
+        Query q = em.createNativeQuery(query);  
+
+        List<Object[]> result = q.getResultList();
+        return result;
+    }
+    
+    public List<Object[]> obtenerListaPreciosPorProductoTodo() {
+        String query = "SELECT p.descripcion ,c.PRECIOUNITARIO, f.FECHAEMISION, i.RAZONSOCIAL , i.DIRECCION, p.codigo, count(p.codigo)" +
+"                FROM control_precios c, factura f, info_tributaria i, producto p " +
+"                WHERE c.FAC_CODIGO=f.CODIGO and i.CODIGO=f.INF_CODIGO and c.PRO_CODIGO=p.codigo " +
+"                group by p.descripcion order by p.descripcion,  f.FECHAEMISION;";
         Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();

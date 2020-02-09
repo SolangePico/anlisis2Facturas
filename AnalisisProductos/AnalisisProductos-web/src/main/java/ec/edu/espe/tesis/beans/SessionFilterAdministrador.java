@@ -70,10 +70,9 @@ public class SessionFilterAdministrador implements Filter {
                         t.printStackTrace();
                     }
                 } else {
+                    session.session.invalidate();
                     HttpServletResponse httpResponse = (HttpServletResponse) response;
                     httpResponse.sendRedirect(requestHttp.getContextPath() + "/access.xhtml");
-                    
-                    session.session.invalidate();
                 }
 
             }

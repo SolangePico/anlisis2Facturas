@@ -18,17 +18,23 @@ import javax.inject.Inject;
  * @author danny
  */
 @Stateless
-public class ProductoServicio implements Serializable{
+public class ProductoServicio implements Serializable {
 
     @Inject
     ProductoFacade productoFacade;
-    
+
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Object[]> obtenerProductosPorUsuario(String usuarioId) {
         List<Object[]> listaMasComprados = null;
-            listaMasComprados=productoFacade.obtenerDescripcionProducto(usuarioId);
-            //            
+        listaMasComprados = productoFacade.obtenerDescripcionProducto(usuarioId);
+        //            
         return listaMasComprados;
     }
-    
+
+    public List<Object[]> obtenerProductosPorUsuarioYAnio(String usuarioId, int year) {
+        List<Object[]> obj = productoFacade.obtenerProductosPorUsuarioYAnio(usuarioId, year);
+
+        return obj;
+    }
+
 }

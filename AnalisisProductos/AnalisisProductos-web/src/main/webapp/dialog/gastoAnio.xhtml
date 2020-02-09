@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 xmlns:o="http://omnifaces.org/ui">
+
+    <p:dialog  header="Gasto del Año"
+               widgetVar="gasto" 
+               modal="true" 
+               showEffect="fade" 
+               hideEffect="fade"
+               closeOnEscape="true"
+               draggable="false"
+               closable="true"
+               resizable="true"
+               minWidth="200"
+               appendTo="@(body)"
+               responsive="true"
+               style="width:auto">
+        <h:form id="mostrarGastoForm" >
+            <p:growl id="growl"  sticky="true" /> 
+            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" id="datos">
+                <p:separator/>
+                <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" >
+                    <h:outputText style="font-size: 150%" value="Año:"  />
+                    <h:outputText style="font-size: 100%" value="#{gastosBean.anio}"  />
+                    <h:outputText style="font-size: 150%" value="Promedio de gasto por factura: "/>
+                    <h:outputText style="font-size: 100%" value="$ #{gastosBean.promedioPorAnio}"  />
+                    <h:outputText style="font-size: 150%" value="Total facturas: "/>
+                    <h:outputText style="font-size: 100%" value="#{gastosBean.totalFacturasPorAnio}"  />
+                </p:panelGrid>
+                <p:fieldset legend="Productos más comprados">
+                    <p:dataTable  id="tablaDetalles" 
+                                  value="#{gastosBean.listaProductosPorAnio}"
+                                  var="det"
+                                  rows="10"
+                                  paginator="true"
+                                  style="height: auto;width:850px ;text-align: center;">
+                        <p:column style="width:50%; border-bottom: none;border-top: none;text-align: left;"  headerText="Descripción">
+                            <h:outputText value="#{det[2]}" />
+                        </p:column>
+                        <p:column  style="width:12%; border-bottom: none;border-top: none" headerText="Última fecha">
+                            <h:outputText value="#{det[1]}" />
+                        </p:column>
+                        <p:column  style="width:12%; border-bottom: none;border-top: none" headerText="Cantidad">
+                            <h:outputText value="#{det[3]}" />
+                        </p:column>
+                        <p:column  style="width:13%; border-bottom: none;border-top: none" headerText="Precio promedio">
+                            <h:outputText value="$ #{det[4]}" />
+                        </p:column>
+                        <p:column  style="width:13%; border-bottom: none;border-top: none" headerText="Total gastado">
+                            <h:outputText value="$ #{det[4]*det[3]}" />
+                        </p:column>
+
+                    </p:dataTable>
+                </p:fieldset>
+            </p:panelGrid>
+
+        </h:form>
+    </p:dialog>
+</ui:composition>

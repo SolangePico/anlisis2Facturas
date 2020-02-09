@@ -318,7 +318,19 @@ public class FacturaServicio implements Serializable {
         total = facturaFacade.totalFacturasPorUsuario(usuarioId);
         return total;
     }
-
+    
+    public Object obtenerGastoPromedioPorAnio(String usuarioId,int year){
+        Object obj=facturaFacade.obtenerGastoPromedioPorAnio(usuarioId,year);
+        
+        return obj;
+    }
+    
+    public Object obtenerTotalFacturasPorAnio(String usuarioId,int year){
+        Object obj=facturaFacade.obtenerTotalFacturasPorAnio(usuarioId,year);
+        
+        return obj;
+    }
+    
     public double obtenerTotalGastado(String usuarioId) {
         double total = 0;
         total = facturaFacade.totalGastadoPorUsuario(usuarioId);
@@ -337,6 +349,12 @@ public class FacturaServicio implements Serializable {
         return listaFacturas;
         //return null;
     }
+    
+    public List<Factura> obtenerFacturasOrdenadas(int usuarioId) {
+        List<Factura> listaFacturas = facturaFacade.obtenerFacturasOrdenadas(usuarioId);
+        return listaFacturas;
+        //return null;
+    }
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Object[]> obtenerFacturasPorEstablecimiento(String string) {
@@ -348,6 +366,12 @@ public class FacturaServicio implements Serializable {
     public List<Object[]> obtenerDetallesFactura(String codigoFactura) {
 
         return facturaFacade.obtenerDetallesFactura(codigoFactura);
+    }
+
+    public List<Factura> obtenerFacturasPorFecha(Date fechaInicio, Date fechaFin, String id) {
+        List<Factura> facturas=null;
+            facturas=facturaFacade.obtenerFacturasPorFecha(fechaInicio, fechaFin, id);
+         return facturas;
     }
 
 }

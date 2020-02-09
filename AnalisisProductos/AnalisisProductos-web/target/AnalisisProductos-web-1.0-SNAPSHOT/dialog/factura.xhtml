@@ -13,9 +13,9 @@
               modal="true" 
               showEffect="fade" 
               hideEffect="fade"
-              closeOnEscape="false"
+              closeOnEscape="true"
               draggable="false"
-              closable="false"
+              closable="true"
               resizable="false"
               appendTo="@(body)"
               responsive="true">
@@ -25,13 +25,13 @@
                     <p:growl id="growl"  sticky="true" /> 
 
                     <div class="ui-g-12 ui-lg-12">
-                        <p:commandButton value="Cerrar" immediate="true" icon="fa fa-sign-out"
-                                         actionListener="#{facturaBean.cerrarVentana()}" update="facturaForm:tablaFactura" />
 
                         <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" id="datos">
-                            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" >
-                                <h1><h:outputText value="Fecha emisión: #{facturaBean.facturaSeleccionada.fechaemision} "  /></h1>
-                                <h2><h:outputText value="Codigo de Factura: #{facturaBean.facturaSeleccionada.codigo}" /></h2>
+                            <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group" >
+                                <h1><h:outputText style="font-size: 150%" value="Fecha emisión:"  /></h1>
+                                <h1><h:outputText style="font-size: 90%" value="#{facturaBean.facturaSeleccionada.fechaemision}"  /></h1>
+                                <h1><h:outputText style="font-size: 150%" value="Establecimiento"  /></h1>
+                                <h1><h:outputText style="font-size: 90%" value="#{facturaBean.facturaSeleccionada.infCodigo.razonsocial}"  /></h1>
                             </p:panelGrid>
                             <p:panelGrid columns="1" layout="grid" columnClasses="ui-g-6,ui-g-6">
                                 <p:dataTable style=" height: 200px; width: 500px; " id="tablaDetalles" 

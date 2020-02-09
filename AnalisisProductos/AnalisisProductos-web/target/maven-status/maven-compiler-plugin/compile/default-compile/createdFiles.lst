@@ -69,6 +69,7 @@ org\primefaces\omega\domain\Theme.class
 org\primefaces\omega\view\data\treetable\ColumnsView.class
 org\primefaces\omega\view\button\ButtonView.class
 org\primefaces\omega\view\data\datatable\SummaryRowView.class
+ec\edu\espe\tesis\beans\GastosBean.class
 org\primefaces\omega\domain\Sale.class
 org\primefaces\omega\domain\Book.class
 org\primefaces\omega\view\menu\MenuView.class

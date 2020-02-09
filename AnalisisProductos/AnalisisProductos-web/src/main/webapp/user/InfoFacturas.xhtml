@@ -9,9 +9,27 @@
         <div class="ui-g">
             <div class="ui-g-100">
                 <h:form id="facturaForm">
+                    <p:growl id="growl" showDetail="true" sticky="true" /> 
                     <div class="card">
-
                         <h1>Facturas Subidas</h1>
+                        <p:outputLabel for="fecha_inicial" value="Fecha Inicial:"/>
+                        <p:calendar id="fecha_inicial" 
+                                    locale="es" pattern="yyyy-MM-dd"
+                                    maxdate="#{facturaBean.today}"
+                                    value="#{facturaBean.fechaInicio}">
+                        </p:calendar>
+                        <p:outputLabel for="fecha_final" value="Fecha Fin:"/>
+
+                        <p:calendar id="fecha_final" 
+                                    locale="es" pattern="yyyy-MM-dd"
+                                    maxdate="#{facturaBean.today}"
+                                    value="#{facturaBean.fechaFin}">
+                        </p:calendar>
+                        <p:commandButton id="btn_buscar"
+                                         icon="fa fa-search"
+                                         actionListener="#{facturaBean.buscarRangoFechas()}" 
+                                         update=":facturaForm" />
+                        <br></br>
                         <p:dataTable id="tablaFactura" 
                                      var="fac" 
                                      reflow="true"
@@ -53,11 +71,11 @@
                             </p:column>
                         </p:dataTable>
                         <p:commandButton id="btn_mostrarFactura"
-                                             disabled="#{empty facturaBean.facturaSeleccionada}"
-                                             value="Mostrar Información" 
-                                             actionListener="#{facturaBean.abrirInfo()}" 
-                                             style="margin-top: 10px;"
-                                             update=":mostrarInfoFac"/>
+                                         disabled="#{empty facturaBean.facturaSeleccionada}"
+                                         value="Mostrar Información" 
+                                         actionListener="#{facturaBean.abrirInfo()}" 
+                                         style="margin-top: 10px;"
+                                         update=":mostrarInfoFac"/>
                         <br></br><br></br><br></br>
                         <h1>Facturas Por establecimiento</h1>
                         <p:dataTable id="tablaFacturaEstab" 
@@ -87,12 +105,9 @@
                             </p:column>
 
                         </p:dataTable>
-
-
-
                     </div>
                 </h:form>
-                 <ui:include src="../dialog/factura.xhtml"/>
+                <ui:include src="../dialog/factura.xhtml"/>
             </div>
         </div>
 
