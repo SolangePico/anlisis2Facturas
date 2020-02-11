@@ -49,5 +49,11 @@ public class InfoTributariaServicio implements Serializable {
         }
 
     }
+    
+    public List<Object[]> obtenerSupermercados(){
+        List<Object[]> listaSupermercados;
+            listaSupermercados=infoTributariaFacade.obtenerSupermercados();
+        return listaSupermercados;
+    }
 
 }

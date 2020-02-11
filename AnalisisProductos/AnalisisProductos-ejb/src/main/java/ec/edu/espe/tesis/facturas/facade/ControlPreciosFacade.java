@@ -55,21 +55,39 @@ public class ControlPreciosFacade extends AbstractFacade<ControlPrecios> {
     public List<Object[]> obtenerListaPreciosPorProducto(String codigoProducto) {
         String query = "SELECT c.PRECIOUNITARIO, f.FECHAEMISION, i.RAZONSOCIAL , i.DIRECCION, df.cantidad "
                 + "FROM control_precios c, factura f, info_tributaria i, detalle_factura df "
-                + "WHERE c.FAC_CODIGO=f.CODIGO and df.pro_codigo=c.pro_codigo and i.CODIGO=f.INF_CODIGO and c.PRO_CODIGO='"+codigoProducto+"' "
+                + "WHERE c.FAC_CODIGO=f.CODIGO and df.pro_codigo=c.pro_codigo and i.CODIGO=f.INF_CODIGO and c.PRO_CODIGO='" + codigoProducto + "' "
                 + "order by f.FECHAEMISION;";
-        Query q = em.createNativeQuery(query);  
+        Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();
         return result;
     }
-    
+
     public List<Object[]> obtenerListaPreciosPorProductoTodo() {
-        String query = "SELECT p.descripcion ,c.PRECIOUNITARIO, f.FECHAEMISION, i.RAZONSOCIAL , i.DIRECCION, p.codigo, count(p.codigo)" +
-"                FROM control_precios c, factura f, info_tributaria i, producto p " +
-"                WHERE c.FAC_CODIGO=f.CODIGO and i.CODIGO=f.INF_CODIGO and c.PRO_CODIGO=p.codigo " +
-"                group by p.descripcion order by p.descripcion,  f.FECHAEMISION;";
+        String query = "SELECT p.descripcion ,c.PRECIOUNITARIO, f.FECHAEMISION, i.RAZONSOCIAL , i.DIRECCION, p.codigo, count(p.codigo)"
+                + "                FROM control_precios c, factura f, info_tributaria i, producto p "
+                + "                WHERE c.FAC_CODIGO=f.CODIGO and i.CODIGO=f.INF_CODIGO and c.PRO_CODIGO=p.codigo "
+                + "                group by p.descripcion order by p.descripcion,  f.FECHAEMISION;";
         Query q = em.createNativeQuery(query);
 
+        List<Object[]> result = q.getResultList();
+        return result;
+    }
+
+    public List<Object[]> obtenerListaProdSuper(String codProd, String ruc) {
+        String query = "select i.codigo as estab, p.codigo as producto,i.establecimiento ,  "
+                + "i.direccion,max(cp.preciounitario) as maximo, min(cp.preciounitario) as minimo "
+                + "from info_tributaria i, factura f, control_precios cp, producto p "
+                + "where f.INF_CODIGO=i.CODIGO and cp.FAC_CODIGO=f.codigo and p.CODIGO='8739' and p.codigo=cp.pro_codigo "
+                + "and i.ruc='1790016919001' group by p.codigo,i.establecimiento, p.descripcion, i.direccion order by maximo desc;";
+        Query q = em.createNativeQuery(query);
+        List<Object[]> result = q.getResultList();
+        return result;
+    }
+
+    public List<Object[]> obtenerFechaPrecio(String codEstab, String codProd) {
+        String query = "select cp.preciounitario, f.FECHAEMISION from control_precios cp, factura f, info_tributaria i where cp.PRO_CODIGO=8739 and f.CODIGO=cp.FAC_CODIGO and f.INF_CODIGO=i.codigo and i.codigo='288' order by cp.PRECIOUNITARIO desc, f.fechaemision;";
+        Query q = em.createNativeQuery(query);
         List<Object[]> result = q.getResultList();
         return result;
     }

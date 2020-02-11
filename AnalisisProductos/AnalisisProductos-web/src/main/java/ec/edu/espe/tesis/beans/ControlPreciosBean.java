@@ -54,76 +54,15 @@ public class ControlPreciosBean implements Serializable {
     private List<Object[]> listaProductosVariacion;
     private Object[] producto;
     private LineChartModel chartProducto;
+    private List<Object[]> listaSupermercados;
+    private Object[] supermercadoSeleccionado;
+    private List<Object[]> listaProductosPorSupermercado;// obtener producto por establecimiento del supermercado seleccionado
 
-    public InfoTributaria getEstablecimientoSeleccionado() {
-        return establecimientoSeleccionado;
-    }
-
-    public Object[] getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Object[] producto) {
-        this.producto = producto;
-    }
-
-    public List<Object[]> getListaProductosVariacion() {
-        return listaProductosVariacion;
-    }
-
-    public void setListaProductosVariacion(List<Object[]> listaProductosVariacion) {
-        this.listaProductosVariacion = listaProductosVariacion;
-    }
-
-    public void setEstablecimientoSeleccionado(InfoTributaria establecimientoSeleccionado) {
-        this.establecimientoSeleccionado = establecimientoSeleccionado;
-    }
-
-    public String getEstablecimientoId() {
-        return establecimientoId;
-    }
-
-    public void setEstablecimientoId(String establecimientoId) {
-        this.establecimientoId = establecimientoId;
-    }
-
-    public List<InfoTributaria> getListaEstablecimientos() {
-        return listaEstablecimientos;
-    }
-
-    public void setListaEstablecimientos(List<InfoTributaria> listaEstablecimientos) {
-        this.listaEstablecimientos = listaEstablecimientos;
-    }
-
-    public ControlPreciosServicio getControlPreciosServicio() {
-        return controlPreciosServicio;
-    }
-
-    public void setControlPreciosServicio(ControlPreciosServicio controlPreciosServicio) {
-        this.controlPreciosServicio = controlPreciosServicio;
-    }
-
-    public List<Object[]> getListaControlPrecios() {
-        return listaControlPrecios;
-    }
-
-    public void setListaControlPrecios(List<Object[]> listaControlPrecios) {
-        this.listaControlPrecios = listaControlPrecios;
-    }
-
-    public LineChartModel getChartProducto() {
-        return chartProducto;
-    }
-
-    public void setChartProducto(LineChartModel chartProducto) {
-        this.chartProducto = chartProducto;
-
-    }
-
-    @PostConstruct
+       @PostConstruct
     public void init() {
 
         listaProductosVariacion = controlPreciosServicio.obtenerListaPreciosPorProductoTodo();
+        listaSupermercados= infoTributariaServicio.obtenerSupermercados();
         producto = listaProductosVariacion.get(0);
         listaEstablecimientos=infoTributariaServicio.obtenerListaEstablecimientos();
         listaControlPrecios = controlPreciosServicio.obtenerListaPreciosPorProducto(Integer.parseInt(producto[5].toString()));
@@ -137,7 +76,11 @@ public class ControlPreciosBean implements Serializable {
     public void buscarEstablecimiento() {
         establecimientoSeleccionado = infoTributariaServicio.obtenerEstablecimientoPorCodigo(establecimientoId);
     }
-
+     
+    public void obtenerListaDetalleProducto(String ruc,String codProd){
+        listaProductosPorSupermercado=controlPreciosServicio.obtenerListaProdSuper(ruc, codProd);
+    }
+    
     public void mostrarVariacion() {
         try {
             listaControlPrecios = controlPreciosServicio.obtenerListaPreciosPorProducto(Integer.parseInt(producto[5].toString()));
@@ -220,5 +163,96 @@ public class ControlPreciosBean implements Serializable {
 
         return model;
     }
+    
+     public InfoTributaria getEstablecimientoSeleccionado() {
+        return establecimientoSeleccionado;
+    }
+
+    public List<Object[]> getListaProductosPorSupermercado() {
+        return listaProductosPorSupermercado;
+    }
+
+    public void setListaProductosPorSupermercado(List<Object[]> listaProductosPorSupermercado) {
+        this.listaProductosPorSupermercado = listaProductosPorSupermercado;
+    }
+    
+    public Object[] getSupermercadoSeleccionado() {
+        return supermercadoSeleccionado;
+    }
+
+    public void setSupermercadoSeleccionado(Object[] supermercadoSeleccionado) {
+        this.supermercadoSeleccionado = supermercadoSeleccionado;
+    }
+    
+    public List<Object[]> getListaSupermercados() {
+        return listaSupermercados;
+    }
+
+    public void setListaSupermercados(List<Object[]> listaSupermercados) {
+        this.listaSupermercados = listaSupermercados;
+    }
+    
+    public Object[] getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Object[] producto) {
+        this.producto = producto;
+    }
+
+    public List<Object[]> getListaProductosVariacion() {
+        return listaProductosVariacion;
+    }
+
+    public void setListaProductosVariacion(List<Object[]> listaProductosVariacion) {
+        this.listaProductosVariacion = listaProductosVariacion;
+    }
+
+    public void setEstablecimientoSeleccionado(InfoTributaria establecimientoSeleccionado) {
+        this.establecimientoSeleccionado = establecimientoSeleccionado;
+    }
+
+    public String getEstablecimientoId() {
+        return establecimientoId;
+    }
+
+    public void setEstablecimientoId(String establecimientoId) {
+        this.establecimientoId = establecimientoId;
+    }
+
+    public List<InfoTributaria> getListaEstablecimientos() {
+        return listaEstablecimientos;
+    }
+
+    public void setListaEstablecimientos(List<InfoTributaria> listaEstablecimientos) {
+        this.listaEstablecimientos = listaEstablecimientos;
+    }
+
+    public ControlPreciosServicio getControlPreciosServicio() {
+        return controlPreciosServicio;
+    }
+
+    public void setControlPreciosServicio(ControlPreciosServicio controlPreciosServicio) {
+        this.controlPreciosServicio = controlPreciosServicio;
+    }
+
+    public List<Object[]> getListaControlPrecios() {
+        return listaControlPrecios;
+    }
+
+    public void setListaControlPrecios(List<Object[]> listaControlPrecios) {
+        this.listaControlPrecios = listaControlPrecios;
+    }
+
+    public LineChartModel getChartProducto() {
+        return chartProducto;
+    }
+
+    public void setChartProducto(LineChartModel chartProducto) {
+        this.chartProducto = chartProducto;
+
+    }
+
+
 
 }
