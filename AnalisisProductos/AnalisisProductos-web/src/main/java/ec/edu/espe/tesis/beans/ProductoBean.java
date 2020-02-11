@@ -110,7 +110,7 @@ public class ProductoBean implements Serializable {
         xAxis.setMax(12);
         xAxis.setLabel("Mes");
         xAxis.setTickInterval("1");
-        yAxis.setMin(precioMinimo*0.7);
+        yAxis.setMin(precioMinimo/2);
         yAxis.setMax(precioMaximo*1.3);
         yAxis.setLabel("Precio");
         chartProducto.setExtender("skinChart");

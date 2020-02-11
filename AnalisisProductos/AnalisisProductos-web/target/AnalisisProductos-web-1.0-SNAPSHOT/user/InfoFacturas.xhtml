@@ -4,7 +4,266 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Información de Facturas</ui:define>
+    <ui:define name="head">
+        <script type="text/javascript">
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
 
+            function skinBar() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinArea() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinBubble() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BubbleRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinZoom() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinPie() {
+                this.cfg.shadow = false;
+                this.cfg.title = 'Establecimientos';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77',
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    renderer: $.jqplot.PieRenderer,
+                    shadow: true,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 10,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinDonut() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77',
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    renderer: $.jqplot.DonutRenderer,
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinBarAndLine() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 5,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinMeterGauge() {
+                this.cfg.title = '';
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 5,
+                    renderer: $.jqplot.MeterGaugeRenderer,
+                    rendererOptions: {
+                        shadow: false,
+                        min: 100,
+                        max: 800,
+                        intervals: [200, 300, 400, 500, 600, 700, 800],
+                        intervalColors: ['#3E98D3', '#EF3F61', '#2BB673', '#F15732', '#3E98D3', '#EF3F61', '#2BB673']
+                    }
+                }
+            }
+
+            function skinMultiAxis() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+        </script>
+    </ui:define>
     <ui:define name="content">
         <div class="ui-g">
             <div class="ui-g-100">
@@ -24,11 +283,19 @@
                                     locale="es" pattern="yyyy-MM-dd"
                                     maxdate="#{facturaBean.today}"
                                     value="#{facturaBean.fechaFin}">
+
                         </p:calendar>
                         <p:commandButton id="btn_buscar"
                                          icon="fa fa-search"
                                          actionListener="#{facturaBean.buscarRangoFechas()}" 
                                          update=":facturaForm" />
+                        <p:spacer height="22px" width="300px"/>
+                        <p:commandButton id="btn_buscarTodo"
+                                         icon="fa fa-search"
+                                         value="Mostrar todo"
+                                         actionListener="#{facturaBean.mostrarTodo()}" 
+                                         update=":facturaForm" />
+                        <br></br>
                         <br></br>
                         <p:dataTable id="tablaFactura" 
                                      var="fac" 
@@ -41,32 +308,32 @@
                                      paginatorPosition="bottom"
                                      rows="10"
                                      emptyMessage="No existen facturas subidas por el usuario."
-
+                                     style="font-size: 13px;"
                                      >
                             <p:ajax event="rowSelect" update="facturaForm:tablaFactura facturaForm:btn_mostrarFactura"/>
                             <f:facet name="header">
                                 FACTURAS
                             </f:facet>
-                            <p:column headerText="Código" sortBy="#{fac.codigo}" style="width: 80px">
-                                <h:outputText value="#{fac.codigo}" />
-                            </p:column>
-                            <p:column headerText="Fecha Emisión" sortBy="#{fac.fechaemision}" style="width: 80px" >
+                            <p:column headerText="Fecha Emisión" sortBy="#{fac.fechaemision}" >
                                 <h:outputText value="#{fac.fechaemision}" >
                                 </h:outputText>
                             </p:column>
-                            <p:column headerText="Total" sortBy="#{fac.importetotal}" style="width: 150px">
+                            <p:column headerText="Importe Total" style="width: 10%" sortBy="#{fac.importetotal}" >
                                 <h:outputText value="#{fac.importetotal}" >
                                 </h:outputText>
                             </p:column>
-                            <p:column headerText="Total sin Impuestos" sortBy="#{fac.totalsinimpuesto}">
+                            <p:column headerText="Total sin Impuestos" style="width: 10%" sortBy="#{fac.totalsinimpuesto}">
                                 <h:outputText value="#{fac.totalsinimpuesto}" />
                             </p:column>
-                            <p:column headerText="Total" style="width: 50px" sortBy="#{fac.detalleFacturaList.size()}">
+                            <p:column headerText="Total Productos" style="width: 10%" sortBy="#{fac.detalleFacturaList.size()}">
                                 <h:outputText value="#{fac.detalleFacturaList.size()}" >
                                 </h:outputText>
                             </p:column>
-
-                            <p:column headerText="Dirección" sortBy="#{fac.infCodigo.direccion}">
+                            <p:column filterBy="#{fac.infCodigo.razonsocial}" headerText="Razon Social" style="width:30%" sortBy="#{fac.infCodigo.razonsocial}" >
+                                <h:outputText value="#{fac.infCodigo.razonsocial}" >
+                                </h:outputText>
+                            </p:column>
+                            <p:column filterBy="#{fac.infCodigo.direccion}" headerText="Dirección" style="width: 30%" sortBy="#{fac.infCodigo.direccion}">
                                 <h:outputText value="#{fac.infCodigo.direccion}" />
                             </p:column>
                         </p:dataTable>
@@ -92,10 +359,10 @@
                             <f:facet name="header">
                                 FACTURAS POR ESTABLECIMIENTO
                             </f:facet>
-                            <p:column headerText="Establecimiento" sortBy="#{fac[0]}" style="width: 200px">
+                            <p:column  headerText="Establecimiento" sortBy="#{fac[0]}" style="width: 200px">
                                 <h:outputText value="#{fac[0]}" />
                             </p:column>
-                            <p:column headerText="Dirección" sortBy="#{fac[1]}"  >
+                            <p:column filterBy="#{fac[1]}" headerText="Dirección" sortBy="#{fac[1]}"  >
                                 <h:outputText value="#{fac[1]}" >
                                 </h:outputText>
                             </p:column>

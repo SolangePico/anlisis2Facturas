@@ -197,7 +197,7 @@
             function skinBarAndLine() {
                 this.cfg.shadow = false;
                 this.cfg.title = '';
-                this.cfg.seriesColors = ['#DA5E5B','#EA9624', '#5BA5D8', '#B7D666', '#DA5E7B'];
+                this.cfg.seriesColors = ['#DA5E5B', '#EA9624', '#5BA5D8', '#B7D666', '#DA5E7B'];
                 this.cfg.grid = {
                     background: '#ffffff',
                     borderColor: '#ffffff',
@@ -278,11 +278,11 @@
 
                     <h:form id="gastoForm">
                         <p:repeat value="#{gastosBean.gastoPorAnio}" var="anio">
-                            <div class="ui-g-12 ui-md-12" style="text-align:center;">
-                                <div class="card clearfix summary">
+                            <div class="ui-g-12 ui-md-12" >
+                                <div class="card clearfix summary" style="text-align:center;">
                                     <p:commandLink actionListener="#{gastosBean.verConsumoPorAño(anio[0])}" update="gastoForm mostrarGastoForm"><h1><span class="count visitors">#{anio[0]}</span></h1></p:commandLink>
                                     <div class="card">
-                                        <p:chart id="bar" type="bar" model="#{gastosBean.barModel}" responsive="true"/>
+                                        <p:chart id="bar" type="bar" model="#{anio[1]}" responsive="true"/>
                                     </div>
                                 </div>
                             </div>

@@ -291,7 +291,7 @@
                                                rows="10"
                                                >
                                     <p:ajax event="rowSelect" update="ProductoForm:btn_mostrar"/>
-                                    <p:column  sortBy="#{det[1]}" headerText="Nombre Producto">
+                                    <p:column filterBy="#{det[1]}"  sortBy="#{det[1]}" headerText="Nombre Producto">
                                         <h:outputText value="#{det[1]}" />
                                     </p:column>
                                     <p:column sortBy="#{det[2]}" headerText="Total Comprados">

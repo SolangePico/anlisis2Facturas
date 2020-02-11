@@ -108,20 +108,26 @@ public class InfoBean implements Serializable {
             crearChartEstablecimientos();
         }
     }
-    
+
     private void crearChartEstablecimientos() {
         chartEstablecimientos = new PieChartModel();
-        
+
         for (int i = 0; i < infoTributaria.size(); i++) {
-            int aux=0;
-            aux=Integer.parseInt(infoTributaria.get(i)[3].toString());
-            chartEstablecimientos.set((String)infoTributaria.get(i)[0],aux);
-            
+            int aux = 0;
+            aux = Integer.parseInt(infoTributaria.get(i)[3].toString());
+            chartEstablecimientos.set((String) infoTributaria.get(i)[0], aux);
+
         }
-             
+
         chartEstablecimientos.setTitle("Establecimientos más comprados");
         chartEstablecimientos.setLegendPosition("w");
         chartEstablecimientos.setExtender("skinPie");
+        
+          chartEstablecimientos.setLegendPosition("e");
+        chartEstablecimientos.setSliceMargin(5);
+        chartEstablecimientos.setShowDataLabels(true);
+        chartEstablecimientos.setDataFormat("value");
+        chartEstablecimientos.setShadow(false);
     }
     /**
      * Creates a new instance of infoBean

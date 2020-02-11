@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -41,7 +42,7 @@ public class FacturaBean implements Serializable {
 
     @Inject
     FacturaServicio facturaServicio;
-    
+
     @Inject
     HttpSessionHandler sesion;
 
@@ -61,8 +62,6 @@ public class FacturaBean implements Serializable {
         this.fechaFin = fechaFin;
     }
 
-  
-    
     public List<Object[]> getListaDetallesFacturaSeleccionada() {
         return listaDetallesFacturaSeleccionada;
     }
@@ -86,7 +85,7 @@ public class FacturaBean implements Serializable {
     public void setListaFacturasPorEstab(List<Object[]> listaFacturasPorEstab) {
         this.listaFacturasPorEstab = listaFacturasPorEstab;
     }
- 
+
     public List<Factura> getListaFacturas() {
         return listaFacturas;
     }
@@ -105,44 +104,42 @@ public class FacturaBean implements Serializable {
 
     @PostConstruct
     public void Init() {
-        
-        facturaSeleccionada=null;
-        fechaFin=new Date();
-        fechaInicio=new Date();
+
+        facturaSeleccionada = null;
+        fechaFin = getToday();
+        fechaInicio = getToday();
         listaFacturas = facturaServicio.obtenerFacturasConCriterio(Integer.parseInt(sesion.getId()));
-        listaFacturasPorEstab=facturaServicio.obtenerFacturasPorEstablecimiento(sesion.getId());
+        listaFacturasPorEstab = facturaServicio.obtenerFacturasPorEstablecimiento(sesion.getId());
 
     }
+
     public Date getToday() {
         Calendar c = Calendar.getInstance();
         return c.getTime();
     }
 
-    public void buscarRangoFechas(){
-        if(fechaInicio.before(fechaFin)||fechaInicio.equals(fechaFin)){
-            try {
-                Date fechaIni = null;
-                Date fechaF = null;
-                SimpleDateFormat fl = new SimpleDateFormat("EEE MM dd kk:mm:ss zzzz yyyy");
-                fechaIni = fl.parse(fechaInicio.toString());
-                fechaF = fl.parse(fechaFin.toString());
-                listaFacturas = facturaServicio.obtenerFacturasPorFecha(fechaIni,fechaF,sesion.getId());
-                if(listaFacturas.isEmpty()){
-                      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se encuentran facturas en este rango de fechas"));
-
-                }
-            } catch (ParseException ex) {
-                Logger.getLogger(FacturaBean.class.getName()).log(Level.SEVERE, null, ex);
+    public void mostrarTodo(){
+       listaFacturas = facturaServicio.obtenerFacturasConCriterio(Integer.parseInt(sesion.getId())); 
+    }
+    
+    public void buscarRangoFechas() {
+        if (fechaInicio.before(fechaFin) || fechaInicio.equals(fechaFin)) {
+            listaFacturas = facturaServicio.obtenerFacturasPorFecha(fechaInicio, fechaFin, sesion.getId());
+            if (listaFacturas.isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se encuentran facturas en este rango de fechas"));
             }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La Fecha inicial debe ser menor a la final"));
+            fechaFin=getToday();
         }
     }
-    
-    public void cargarDetallesFactura(){
-        listaDetallesFacturaSeleccionada=facturaServicio.obtenerDetallesFactura(facturaSeleccionada.getCodigo().toString());
+
+    public void cargarDetallesFactura() {
+        listaDetallesFacturaSeleccionada = facturaServicio.obtenerDetallesFactura(facturaSeleccionada.getCodigo().toString());
     }
-    
+
     public void cerrarVentana() {
-        facturaSeleccionada=null;
+        facturaSeleccionada = null;
         RequestContext.getCurrentInstance().execute("PF('factura').hide();");
     }
 

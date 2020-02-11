@@ -267,36 +267,35 @@
         </script>
 
     </ui:define>
+
     <ui:define name="content">
         <div class="container">
             <div class="ui-g">
                 <div class="ui-g-12">
-                    <div class="card">
-                        <h:form id="analisisForm1">
-                            <h:outputLabel style="font-size:200%" value="Productos con màs variaciòn de precio"></h:outputLabel>
-                            <br></br>
-                            <p:outputLabel  value="Seleccione Producto:" />
-                            <p:selectOneMenu panelStyle="width:300px" id="producto"   value="#{controlPreciosBean.producto}" effect="fade" var="t" style="width:600px" filter="true" filterMatchMode="startsWith">
-                                <f:selectItems value="#{controlPreciosBean.listaProductosVariacion}" var="theme"  itemLabel="#{theme[0]}" itemValue="#{theme}" />
-                                <p:column style="width:10%">
-                                    <h:outputText value="#{t[0]}" />
-                                </p:column>
-                                <p:column>
-                                    <h:outputText value="#{t[1]}" />
-                                </p:column>
-                            </p:selectOneMenu>
-                            <p:commandButton  id="btn_ver"
-                                              value="Ver variación"
-                                              process="ch"
-                                              onclick="#{controlPreciosBean.mostrarVariacion()}"
-                                              update="analisisForm1" />
-                            <br></br>
-                            <p:panelGrid id="ch">
-                                <h:outputText value="#{controlPreciosBean.producto[0]}"/>
-                                <p:chart id="line" type="line" model="#{controlPreciosBean.chartProducto}" responsive="true" />
+
+                    <h:form id="analisiForm1">
+                        <div class="card">
+                            <p:panelGrid columns="2" columnClasses="ui-md-3 ui-md-6">
+                                <p:outputLabel  value="Seleccione Producto:" />
+                                <p:selectOneMenu panelStyle="width:300px" id="producto"   value="#{controlPreciosBean.producto}" effect="fade" var="t" style="width:400px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{controlPreciosBean.listaProductosVariacion}" var="theme"  itemLabel="#{theme[0]}" itemValue="#{theme}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{t[0]}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                                <p:outputLabel  value="Seleccione Establecimiento:" />
+                                <p:selectOneMenu panelStyle="width:300px" id="establecimiento" label="Seleccione"   value="#{controlPreciosBean.establecimientoSeleccionado}" effect="fade" var="e" style="width:400px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{controlPreciosBean.listaEstablecimientos}" var="theme" itemLabel="#{theme.direccion}"  itemValue="#{theme}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{e.razonsocial}-#{e.direccion}" />
+                                    </p:column>
+                                </p:selectOneMenu>
                             </p:panelGrid>
-                        </h:form>
-                    </div>
+                            
+                            
+                        </div>
+                    </h:form>
+
                 </div>
             </div>
         </div>

@@ -120,6 +120,28 @@ public class FacturaFacade extends AbstractFacade<Factura> {
         List<Object[]> result = q.getResultList();
         return result;
     }
+    
+    public List<Object[]> obtenerFacturasPorMes(String usuCodigo, int anio) {
+        String query = "select count(df.CODIGO), month(f.fechaemision) as mes "
+                + "from factura f, usuario u, detalle_factura df "
+                + "where year(f.FECHAEMISION)='"+anio+"' and df.fac_codigo=f.codigo and u.CODIGO=f.USU_CODIGO and u.CODIGO="+usuCodigo+" "
+                + "group by mes order by mes; ";
+        Query q = em.createNativeQuery(query);
+
+        List<Object[]> result = q.getResultList();
+        return result;
+    }
+    
+    public List<Object[]> obtenerGastoFacturasPorMes(String usuCodigo, int anio) {
+        String query = "select sum(f.importetotal), month(f.fechaemision) as mes "
+                + "from factura f, usuario u "
+                + "where year(f.FECHAEMISION)='"+anio+"' and u.CODIGO=f.USU_CODIGO and u.CODIGO="+usuCodigo+" "
+                + "group by mes order by mes; ";
+        Query q = em.createNativeQuery(query);
+
+        List<Object[]> result = q.getResultList();
+        return result;
+    }
 
     public Object obtenerGastoPromedioPorAnio(String usuCodigo, int year) {
         String query = "select round(avg(f.importeTotal),2) from factura f, "
@@ -133,6 +155,15 @@ public class FacturaFacade extends AbstractFacade<Factura> {
 
     public Object obtenerTotalFacturasPorAnio(String usuCodigo, int year) {
         String query = "select count(*) from factura f, "
+                + "usuario u where f.USU_CODIGO=u.CODIGO and "
+                + "u.CODIGO=" + usuCodigo + " and year(f.FECHAEMISION)='" + year + "';";
+        Query q = em.createNativeQuery(query);
+
+        Object result = q.getSingleResult();
+        return result;
+    }
+    public Object obtenerTotalGastoPorAnio(String usuCodigo, int year) {
+        String query = "select sum(f.importetotal) from factura f, "
                 + "usuario u where f.USU_CODIGO=u.CODIGO and "
                 + "u.CODIGO=" + usuCodigo + " and year(f.FECHAEMISION)='" + year + "';";
         Query q = em.createNativeQuery(query);

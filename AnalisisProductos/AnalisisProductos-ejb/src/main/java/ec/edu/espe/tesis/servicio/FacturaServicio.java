@@ -20,10 +20,13 @@ import ec.edu.espe.tesis.modeloXML.AutorizacionXML;
 import ec.edu.espe.tesis.modeloXML.FacturaXML;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -330,6 +333,11 @@ public class FacturaServicio implements Serializable {
         
         return obj;
     }
+    public Object obtenerTotalGastoPorAnio(String usuarioId,int year){
+        Object obj=facturaFacade.obtenerTotalGastoPorAnio(usuarioId,year);
+        
+        return obj;
+    }
     
     public double obtenerTotalGastado(String usuarioId) {
         double total = 0;
@@ -355,7 +363,14 @@ public class FacturaServicio implements Serializable {
         return listaFacturas;
         //return null;
     }
-
+    
+     public List<Object[]> obtenerFacturasPorMes(String usuarioId, int anio) {
+        return facturaFacade.obtenerFacturasPorMes(usuarioId,anio);
+    }
+     
+     public List<Object[]> obtenerGastoFacturasPorMes(String usuarioId, int anio) {
+        return facturaFacade.obtenerGastoFacturasPorMes(usuarioId,anio);
+    }
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Object[]> obtenerFacturasPorEstablecimiento(String string) {
 
@@ -369,9 +384,20 @@ public class FacturaServicio implements Serializable {
     }
 
     public List<Factura> obtenerFacturasPorFecha(Date fechaInicio, Date fechaFin, String id) {
-        List<Factura> facturas=null;
-            facturas=facturaFacade.obtenerFacturasPorFecha(fechaInicio, fechaFin, id);
-         return facturas;
+        try {
+            List<Factura> facturas=null;
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String fecha1 = df.format(new java.sql.Date(fechaInicio.getTime()));
+            fecha1 = fecha1 + " 00:00:00.000";
+            String fecha2 = df.format(new java.sql.Date(fechaFin.getTime()));
+            fecha2 = fecha2 + " 23:59:59.000"; 
+            DateFormat dfsql = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            facturas=facturaFacade.obtenerFacturasPorFecha(dfsql.parse(fecha1), dfsql.parse(fecha2), id);
+            return facturas;
+        } catch (ParseException ex) {
+            Logger.getLogger(FacturaServicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }

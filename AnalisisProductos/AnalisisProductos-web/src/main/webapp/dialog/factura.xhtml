@@ -20,50 +20,61 @@
               appendTo="@(body)"
               responsive="true">
         <o:form id="mostrarInfoFac" useRequestURI="true" >
-            <p:panel styleClass="ui-panelgrid-blank" >
-                <div class="ui-g ui-fluid">
-                    <p:growl id="growl"  sticky="true" /> 
-
-                    <div class="ui-g-12 ui-lg-12">
-
-                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" id="datos">
-                            <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group" >
-                                <h1><h:outputText style="font-size: 150%" value="Fecha emisión:"  /></h1>
-                                <h1><h:outputText style="font-size: 90%" value="#{facturaBean.facturaSeleccionada.fechaemision}"  /></h1>
-                                <h1><h:outputText style="font-size: 150%" value="Establecimiento"  /></h1>
-                                <h1><h:outputText style="font-size: 90%" value="#{facturaBean.facturaSeleccionada.infCodigo.razonsocial}"  /></h1>
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                <p:panel style="width:auto;" styleClass="ui-panelgrid-blank" >
+                    <div class="ui-g ui-fluid">
+                        <p:growl id="growl"  sticky="true" /> 
+                        <div class="ui-g-12 ui-lg-12">
+                            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" id="datos">
+                                <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group" >
+                                    <h:outputText style="font-size: 110%;font-weight: bolder" value="Fecha emisión:"  />
+                                    <h:outputText style="font-size: 90%" value="#{facturaBean.facturaSeleccionada.fechaemision}"  />
+                                    <h:outputText style="font-size: 110%;font-weight: bolder" value="Establecimiento"  />
+                                    <h:outputText style="font-size: 90%" value="#{facturaBean.facturaSeleccionada.infCodigo.razonsocial}"  />
+                                    <h:outputText style="font-size: 110%;font-weight: bolder" value="Dirección"  />
+                                    <h:outputText style="font-size: 90%" value="#{facturaBean.facturaSeleccionada.infCodigo.direccion}"  />
+                                </p:panelGrid>
                             </p:panelGrid>
-                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-g-6,ui-g-6">
-                                <p:dataTable style=" height: 200px; width: 500px; " id="tablaDetalles" 
-                                             value="#{facturaBean.listaDetallesFacturaSeleccionada}"
-                                             var="det"
-                                             rows="10"
-                                             paginator="true"
-                                             reflow="true"
-                                             >
-                                    <p:column   headerText="Descripción">
-                                        <h:outputText value="#{det[0]}" />
-                                    </p:column>
-                                    <p:column   headerText="cantidad">
-                                        <h:outputText value="#{det[1]}" />
-                                    </p:column>
-                                    <p:column   headerText="Precio Unitario">
-                                        <h:outputText value="#{det[2]}" />
-                                    </p:column>
-                                    <p:column   headerText="Total">
-                                        <h:outputText value="#{det[3]}" />
-                                    </p:column>
-
-                                </p:dataTable>
-                            </p:panelGrid>
-                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-g-6,ui-g-6"
-                                         styleClass="ui-panelgrid-blank form-group" >
-
-                            </p:panelGrid>
-                        </p:panelGrid>
+                        </div>
                     </div>
-                </div>
-            </p:panel>
+                </p:panel>
+                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" >
+
+                    <p:panel>
+                        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >
+                            <h:outputText style="font-size: 110%;font-weight: bolder" value="Importe Total:"  />
+                            <h:outputText style="font-size: 90%" value="$ #{facturaBean.facturaSeleccionada.importetotal}"  />
+                            <h:outputText style="font-size: 110%;font-weight: bolder" value="Importe sin Impuestos"  />
+                            <h:outputText style="font-size: 90%" value="$ #{facturaBean.facturaSeleccionada.totalsinimpuesto}"  />
+                        </p:panelGrid>
+                    </p:panel>
+                     <p:commandButton id="btn_Comparar"
+                                         value="Comparar factura con otros establecimientos" 
+                                         style="margin-top: 10px;"/>
+                </p:panelGrid>
+            </p:panelGrid>
+            <p:dataTable style=" height: 400px; width: 800px; " id="tablaDetalles" 
+                         value="#{facturaBean.listaDetallesFacturaSeleccionada}"
+                         var="det"
+                         rows="10"
+                         paginator="true"
+                         reflow="true"
+                         >
+                <p:column  style="width:50%" headerText="Descripción">
+                    <h:outputText value="#{det[0]}" />
+                </p:column>
+                <p:column   headerText="cantidad">
+                    <h:outputText value="#{det[1]}" />
+                </p:column>
+                <p:column   headerText="Precio Unitario">
+                    <h:outputText value="#{det[2]}" />
+                </p:column>
+                <p:column   headerText="Total">
+                    <h:outputText value="#{det[3]}" />
+                </p:column>
+
+            </p:dataTable>
+
         </o:form>
     </p:dialog>
 </ui:composition>

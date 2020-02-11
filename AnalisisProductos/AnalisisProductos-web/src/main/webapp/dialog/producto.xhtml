@@ -24,24 +24,29 @@
         <o:form id="mostrarInfoProd" useRequestURI="true" >
             <p:growl id="growl"  sticky="true" /> 
             <h1 class="centerText">#{productoBean.productoSeleccionado.descripcion} </h1>
-            <h2 class="centerText">Total registrados: #{productoBean.listaPrecioProducto.size()} </h2>
             <p:panelGrid columns="2">
 
                 <p:chart style="width: 800px;height: 400px" id="line" type="line" model="#{productoBean.chartProducto}" responsive="true" />
-                <p:dataTable   value="#{productoBean.listaPrecioProducto}"
-                               var="det"
-                               rows="10"
-                               paginator="true"
-                               paginatorPosition="bottom"
-                               style="width: 350px"
-                               >
-                    <p:column sortBy="#{det[0]}"  headerText="Precio">
-                        <h:outputText value="#{det[0]}" />
-                    </p:column>
-                    <p:column sortBy="#{det[1]}" headerText="Fecha">
-                        <h:outputText value="$#{det[1]}" />
-                    </p:column>
-                </p:dataTable>
+                <p:panelGrid columns="1">
+                    <h2 class="centerText">Total registrados: #{productoBean.listaPrecioProducto.size()} </h2>
+                    <p:dataTable   value="#{productoBean.listaPrecioProducto}"
+                                   var="det"
+                                   rows="10"
+                                   paginator="true"
+                                   paginatorPosition="bottom"
+                                   style="width: 350px"
+                                   >
+                        <p:column sortBy="#{det[0]}"  headerText="Precio">
+                            <h:outputText value="$ #{det[0]}" />
+                        </p:column>
+                        <p:column sortBy="#{det[1]}" headerText="Fecha">
+                            <h:outputText value="#{det[1]}" />
+                        </p:column>
+                        <p:column sortBy="#{det[4]}" headerText="Cantidad">
+                            <h:outputText value="#{det[4]}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:panelGrid>
             </p:panelGrid>
         </o:form>
     </p:dialog>

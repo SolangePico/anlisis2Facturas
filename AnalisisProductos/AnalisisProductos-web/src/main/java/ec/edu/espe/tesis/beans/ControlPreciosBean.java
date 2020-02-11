@@ -124,7 +124,8 @@ public class ControlPreciosBean implements Serializable {
     public void init() {
 
         listaProductosVariacion = controlPreciosServicio.obtenerListaPreciosPorProductoTodo();
-        producto = listaProductosVariacion.get(567);
+        producto = listaProductosVariacion.get(0);
+        listaEstablecimientos=infoTributariaServicio.obtenerListaEstablecimientos();
         listaControlPrecios = controlPreciosServicio.obtenerListaPreciosPorProducto(Integer.parseInt(producto[5].toString()));
         try {
             createLineModels();

@@ -32,32 +32,36 @@
                     <h:outputText style="font-size: 100%" value="$ #{gastosBean.promedioPorAnio}"  />
                     <h:outputText style="font-size: 150%" value="Total facturas: "/>
                     <h:outputText style="font-size: 100%" value="#{gastosBean.totalFacturasPorAnio}"  />
+                     <h:outputText style="font-size: 150%" value="Total Gastado: "/>
+                    <h:outputText style="font-size: 100%" value="$ #{gastosBean.totalGastoPorAnio}"  />
                 </p:panelGrid>
-                <p:fieldset legend="Productos más comprados">
-                    <p:dataTable  id="tablaDetalles" 
-                                  value="#{gastosBean.listaProductosPorAnio}"
-                                  var="det"
-                                  rows="10"
-                                  paginator="true"
-                                  style="height: auto;width:850px ;text-align: center;">
-                        <p:column style="width:50%; border-bottom: none;border-top: none;text-align: left;"  headerText="Descripción">
-                            <h:outputText value="#{det[2]}" />
-                        </p:column>
-                        <p:column  style="width:12%; border-bottom: none;border-top: none" headerText="Última fecha">
-                            <h:outputText value="#{det[1]}" />
-                        </p:column>
-                        <p:column  style="width:12%; border-bottom: none;border-top: none" headerText="Cantidad">
-                            <h:outputText value="#{det[3]}" />
-                        </p:column>
-                        <p:column  style="width:13%; border-bottom: none;border-top: none" headerText="Precio promedio">
-                            <h:outputText value="$ #{det[4]}" />
-                        </p:column>
-                        <p:column  style="width:13%; border-bottom: none;border-top: none" headerText="Total gastado">
-                            <h:outputText value="$ #{det[4]*det[3]}" />
-                        </p:column>
+                <p:dataTable  id="tablaDetalles" 
+                              value="#{gastosBean.listaProductosPorAnio}"
+                              var="det"
+                              rows="10"
+                              paginator="true"
+                              style="height: auto;width:850px ;text-align: center;">
+                    <f:facet name="header">
+                        Productos Comprados
+                    </f:facet>
+                    <p:column sortBy="#{det[2]}" filterBy="#{det[2]}" style="width:50%; border-bottom: none;border-top: none;text-align: left;"  headerText="Descripción">
+                        <h:outputText value="#{det[2]}" />
+                    </p:column>
+                    <p:column  style="width:12%; border-bottom: none;border-top: none" headerText="Última fecha">
+                        <h:outputText value="#{det[1]}" />
+                    </p:column>
+                    <p:column  style="width:12%; border-bottom: none;border-top: none" headerText="Cantidad">
+                        <h:outputText value="#{det[3]}" />
+                    </p:column>
+                    <p:column  style="width:13%; border-bottom: none;border-top: none" headerText="Precio promedio">
+                        <h:outputText value="$ #{det[4]}" />
+                    </p:column>
+                    <p:column  style="width:13%; border-bottom: none;border-top: none" headerText="Total gastado">
+                        <h:outputText value="$ #{det[4]*det[3]}" />
+                    </p:column>
 
-                    </p:dataTable>
-                </p:fieldset>
+                </p:dataTable>
+
             </p:panelGrid>
 
         </h:form>

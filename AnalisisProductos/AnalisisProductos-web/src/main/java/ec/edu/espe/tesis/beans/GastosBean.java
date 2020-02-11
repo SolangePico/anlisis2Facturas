@@ -27,6 +27,8 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.LegendPlacement;
+import org.primefaces.model.chart.LineChartSeries;
 import org.primefaces.model.chart.LinearAxis;
 
 /**
@@ -43,6 +45,8 @@ public class GastosBean implements Serializable {
     private HttpSessionHandler sesion;
     @Inject
     private ProductoServicio productoServicio;
+
+    private BigDecimal totalGastoPorAnio;
     private List<Object[]> gastoPorAnio;
     private List<Factura> listaFacturas;
     private BigDecimal promedioPorAnio;
@@ -50,6 +54,8 @@ public class GastosBean implements Serializable {
     private List<Object[]> listaProductosPorAnio;
     private int anio;
     private BarChartModel barModel;
+    private List<Object[]> listaFacturasPorMes;
+    private List<Object[]> listaGastoFacturaPorMes;
 
     @PostConstruct
     public void init() {
@@ -73,55 +79,137 @@ public class GastosBean implements Serializable {
             }
         }
         for (int i = 0; i < gastoPorAnio.size(); i++) {
-
+            Object chart;
+            listaFacturasPorMes = facturaServicio.obtenerFacturasPorMes(sesion.getId(), (int) gastoPorAnio.get(i)[0]);
+            listaGastoFacturaPorMes = facturaServicio.obtenerGastoFacturasPorMes(sesion.getId(), (int) gastoPorAnio.get(i)[0]);
+            chart = createBarModel();
+            gastoPorAnio.get(i)[1] = chart;
         }
-        createBarModel();
+
     }
 
     private BarChartModel initBarModel() {
         BarChartModel model = new BarChartModel();
 
         ChartSeries boys = new ChartSeries();
-        boys.setLabel("Total Gastado");
+        boys.setLabel("# de productos");
         boys.setXaxis(AxisType.X);
         boys.setYaxis(AxisType.Y);
-        boys.set("Ene", 120);
-        boys.set("Feb", 100);
-        boys.set("Mar", 44);
-        boys.set("Abr", 150);
-        boys.set("May", 25);
-        boys.set("Jun", 25);
-        boys.set("Jul", 25);
-        boys.set("Ago", 25);
-        boys.set("Sep", 25);
-        boys.set("Oct", 25);
-        boys.set("Nov", 25);
-        boys.set("Dic", 25);
+        for (int i = 0; i < listaFacturasPorMes.size(); i++) {
+            switch ((int) listaFacturasPorMes.get(i)[1]) {
+                case 1:
+                    boys.set("Ene", (BigInteger) listaFacturasPorMes.get(i)[0]);
+                    break;
+                case 2:
+                    boys.set("Feb", (BigInteger) listaFacturasPorMes.get(i)[0]);
+                    break;
+                case 3:
+                    boys.set("Mar", (BigInteger) listaFacturasPorMes.get(i)[0]);
+                    break;
+                case 4:
+                    boys.set("Abr", (BigInteger) listaFacturasPorMes.get(i)[0]);
+                    break;
+                case 5:
+                    boys.set("May", (BigInteger) listaFacturasPorMes.get(i)[0]);
+                    break;
+                case 6:
+                    boys.set("Jun", (BigInteger) listaFacturasPorMes.get(i)[0]);
+                    break;
+                case 7:
+                    boys.set("Jul", (BigInteger) listaFacturasPorMes.get(i)[0]);
+                    break;
+                case 8:
+                    boys.set("Ago", (BigInteger) listaFacturasPorMes.get(i)[0]);
+                    break;
+                case 9:
+                    boys.set("Sep", (BigInteger) listaFacturasPorMes.get(i)[0]);
+                    break;
+                case 10:
+                    boys.set("Oct", (BigInteger) listaFacturasPorMes.get(i)[0]);
+                    break;
+                case 11:
+                    boys.set("Nov", (BigInteger) listaFacturasPorMes.get(i)[0]);
+                    break;
+                case 12:
+                    boys.set("Dic", (BigInteger) listaFacturasPorMes.get(i)[0]);
+                    break;
+                default:
+                    boys.set("Ene", 1);
+            }
 
-        ChartSeries girls = new ChartSeries();
-        girls.setLabel("# de Productos");
-        girls.setXaxis(AxisType.X);
-        girls.setYaxis(AxisType.Y2);
-        girls.set("Ene", 52);
-        girls.set("Feb", 60);
-        girls.set("Mar", 110);
-        girls.set("Abr", 135);
-        girls.set("May", 120);
-        girls.set("Jun", 135);
-        girls.set("Jul", 135);
-        girls.set("Ago", 135);
-        girls.set("Sep", 135);
-        girls.set("Oct", 135);
-        girls.set("Nov", 135);
-        girls.set("Dic", 135);
+        }
 
+        LineChartSeries valor = new LineChartSeries();
+        valor.setLabel("Total Gastado");
+        valor.setXaxis(AxisType.X);
+        valor.setYaxis(AxisType.Y2);
+        for (int i = 0; i < listaGastoFacturaPorMes.size(); i++) {
+            switch ((int) listaGastoFacturaPorMes.get(i)[1]) {
+                case 1:
+                    valor.set("Ene", (BigDecimal) listaGastoFacturaPorMes.get(i)[0]);
+                    break;
+                case 2:
+                    valor.set("Feb", (BigDecimal) listaGastoFacturaPorMes.get(i)[0]);
+                    break;
+                case 3:
+                    valor.set("Mar", (BigDecimal) listaGastoFacturaPorMes.get(i)[0]);
+                    break;
+                case 4:
+                    valor.set("Abr", (BigDecimal) listaGastoFacturaPorMes.get(i)[0]);
+                    break;
+                case 5:
+                    valor.set("May", (BigDecimal) listaGastoFacturaPorMes.get(i)[0]);
+                    break;
+                case 6:
+                    valor.set("Jun", (BigDecimal) listaGastoFacturaPorMes.get(i)[0]);
+                    break;
+                case 7:
+                    valor.set("Jul", (BigDecimal) listaGastoFacturaPorMes.get(i)[0]);
+                    break;
+                case 8:
+                    valor.set("Ago", (BigDecimal) listaGastoFacturaPorMes.get(i)[0]);
+                    break;
+                case 9:
+                    valor.set("Sep", (BigDecimal) listaGastoFacturaPorMes.get(i)[0]);
+                    break;
+                case 10:
+                    valor.set("Oct", (BigDecimal) listaGastoFacturaPorMes.get(i)[0]);
+                    break;
+                case 11:
+                    valor.set("Nov", (BigDecimal) listaGastoFacturaPorMes.get(i)[0]);
+                    break;
+                case 12:
+                    valor.set("Dic", (BigDecimal) listaGastoFacturaPorMes.get(i)[0]);
+                    break;
+                default:
+                    valor.set("Ene", 1);
+            }
+
+        }
         model.addSeries(boys);
-        model.addSeries(girls);
+        model.addSeries(valor);
         model.setShowPointLabels(true);
         return model;
     }
 
-    private void createBarModel() {
+    private BarChartModel createBarModel() {
+        int totProd = 0;
+        BigDecimal TotalGastado;
+        TotalGastado = BigDecimal.ZERO;
+
+        for (int i = 0; i < listaFacturasPorMes.size(); i++) {
+            if (totProd < Integer.parseInt(listaFacturasPorMes.get(i)[0].toString())) {
+                totProd = Integer.parseInt(listaFacturasPorMes.get(i)[0].toString());
+            }
+        }
+
+        for (int i = 0; i < listaGastoFacturaPorMes.size(); i++) {
+            if (TotalGastado.compareTo((BigDecimal) listaGastoFacturaPorMes.get(i)[0]) < 0) {
+                TotalGastado = (BigDecimal) listaGastoFacturaPorMes.get(i)[0];
+            }
+        }
+        barModel = new BarChartModel();
+        barModel.getAxes().put(AxisType.Y2, new CategoryAxis("Productos"));
         barModel = initBarModel();
 
         barModel.setTitle("Gastos");
@@ -133,14 +221,19 @@ public class GastosBean implements Serializable {
         Axis yAxis = barModel.getAxis(AxisType.Y);
         yAxis.setLabel("Total");
         yAxis.setMin(0);
-        yAxis.setMax(200);
-        
+        yAxis.setMax(totProd * 2);
+
         Axis y2Axis = new LinearAxis("Productos");
         y2Axis.setMin(0);
-        y2Axis.setMax(200);
-         barModel.getAxes().put(AxisType.Y2, new CategoryAxis("Productos"));
+        y2Axis.setMax(Double.parseDouble(TotalGastado.toString()));
 
         barModel.setExtender("skinBar");
+        barModel.setMouseoverHighlight(true);
+        barModel.setLegendPosition("e");
+        barModel.setShowPointLabels(true);
+        barModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+
+        return barModel;
     }
 
     public void verConsumoPorAño(int year) {
@@ -148,6 +241,7 @@ public class GastosBean implements Serializable {
         promedioPorAnio = (BigDecimal) facturaServicio.obtenerGastoPromedioPorAnio(sesion.getId(), year);
         totalFacturasPorAnio = (BigInteger) facturaServicio.obtenerTotalFacturasPorAnio(sesion.getId(), year);
         listaProductosPorAnio = productoServicio.obtenerProductosPorUsuarioYAnio(sesion.getId(), year);
+        totalGastoPorAnio = (BigDecimal) facturaServicio.obtenerTotalGastoPorAnio(sesion.getId(), year);
         RequestContext.getCurrentInstance().execute("PF('gasto').show();");
     }
 
@@ -202,4 +296,13 @@ public class GastosBean implements Serializable {
     public BarChartModel getBarModel() {
         return barModel;
     }
+
+    public BigDecimal getTotalGastoPorAnio() {
+        return totalGastoPorAnio;
+    }
+
+    public void setTotalGastoPorAnio(BigDecimal totalGastoPorAnio) {
+        this.totalGastoPorAnio = totalGastoPorAnio;
+    }
+
 }
