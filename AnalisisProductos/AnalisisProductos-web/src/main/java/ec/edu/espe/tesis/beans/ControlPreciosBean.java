@@ -52,20 +52,21 @@ public class ControlPreciosBean implements Serializable {
     private List<InfoTributaria> listaEstablecimientos;
     private InfoTributaria establecimientoSeleccionado;
     private List<Object[]> listaProductosVariacion;
-    private Object[] producto;
+    private String producto;
     private LineChartModel chartProducto;
     private List<Object[]> listaSupermercados;
-    private Object[] supermercadoSeleccionado;
+    private String supermercadoSeleccionado;
     private List<Object[]> listaProductosPorSupermercado;// obtener producto por establecimiento del supermercado seleccionado
 
-       @PostConstruct
+    @PostConstruct
     public void init() {
 
         listaProductosVariacion = controlPreciosServicio.obtenerListaPreciosPorProductoTodo();
-        listaSupermercados= infoTributariaServicio.obtenerSupermercados();
-        producto = listaProductosVariacion.get(0);
-        listaEstablecimientos=infoTributariaServicio.obtenerListaEstablecimientos();
-        listaControlPrecios = controlPreciosServicio.obtenerListaPreciosPorProducto(Integer.parseInt(producto[5].toString()));
+        listaSupermercados = infoTributariaServicio.obtenerSupermercados();
+        producto = listaProductosVariacion.get(0)[5].toString();
+        supermercadoSeleccionado = listaSupermercados.get(0)[0].toString();
+        listaEstablecimientos = infoTributariaServicio.obtenerListaEstablecimientos();
+        listaControlPrecios = controlPreciosServicio.obtenerListaPreciosPorProducto(Integer.parseInt(producto));
         try {
             createLineModels();
         } catch (ParseException ex) {
@@ -76,14 +77,35 @@ public class ControlPreciosBean implements Serializable {
     public void buscarEstablecimiento() {
         establecimientoSeleccionado = infoTributariaServicio.obtenerEstablecimientoPorCodigo(establecimientoId);
     }
-     
-    public void obtenerListaDetalleProducto(String ruc,String codProd){
-        listaProductosPorSupermercado=controlPreciosServicio.obtenerListaProdSuper(ruc, codProd);
+
+    public String obtenerNombre(String ruc) {
+        String nom="";
+        for (int i = 0; i < listaSupermercados.size(); i++) {
+            if(ruc.equals(listaSupermercados.get(i)[0].toString())){
+                nom=listaSupermercados.get(i)[1].toString();
+            }
+
+        }
+        return nom;
     }
-    
+
+    public String obtenerCantidad(String ruc) {
+        String cant="";
+        for (int i = 0; i < listaSupermercados.size(); i++) {
+            if(ruc.equals(listaSupermercados.get(i)[0].toString())){
+                cant=listaSupermercados.get(i)[2].toString();
+            }
+        }
+        return cant;
+    }
+
+    public void obtenerListaDetalleProducto() {
+        listaProductosPorSupermercado = controlPreciosServicio.obtenerListaProdSuper(supermercadoSeleccionado, producto);
+    }
+
     public void mostrarVariacion() {
         try {
-            listaControlPrecios = controlPreciosServicio.obtenerListaPreciosPorProducto(Integer.parseInt(producto[5].toString()));
+            listaControlPrecios = controlPreciosServicio.obtenerListaPreciosPorProducto(Integer.parseInt(producto));
             if (listaControlPrecios.size() > 0) {
 
                 createLineModels();
@@ -91,7 +113,7 @@ public class ControlPreciosBean implements Serializable {
         } catch (ParseException ex) {
             Logger.getLogger(ControlPreciosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+
     }
 
     private void createLineModels() throws ParseException {
@@ -106,7 +128,7 @@ public class ControlPreciosBean implements Serializable {
             }
 
         }
-       chartProducto = new LineChartModel();
+        chartProducto = new LineChartModel();
         chartProducto = initLinearModel();
 
         chartProducto.setTitle("Cambio de precio en el tiempo");
@@ -163,8 +185,8 @@ public class ControlPreciosBean implements Serializable {
 
         return model;
     }
-    
-     public InfoTributaria getEstablecimientoSeleccionado() {
+
+    public InfoTributaria getEstablecimientoSeleccionado() {
         return establecimientoSeleccionado;
     }
 
@@ -175,15 +197,15 @@ public class ControlPreciosBean implements Serializable {
     public void setListaProductosPorSupermercado(List<Object[]> listaProductosPorSupermercado) {
         this.listaProductosPorSupermercado = listaProductosPorSupermercado;
     }
-    
-    public Object[] getSupermercadoSeleccionado() {
+
+    public String getSupermercadoSeleccionado() {
         return supermercadoSeleccionado;
     }
 
-    public void setSupermercadoSeleccionado(Object[] supermercadoSeleccionado) {
+    public void setSupermercadoSeleccionado(String supermercadoSeleccionado) {
         this.supermercadoSeleccionado = supermercadoSeleccionado;
     }
-    
+
     public List<Object[]> getListaSupermercados() {
         return listaSupermercados;
     }
@@ -191,12 +213,12 @@ public class ControlPreciosBean implements Serializable {
     public void setListaSupermercados(List<Object[]> listaSupermercados) {
         this.listaSupermercados = listaSupermercados;
     }
-    
-    public Object[] getProducto() {
+
+    public String getProducto() {
         return producto;
     }
 
-    public void setProducto(Object[] producto) {
+    public void setProducto(String producto) {
         this.producto = producto;
     }
 
@@ -252,7 +274,5 @@ public class ControlPreciosBean implements Serializable {
         this.chartProducto = chartProducto;
 
     }
-
-
 
 }

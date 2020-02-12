@@ -44,14 +44,16 @@ public class ControlPreciosServicio implements Serializable{
         List<Object[]> listaProdSuperCompleta= new ArrayList();
             listaProdSuper=controlPreciosFacade.obtenerListaProdSuper(codProd, ruc);
             for (int i = 0; i < listaProdSuper.size(); i++) {
-                Object[] obj= new Object[8];
+                Object[] obj= new Object[10];
                 for (int j = 0; j < 6; j++) {
                     obj[j]=listaProdSuper.get(i)[j];
                     
                 }
                 List<Object[]> listaFecha=controlPreciosFacade.obtenerFechaPrecio(obj[0].toString(), obj[1].toString());
-                obj[6]=listaFecha.get(0);
-                obj[7]=listaFecha.get(listaFecha.size()-1);
+                obj[6]=listaFecha.get(0)[1];
+                obj[7]=listaFecha.get(listaFecha.size()-1)[1];
+                obj[8]=controlPreciosFacade.obtenerFechaActualPrecio(obj[0].toString(), obj[1].toString()).get(0)[0];
+                obj[9]=controlPreciosFacade.obtenerFechaActualPrecio(obj[0].toString(), obj[1].toString()).get(0)[1];
                 listaProdSuperCompleta.add(obj);
             }
             

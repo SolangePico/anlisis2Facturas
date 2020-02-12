@@ -26,13 +26,13 @@
             <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" id="datos">
                 <p:separator/>
                 <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" >
-                    <h:outputText style="font-size: 150%" value="Año:"  />
+                    <h:outputText style="font-size: 120%; font-weight: bolder;" value="Año:"  />
                     <h:outputText style="font-size: 100%" value="#{gastosBean.anio}"  />
-                    <h:outputText style="font-size: 150%" value="Promedio de gasto por factura: "/>
+                    <h:outputText style="font-size: 120%;font-weight: bolder;" value="Promedio de gasto por factura: "/>
                     <h:outputText style="font-size: 100%" value="$ #{gastosBean.promedioPorAnio}"  />
-                    <h:outputText style="font-size: 150%" value="Total facturas: "/>
+                    <h:outputText style="font-size: 120%;font-weight: bolder;" value="Total facturas: "/>
                     <h:outputText style="font-size: 100%" value="#{gastosBean.totalFacturasPorAnio}"  />
-                     <h:outputText style="font-size: 150%" value="Total Gastado: "/>
+                     <h:outputText style="font-size: 120%;font-weight: bolder;" value="Total Gastado: "/>
                     <h:outputText style="font-size: 100%" value="$ #{gastosBean.totalGastoPorAnio}"  />
                 </p:panelGrid>
                 <p:dataTable  id="tablaDetalles" 

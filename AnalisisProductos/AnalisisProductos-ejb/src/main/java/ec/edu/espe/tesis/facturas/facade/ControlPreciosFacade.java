@@ -78,15 +78,22 @@ public class ControlPreciosFacade extends AbstractFacade<ControlPrecios> {
         String query = "select i.codigo as estab, p.codigo as producto,i.establecimiento ,  "
                 + "i.direccion,max(cp.preciounitario) as maximo, min(cp.preciounitario) as minimo "
                 + "from info_tributaria i, factura f, control_precios cp, producto p "
-                + "where f.INF_CODIGO=i.CODIGO and cp.FAC_CODIGO=f.codigo and p.CODIGO='8739' and p.codigo=cp.pro_codigo "
-                + "and i.ruc='1790016919001' group by p.codigo,i.establecimiento, p.descripcion, i.direccion order by maximo desc;";
+                + "where f.INF_CODIGO=i.CODIGO and cp.FAC_CODIGO=f.codigo and p.CODIGO='"+codProd+"' and p.codigo=cp.pro_codigo "
+                + "and i.ruc='"+ruc+"' group by p.codigo,i.establecimiento, p.descripcion, i.direccion order by maximo desc;";
         Query q = em.createNativeQuery(query);
         List<Object[]> result = q.getResultList();
         return result;
     }
 
     public List<Object[]> obtenerFechaPrecio(String codEstab, String codProd) {
-        String query = "select cp.preciounitario, f.FECHAEMISION from control_precios cp, factura f, info_tributaria i where cp.PRO_CODIGO=8739 and f.CODIGO=cp.FAC_CODIGO and f.INF_CODIGO=i.codigo and i.codigo='288' order by cp.PRECIOUNITARIO desc, f.fechaemision;";
+        String query = "select cp.preciounitario, f.FECHAEMISION from control_precios cp, factura f, info_tributaria i where cp.PRO_CODIGO="+codProd+" and f.CODIGO=cp.FAC_CODIGO and f.INF_CODIGO=i.codigo and i.codigo='"+codEstab+"' order by cp.PRECIOUNITARIO desc, f.fechaemision;";
+        Query q = em.createNativeQuery(query);
+        List<Object[]> result = q.getResultList();
+        return result;
+    }
+    
+    public List<Object[]> obtenerFechaActualPrecio(String codEstab, String codProd) {
+        String query = "select cp.preciounitario, max(f.FECHAEMISION) from control_precios cp, factura f, info_tributaria i where cp.PRO_CODIGO="+codProd+" and f.CODIGO=cp.FAC_CODIGO and f.INF_CODIGO=i.codigo and i.codigo='"+codEstab+"' group by cp.preciounitario;";
         Query q = em.createNativeQuery(query);
         List<Object[]> result = q.getResultList();
         return result;
