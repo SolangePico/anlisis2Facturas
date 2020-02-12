@@ -68,7 +68,8 @@ public class FacturaServicio implements Serializable {
 //    @Inject
 //    private TotalImpuestoFacade totalImpuestoFacade;
 
-    public void guardarFactura(AutorizacionXML autorizacion, String usuCodigo) {
+    public int guardarFactura(AutorizacionXML autorizacion, String usuCodigo) {
+        int error=0;
         InfoTributaria infoTributaria = new InfoTributaria();
 //        try {
         if (infoTributariaFacade.obtenerEstablecimientoPorCriterio(autorizacion.getComprobante().getFactura().getInfoTributaria().getRuc(), autorizacion.getComprobante().getFactura().getInfoTributaria().getEstab()).isEmpty()) {
@@ -183,14 +184,17 @@ public class FacturaServicio implements Serializable {
                     }
                 }
             } else {
+                error=1;
                 System.out.println("No se ingreso factura");
             }
         } catch (NumberFormatException | ParseException e) {
 
         }
+        return error;
     }
 
-    public void guardarFacturaTipo2(FacturaXML facturaxml, String usuCodigo) {
+    public int guardarFacturaTipo2(FacturaXML facturaxml, String usuCodigo) {
+        int error=0;
         InfoTributaria infoTributaria = new InfoTributaria();
 //        try {
         if (infoTributariaFacade.obtenerEstablecimientoPorCriterio(facturaxml.getInfoTributaria().getRuc(), facturaxml.getInfoTributaria().getEstab()).isEmpty()) {
@@ -309,11 +313,12 @@ public class FacturaServicio implements Serializable {
                     }
                 }
             } else {
-                System.out.println("No se ingreso factura");
+                error=1;
             }
         } catch (Exception e) {
 
         }
+        return error;
     }
 
     public int obtenerFacturasPorUsuario(String usuarioId) {

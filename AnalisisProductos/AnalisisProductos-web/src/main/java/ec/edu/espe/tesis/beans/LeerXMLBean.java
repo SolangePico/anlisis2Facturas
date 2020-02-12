@@ -48,8 +48,7 @@ public class LeerXMLBean implements Serializable {
 
     @Inject
     HttpSessionHandler sesion;
-    
- 
+
     private UploadedFile file;
     private FacturaXML factura;
     private ArrayList<AutorizacionXML> listaAutorizacion = new ArrayList();
@@ -96,9 +95,9 @@ public class LeerXMLBean implements Serializable {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file.getInputstream(), "UTF-8"))) {
             //f = new File("C:\\Users\\solan\\OneDrive\\Escritorio\\factura.xml");
 
-//            f = new File("C:\\Users\\alterbios\\Desktop\\Releases-MARATHON-GO\\factura.xml");
+            f = new File("C:\\Users\\alterbios\\Desktop\\Releases-MARATHON-GO\\factura.xml");
 
-            f = new File("E:\\Danny\\Escritorio\\anlisis2Facturas\\factura.xml");
+//            f = new File("E:\\Danny\\Escritorio\\anlisis2Facturas\\factura.xml");
             try {
                 FileWriter w = new FileWriter(f);
                 BufferedWriter bw = new BufferedWriter(w);
@@ -133,7 +132,7 @@ public class LeerXMLBean implements Serializable {
 
             } catch (IOException p) {
             }
-            capturarDatos(f);
+            capturarDatos(f, e.getFile().getFileName());
             f.delete();
 
         } catch (Exception ex) {
@@ -147,7 +146,7 @@ public class LeerXMLBean implements Serializable {
     public void init() {
         totFacturas = facturaServicio.obtenerFacturasPorUsuario(sesion.getId());
         facturasSubidas = 0;
-        flagCargar=true;
+        flagCargar = true;
 
     }
 
@@ -169,7 +168,7 @@ public class LeerXMLBean implements Serializable {
 
     }
 
-    public void capturarDatos(File file) {
+    public void capturarDatos(File file, String nombreFac) {
         AutorizacionXML obj;
         FacturaXML obj1;
         try {
@@ -189,8 +188,17 @@ public class LeerXMLBean implements Serializable {
 
             obj = (AutorizacionXML) xstream.fromXML(file);
             if (obj != null) {
-                facturaServicio.guardarFactura(obj, sesion.getId());
-                facturasSubidas++;
+                int err;
+                err = facturaServicio.guardarFactura(obj, sesion.getId());
+                if (err == 1) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aviso", "Factura: " + nombreFac + " ya se encuentra registrada"));
+                    PrimeFaces.current().ajax().update("cargarForm:growl");
+                } else {
+                    facturasSubidas++;
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se han subido " + facturasSubidas+ " Facturas"));
+                    PrimeFaces.current().ajax().update("cargarForm:growl");
+                }
+
             } else {
 
             }
@@ -213,8 +221,17 @@ public class LeerXMLBean implements Serializable {
 
                 obj1 = (FacturaXML) xstream.fromXML(file);
                 if (obj1 != null) {
-                    facturaServicio.guardarFacturaTipo2(obj1, sesion.getId());
-                    facturasSubidas++;
+                    int err;
+                    err = facturaServicio.guardarFacturaTipo2(obj1, sesion.getId());
+                    if (err == 1) {
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aviso", "Factura: " + nombreFac + " ya se encuentra registrada"));
+                        PrimeFaces.current().ajax().update("cargarForm:growl");
+                    } else {
+                        facturasSubidas++;
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se han subido " + facturasSubidas + " Facturas"));
+                        PrimeFaces.current().ajax().update("cargarForm:growl");
+                    }
+
                 } else {
 
                 }
@@ -222,9 +239,7 @@ public class LeerXMLBean implements Serializable {
             } catch (Exception g) {
 
             }
-
         }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se han subido " + facturasSubidas + " facturas"));
         totFacturas = facturaServicio.obtenerFacturasPorUsuario(sesion.getId());
 
     }

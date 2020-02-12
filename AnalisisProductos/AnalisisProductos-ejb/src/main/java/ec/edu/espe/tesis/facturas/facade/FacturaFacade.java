@@ -102,10 +102,18 @@ public class FacturaFacade extends AbstractFacade<Factura> {
 
     public List<Factura> obtenerFacturasOrdenadas(int usuarioId) {
         Usuario usu;
-        usu = usuarioFacade.obtenerUsuarioPorCodigo(usuarioId).get(0);
-        String query = "SELECT f FROM Factura f where f.usuCodigo=:usuCodigo order by f.fechaemision desc";
-        Query q = em.createQuery(query);
-        q.setParameter("usuCodigo", usu);
+        String query;
+        Query q;
+        if (usuarioId != -1) {
+            usu = usuarioFacade.obtenerUsuarioPorCodigo(usuarioId).get(0);
+            query = "SELECT f FROM Factura f where f.usuCodigo=:usuCodigo order by f.fechaemision desc";
+            q = em.createQuery(query);
+            q.setParameter("usuCodigo", usu);
+        } else {
+            query = "SELECT f FROM Factura f order by f.fechaemision desc";
+            q = em.createQuery(query);
+        }
+
         List<Factura> facturas = q.getResultList();
         return facturas;
     }
@@ -120,22 +128,22 @@ public class FacturaFacade extends AbstractFacade<Factura> {
         List<Object[]> result = q.getResultList();
         return result;
     }
-    
+
     public List<Object[]> obtenerFacturasPorMes(String usuCodigo, int anio) {
         String query = "select count(df.CODIGO), month(f.fechaemision) as mes "
                 + "from factura f, usuario u, detalle_factura df "
-                + "where year(f.FECHAEMISION)='"+anio+"' and df.fac_codigo=f.codigo and u.CODIGO=f.USU_CODIGO and u.CODIGO="+usuCodigo+" "
+                + "where year(f.FECHAEMISION)='" + anio + "' and df.fac_codigo=f.codigo and u.CODIGO=f.USU_CODIGO and u.CODIGO=" + usuCodigo + " "
                 + "group by mes order by mes; ";
         Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();
         return result;
     }
-    
+
     public List<Object[]> obtenerGastoFacturasPorMes(String usuCodigo, int anio) {
         String query = "select sum(f.importetotal), month(f.fechaemision) as mes "
                 + "from factura f, usuario u "
-                + "where year(f.FECHAEMISION)='"+anio+"' and u.CODIGO=f.USU_CODIGO and u.CODIGO="+usuCodigo+" "
+                + "where year(f.FECHAEMISION)='" + anio + "' and u.CODIGO=f.USU_CODIGO and u.CODIGO=" + usuCodigo + " "
                 + "group by mes order by mes; ";
         Query q = em.createNativeQuery(query);
 
@@ -162,6 +170,7 @@ public class FacturaFacade extends AbstractFacade<Factura> {
         Object result = q.getSingleResult();
         return result;
     }
+
     public Object obtenerTotalGastoPorAnio(String usuCodigo, int year) {
         String query = "select sum(f.importetotal) from factura f, "
                 + "usuario u where f.USU_CODIGO=u.CODIGO and "

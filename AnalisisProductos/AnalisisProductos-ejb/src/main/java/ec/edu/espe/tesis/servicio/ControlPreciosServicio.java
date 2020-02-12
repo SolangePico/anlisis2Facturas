@@ -39,21 +39,21 @@ public class ControlPreciosServicio implements Serializable{
        return controlPreciosFacade.obtenerListaPreciosPorProductoTodo();
     }
     
-    public List<Object[]> obtenerListaProdSuper(String ruc, String codProd){
+    public List<Object[]> obtenerListaProdSuper(String ruc, String codProd, int anio){
         List<Object[]> listaProdSuper;
         List<Object[]> listaProdSuperCompleta= new ArrayList();
-            listaProdSuper=controlPreciosFacade.obtenerListaProdSuper(codProd, ruc);
+            listaProdSuper=controlPreciosFacade.obtenerListaProdSuper(codProd, ruc, anio);
             for (int i = 0; i < listaProdSuper.size(); i++) {
                 Object[] obj= new Object[10];
                 for (int j = 0; j < 6; j++) {
                     obj[j]=listaProdSuper.get(i)[j];
                     
                 }
-                List<Object[]> listaFecha=controlPreciosFacade.obtenerFechaPrecio(obj[0].toString(), obj[1].toString());
+                List<Object[]> listaFecha=controlPreciosFacade.obtenerFechaPrecio(obj[0].toString(), obj[1].toString(), anio);
                 obj[6]=listaFecha.get(0)[1];
                 obj[7]=listaFecha.get(listaFecha.size()-1)[1];
-                obj[8]=controlPreciosFacade.obtenerFechaActualPrecio(obj[0].toString(), obj[1].toString()).get(0)[0];
-                obj[9]=controlPreciosFacade.obtenerFechaActualPrecio(obj[0].toString(), obj[1].toString()).get(0)[1];
+                obj[8]=controlPreciosFacade.obtenerFechaActualPrecio(obj[0].toString(), obj[1].toString(),anio).get(0)[0];
+                obj[9]=controlPreciosFacade.obtenerFechaActualPrecio(obj[0].toString(), obj[1].toString(),anio).get(0)[1];
                 listaProdSuperCompleta.add(obj);
             }
             

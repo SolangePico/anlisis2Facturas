@@ -6,14 +6,17 @@
 package ec.edu.espe.tesis.beans;
 
 import ec.edu.espe.tesis.facturas.model.ControlPrecios;
+import ec.edu.espe.tesis.facturas.model.Factura;
 import ec.edu.espe.tesis.facturas.model.InfoTributaria;
 import ec.edu.espe.tesis.servicio.ControlPreciosServicio;
+import ec.edu.espe.tesis.servicio.FacturaServicio;
 import ec.edu.espe.tesis.servicio.InfoTributariaServicio;
 import java.io.File;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +49,10 @@ public class ControlPreciosBean implements Serializable {
     ControlPreciosServicio controlPreciosServicio;
     @Inject
     InfoTributariaServicio infoTributariaServicio;
+    @Inject
+    private FacturaServicio facturaServicio;
+    @Inject 
+    private HttpSessionHandler sesion;
 
     private String establecimientoId;
     private List<Object[]> listaControlPrecios;
@@ -57,10 +64,24 @@ public class ControlPreciosBean implements Serializable {
     private List<Object[]> listaSupermercados;
     private String supermercadoSeleccionado;
     private List<Object[]> listaProductosPorSupermercado;// obtener producto por establecimiento del supermercado seleccionado
-
+    private List<Integer> Anio;
+    private List<Factura> listaFacturas;
+    private int anioSeleccionado;
+    
     @PostConstruct
     public void init() {
-
+        listaFacturas = facturaServicio.obtenerFacturasOrdenadas(-1);
+        Calendar cal = null;
+        Anio= new ArrayList();
+        cal = Calendar.getInstance();
+        cal.setTime(listaFacturas.get(0).getFechaemision());
+        Anio.add(cal.get(Calendar.YEAR));
+        for (int i = 1; i < listaFacturas.size(); i++) {
+            cal.setTime(listaFacturas.get(i).getFechaemision());
+            if (cal.get(Calendar.YEAR) != Anio.get(Anio.size() - 1)) {
+                Anio.add(cal.get(Calendar.YEAR));
+            }
+        }
         listaProductosVariacion = controlPreciosServicio.obtenerListaPreciosPorProductoTodo();
         listaSupermercados = infoTributariaServicio.obtenerSupermercados();
         producto = listaProductosVariacion.get(0)[5].toString();
@@ -72,6 +93,7 @@ public class ControlPreciosBean implements Serializable {
         } catch (ParseException ex) {
             Logger.getLogger(ControlPreciosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+        listaFacturas = facturaServicio.obtenerFacturasOrdenadas(Integer.parseInt(sesion.getId()));
     }
 
     public void buscarEstablecimiento() {
@@ -100,7 +122,7 @@ public class ControlPreciosBean implements Serializable {
     }
 
     public void obtenerListaDetalleProducto() {
-        listaProductosPorSupermercado = controlPreciosServicio.obtenerListaProdSuper(supermercadoSeleccionado, producto);
+        listaProductosPorSupermercado = controlPreciosServicio.obtenerListaProdSuper(supermercadoSeleccionado, producto, anioSeleccionado);
     }
 
     public void mostrarVariacion() {
@@ -275,4 +297,20 @@ public class ControlPreciosBean implements Serializable {
 
     }
 
+    public List<Integer> getAnio() {
+        return Anio;
+    }
+
+    public void setAnio(List<Integer> Anio) {
+        this.Anio = Anio;
+    }
+
+    public int getAnioSeleccionado() {
+        return anioSeleccionado;
+    }
+
+    public void setAnioSeleccionado(int anioSeleccionado) {
+        this.anioSeleccionado = anioSeleccionado;
+    }
+    
 }
