@@ -274,39 +274,39 @@
                 <div class="ui-g-12">
 
                     <h:form id="analisiForm1">
-                        <p:panel class="ui-g-12">
-                            <p:panel class="ui-g-5" style="height: 300px;border:none">
-                                <p:outputLabel style="font-size: 150%;" value="Seleccione Producto:" />
-                                <p:separator/>
-                                <p:selectOneMenu style=" width: 70%" panelStyle="width:300px" id="producto"   value="#{controlPreciosBean.producto}" effect="fade" var="p"  filter="true" filterMatchMode="startsWith">
-                                    <f:selectItems  value="#{controlPreciosBean.listaProductosVariacion}" var="theme"  itemLabel="#{theme[0]}" itemValue="#{theme[5]}" />
-                                    <p:column style="width:10%">
-                                        <h:outputText value="#{p[0]}" />
-                                    </p:column>
-                                </p:selectOneMenu>
-                                <br/> <br/> <br/>
-                                <p:outputLabel style="font-size: 150%;" value="Seleccione Supermercado:" />
-                                <p:separator/>
-                                
-                                <p:selectOneMenu style=" width: 70%" panelStyle="width:500px" id="establecimiento" label="Seleccione"  value="#{controlPreciosBean.supermercadoSeleccionado}" effect="fade" var="e"  filter="true" filterMatchMode="startsWith">
-                                    <f:selectItems value="#{controlPreciosBean.listaSupermercados}" var="t" itemLabel="#{t[0]}  -  #{t[1]}  -  #{t[2]}"  itemValue="#{t[0]}" />
-                                    <p:column headerText="RUC" style="width:40%">
-                                        <h:outputText value="#{e}" />
-                                    </p:column>
-                                    <p:column headerText="Nombre" style="width:50%">
-                                        <h:outputText value="#{controlPreciosBean.obtenerNombre(e)}" />
-                                    </p:column>
-                                    <p:column headerText="# de sucursales" style="width:10%">
-                                        <h:outputText value="#{controlPreciosBean.obtenerCantidad(e)}" />
-                                    </p:column>
-                                </p:selectOneMenu>
-                                <br/> <br/> <br/>
-                                <p:outputLabel style="font-size: 150%;" value="Seleccione Año:" />
-                                <p:separator/>
-                                <p:selectOneMenu style=" width: 70%" panelStyle="width:500px" id="anio" label="Seleccione"  value="#{controlPreciosBean.anioSeleccionado}" effect="fade" var="e"  filter="true" filterMatchMode="startsWith">
-                                    <f:selectItem itemLabel="TODOS" itemValue="-1"/>
-                                    <f:selectItems value="#{controlPreciosBean.anio}" var="a" itemLabel="#{a}"  itemValue="#{a}" />
-                                    <h:outputText value="#{a}" />
+                        <div class="card">
+                            <p:outputLabel style="font-size: 150%;" value="Seleccione Producto:" />
+                            <br/><br/>
+                            <p:selectOneMenu style="margin-right: 30%;width: 30%" panelStyle="width:300px" id="producto"   value="#{controlPreciosBean.producto}" effect="fade" var="p"  filter="true" filterMatchMode="startsWith">
+                                <f:selectItems  value="#{controlPreciosBean.listaProductosVariacion}" var="theme"  itemLabel="#{theme[0]}" itemValue="#{theme[5]}" />
+                                <p:column style="width:10%">
+                                    <h:outputText value="#{p[0]}" />
+                                </p:column>
+                            </p:selectOneMenu>
+                           <br/> <br/> <br/>
+                            <p:outputLabel style="font-size: 150%;" value="Seleccione Supermercado:" />
+                            <br/><br/>
+                            <p:selectOneMenu style="margin-right: 30%; width: 30%" panelStyle="width:500px" id="establecimiento" label="Seleccione"  value="#{controlPreciosBean.supermercadoSeleccionado}" effect="fade" var="e"  filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{controlPreciosBean.listaSupermercados}" var="t" itemLabel="#{t[0]}  -  #{t[1]}  -  #{t[2]}"  itemValue="#{t[0]}" />
+                                <p:column headerText="RUC" style="width:40%">
+                                    <h:outputText value="#{e}" />
+                                </p:column>
+                                <p:column headerText="Nombre" style="width:50%">
+                                    <h:outputText value="#{controlPreciosBean.obtenerNombre(e)}" />
+                                </p:column>
+                                <p:column headerText="# de sucursales" style="width:10%">
+                                    <h:outputText value="#{controlPreciosBean.obtenerCantidad(e)}" />
+                                </p:column>
+                            </p:selectOneMenu>
+                            <br/> <br/> <br/>
+                            <p:outputLabel style="font-size: 150%;" value="Seleccione Año:" />
+                            <br/><br/>
+                            <p:selectOneMenu style="margin-right: 30%; width: 30%" panelStyle="width:500px" id="anio" label="Seleccione"  value="#{controlPreciosBean.anioSeleccionado}" effect="fade" var="a"  filter="true" filterMatchMode="startsWith">
+                                <f:selectItem  itemValue="-1" itemLabel="Todos"/>   
+                                <f:selectItems value="#{controlPreciosBean.anio}" var="t" itemLabel="#{t}"  itemValue="#{t}" />
+                                <h:outputText value="#{a}" />
+                            </p:selectOneMenu>
+                            <br/>
 
                                 </p:selectOneMenu>
                                 <br/>
