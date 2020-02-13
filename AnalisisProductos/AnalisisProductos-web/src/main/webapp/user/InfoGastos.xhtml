@@ -284,12 +284,14 @@
                                     <div class="card">
                                         <p:chart id="bar" type="bar" model="#{anio[1]}" responsive="true"/>
                                     </div>
+                                    <p:commandLink actionListener="#{gastosBean.verConsumoPorMeses(anio[0])}" update="gastoForm mostrarGastoMesForm">Ver información por meses</p:commandLink>
                                 </div>
                             </div>
                         </p:repeat>
 
                     </h:form>
                     <ui:include src="../dialog/gastoAnio.xhtml"/>
+                    <ui:include src="../dialog/gastoMes.xhtml"/>
                 </div>
             </div>
         </div>

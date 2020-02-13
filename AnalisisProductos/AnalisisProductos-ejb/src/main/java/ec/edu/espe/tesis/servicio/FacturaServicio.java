@@ -376,6 +376,9 @@ public class FacturaServicio implements Serializable {
      public List<Object[]> obtenerGastoFacturasPorMes(String usuarioId, int anio) {
         return facturaFacade.obtenerGastoFacturasPorMes(usuarioId,anio);
     }
+     public List<Object[]> obtenerFacturasPorMesTot(String usuarioId, int anio) {
+        return facturaFacade.obtenerFacturasPorMesTot(usuarioId,anio);
+    }
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Object[]> obtenerFacturasPorEstablecimiento(String string) {
 

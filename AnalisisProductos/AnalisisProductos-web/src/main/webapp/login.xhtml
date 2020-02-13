@@ -34,14 +34,14 @@
                             <p:password required="true" requiredMessage="Ingrese Contraseña" placeholder="Password" value="#{logBean.password}" feedback="false" id="clave"/>
                         </div>
 
-                        <div class="ui-g-12 ui-md-6">
-                            <p:link style="color: #006de5; font-size: 10px" value="Registrarse" href="registrar.xhtml"> </p:link>
-                        </div>
                         <div class="ui-g-12">
                             <!--<p:button outcome="dashboard" value="Login" icon="fa fa-check" />-->
-                            <p:commandButton update="formLog" action="#{logBean.validarUsuario()}" value="Login" icon="fa fa-check"/>
+                            <p:commandButton style="width:70%" update="formLog" action="#{logBean.validarUsuario()}" value="Login" icon="fa fa-check"/><br/>
+                             <p:link style="color: #006de5; font-size: 10px; text-align: right" href="registrar.xhtml">Registrarse</p:link>
+
                             <!-- <h:link outcome="empty" value="Login" />-->
                         </div>
+                       
                     </div>
 
                 </div>

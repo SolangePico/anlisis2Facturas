@@ -70,7 +70,7 @@ public class FacturaFacade extends AbstractFacade<Factura> {
     }
 
     public double promedioFactura(String usuCodigo) {
-        String query = "select avg(importetotal) from factura where usu_codigo=" + usuCodigo + ";";
+        String query = "select round(avg(importetotal),2) from factura where usu_codigo=" + usuCodigo + ";";
         Query q = em.createNativeQuery(query);
         return ((BigDecimal) q.getSingleResult()).doubleValue();
 
@@ -133,6 +133,17 @@ public class FacturaFacade extends AbstractFacade<Factura> {
         String query = "select count(df.CODIGO), month(f.fechaemision) as mes "
                 + "from factura f, usuario u, detalle_factura df "
                 + "where year(f.FECHAEMISION)='" + anio + "' and df.fac_codigo=f.codigo and u.CODIGO=f.USU_CODIGO and u.CODIGO=" + usuCodigo + " "
+                + "group by mes order by mes; ";
+        Query q = em.createNativeQuery(query);
+
+        List<Object[]> result = q.getResultList();
+        return result;
+    }
+    
+    public List<Object[]> obtenerFacturasPorMesTot(String usuCodigo, int anio) {
+        String query = "select count(f.CODIGO), month(f.fechaemision) as mes "
+                + "from factura f, usuario u "
+                + "where year(f.FECHAEMISION)='" + anio + "' and u.CODIGO=f.USU_CODIGO and u.CODIGO=" + usuCodigo + " "
                 + "group by mes order by mes; ";
         Query q = em.createNativeQuery(query);
 

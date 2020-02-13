@@ -11,11 +11,8 @@ import ec.edu.espe.tesis.servicio.ProductoServicio;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
@@ -55,7 +52,9 @@ public class GastosBean implements Serializable {
     private int anio;
     private BarChartModel barModel;
     private List<Object[]> listaFacturasPorMes;
+    private List<Object[]> listaFacturasPorMesP;
     private List<Object[]> listaGastoFacturaPorMes;
+    private List<String[]> listaPorMes;
 
     @PostConstruct
     public void init() {
@@ -236,6 +235,66 @@ public class GastosBean implements Serializable {
         return barModel;
     }
 
+    public void verConsumoPorMeses(int year) {
+        anio = year;
+        listaPorMes = new ArrayList();
+        promedioPorAnio = (BigDecimal) facturaServicio.obtenerGastoPromedioPorAnio(sesion.getId(), year);
+        totalFacturasPorAnio = (BigInteger) facturaServicio.obtenerTotalFacturasPorAnio(sesion.getId(), year);
+        totalGastoPorAnio = (BigDecimal) facturaServicio.obtenerTotalGastoPorAnio(sesion.getId(), year);
+        listaFacturasPorMesP=facturaServicio.obtenerFacturasPorMesTot(sesion.getId(),year);
+        listaGastoFacturaPorMes = facturaServicio.obtenerGastoFacturasPorMes(sesion.getId(), year);
+        listaFacturasPorMes = facturaServicio.obtenerFacturasPorMes(sesion.getId(), year);
+
+        for (int i = 0; i < listaGastoFacturaPorMes.size(); i++) {
+            String[] mes = new String[4];
+            switch ((int) listaGastoFacturaPorMes.get(i)[1]) {
+                case 1:
+                    mes[0] = "Enero";
+                    break;
+                case 2:
+                    mes[0] = "Febrero";
+                    break;
+                case 3:
+                    mes[0] = "Marzo";
+                    break;
+                case 4:
+                    mes[0] = "Abril";
+                    break;
+                case 5:
+                    mes[0] = "Mayo";
+                    break;
+                case 6:
+                    mes[0] = "Junio";
+                    break;
+                case 7:
+                    mes[0] = "Julio";
+                    break;
+                case 8:
+                    mes[0] = "Agosto";
+                    break;
+                case 9:
+                    mes[0] = "Septiembre";
+                    break;
+                case 10:
+                    mes[0] = "Octubre";
+                    break;
+                case 11:
+                    mes[0] = "Noviembre";
+                    break;
+                case 12:
+                    mes[0] = "Diciembre";
+                    break;
+                default:
+                    mes[0] = "###";
+            }
+            mes[1] = listaGastoFacturaPorMes.get(i)[0].toString();
+            mes[2] = listaFacturasPorMes.get(i)[0].toString();
+            mes[3] = listaFacturasPorMesP.get(i)[0].toString();
+            listaPorMes.add(mes);
+        }
+        RequestContext.getCurrentInstance().execute("PF('gastoMes').show();");
+    }
+
     public void verConsumoPorAño(int year) {
         anio = year;
         promedioPorAnio = (BigDecimal) facturaServicio.obtenerGastoPromedioPorAnio(sesion.getId(), year);
@@ -303,6 +362,14 @@ public class GastosBean implements Serializable {
 
     public void setTotalGastoPorAnio(BigDecimal totalGastoPorAnio) {
         this.totalGastoPorAnio = totalGastoPorAnio;
+    }
+
+    public List<String[]> getListaPorMes() {
+        return listaPorMes;
+    }
+
+    public void setListaPorMes(List<String[]> listaPorMes) {
+        this.listaPorMes = listaPorMes;
     }
 
 }

@@ -276,46 +276,70 @@
             <div class="ui-g">
                 <div class="ui-g-12">
                     <div class="card">
-                        <h1>Información</h1>
+                        <h1 style="font-weight: bolder;font-size: 30px">Información</h1>
                         <h:form>
                             <div class="ui-g ui-fluid dashboard">
-                                <div class="ui-g-12 ui-md-6">
+                                <div class="ui-g-12 ui-md-4">
                                     <div class="card clearfix summary">
-                                        <span class="title">Total Facturas</span>
-                                         <h1><span class="count visitors">#{infoBean.totalFacturas}</span></h1>
+                                        <span style="font-size:25px" class="title">Total Facturas</span>
+                                        <h1><span style="font-size:40px" class="count visitors">#{infoBean.totalFacturas}</span></h1>
                                     </div>
                                 </div>
                                 <br></br>
                                 <br></br>
                                 <div class="ui-g-12 ui-md-6">
                                     <div class="card clearfix summary">
-                                        <span class="title">Total Gastado</span>
-                                        <span class="detail">Promedio por Factura:</span>
-                                        <span class="detail">$ #{infoBean.promedioFactura}</span>
-                                        <h1> <span class="count revenue">$ #{infoBean.totalGastado}</span></h1>
+                                        <span style="font-size:25px" class="title">Total Gastado</span>
+                                        <h1> <span  style="font-size:40px" class="count revenue">$ #{infoBean.totalGastado}</span></h1>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <div class="card clearfix summary">
+                                        <span style="font-size:25px" class="title">Promedio por Factura</span>
+                                        <h1> <span style="font-size:40px" class="count purchases">$ #{infoBean.promedioFactura}</span></h1>
                                     </div>
                                 </div>
                             </div>
                             <div class="ui-g ui-fluid dashboard">
                                 <div class="ui-g-12 ui-md-12">
-
                                     <div class="card clearfix summary" >
-                                        <h1><span class="title">Establecimiento más concurrido</span></h1>
+                                        <h1><span style="font-weight: bolder;font-size: 30px" class="title">Producto más comprado</span></h1>
+                                        <br/><br/>
                                         <div align="center" >
-                                            <span class="title">#{infoBean.infoTributaria.get(0)[1]} </span>
-                                            <span class="detail">#{infoBean.infoTributaria.get(0)[0]}</span>
+                                            <span style="font-family: sans;font-weight: bolder;font-size: 25px" class="title">#{infoBean.productoMasComprado.get(0)[1]}   -    #{infoBean.productoMasComprado.get(0)[2]}</span>
+                                            <span style="font-family: sans;font-weight: bolder;font-size: 20px" class="detail">$#{infoBean.productoMasComprado.get(0)[3]}</span>
                                         </div>
+
                                     </div>
+
                                 </div>
 
                             </div>
+                            <br/><br/><br/><br/>
+                            <div class="ui-g ui-fluid dashboard">
+                                <div class="ui-g-12 ui-md-12">
+                                    <div class="card clearfix summary" >
+                                        <h1><span style="font-weight: bolder;font-size: 30px" class="title">Establecimiento más concurrido</span></h1>
+                                        <br/><br/>
+                                        <div align="center" >
+                                            <span style="font-family: sans;font-weight: bolder;font-size: 25px" class="title">#{infoBean.infoTributaria.get(0)[1]} </span>
+                                            <span style="font-family: sans;font-weight: bolder;font-size: 20px" class="detail">#{infoBean.infoTributaria.get(0)[0]}</span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <br/><br/><br/><br/>
                             <div class="card">
-                                <h1 class="centerText">Cinco establecimientos con más compras </h1>
+                                <h1 style="font-weight: bolder;font-size: 30px" class="centerText">Cinco establecimientos con más compras </h1>
                                 <p:chart id="pie" type="pie" model="#{infoBean.chartEstablecimientos}" responsive="true" />
                             </div>
-
+                            
                         </h:form>
                     </div>
+                    <i class="pi pi-spin pi-spinner" style="font-size: 3em"></i>
                 </div>
             </div>
         </div>

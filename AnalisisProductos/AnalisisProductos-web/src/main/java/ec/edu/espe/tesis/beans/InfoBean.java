@@ -7,6 +7,7 @@ package ec.edu.espe.tesis.beans;
 
 import ec.edu.espe.tesis.servicio.FacturaServicio;
 import ec.edu.espe.tesis.servicio.InfoTributariaServicio;
+import ec.edu.espe.tesis.servicio.ProductoServicio;
 import ec.edu.espe.tesis.servicio.UsuarioServicio;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -15,6 +16,8 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.PieChartModel;
 
 /**
@@ -32,6 +35,8 @@ public class InfoBean implements Serializable {
     private double promedioFactura;
     private List<Object[]> infoTributaria;
     private PieChartModel chartEstablecimientos;
+    private List<Object[]> productoMasComprado;
+     private BarChartModel barModel;
 
     @Inject
     HttpSessionHandler sesion;
@@ -41,6 +46,8 @@ public class InfoBean implements Serializable {
     FacturaServicio facturaServicio;
     @Inject
     InfoTributariaServicio infoTributariaServicio;
+    @Inject
+    ProductoServicio productoServicio;
 
     public double getTotalAhorrado() {
         return totalAhorrado;
@@ -94,6 +101,14 @@ public class InfoBean implements Serializable {
         return infoTributaria;
     }
 
+    public List<Object[]> getProductoMasComprado() {
+        return productoMasComprado;
+    }
+
+    public void setProductoMasComprado(List<Object[]> productoMasComprado) {
+        this.productoMasComprado = productoMasComprado;
+    }
+
     public void setInfoTributaria(List<Object[]> infoTributaria) {
         this.infoTributaria = infoTributaria;
     }
@@ -105,6 +120,7 @@ public class InfoBean implements Serializable {
             totalGastado = facturaServicio.obtenerTotalGastado(sesion.getId());
             promedioFactura = facturaServicio.obtenerPromedioFactura(sesion.getId());
             infoTributaria = infoTributariaServicio.obtenerEstablecimientoPorUsuario(Integer.parseInt(sesion.getId()));
+            productoMasComprado=productoServicio.obtenerProductosPorUsuario(sesion.getId());
             crearChartEstablecimientos();
         }
     }

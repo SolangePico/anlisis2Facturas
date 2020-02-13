@@ -49,7 +49,7 @@
 .ui-icon-carat-1-e:before {
   content: "";
 }
-
+a:hover {text-decoration:underline; color:#99FF00; }
 .ui-icon-carat-1-se {
   background-position: -48px 0;
 }

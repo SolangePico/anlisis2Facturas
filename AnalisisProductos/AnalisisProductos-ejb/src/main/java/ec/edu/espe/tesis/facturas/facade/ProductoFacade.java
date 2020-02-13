@@ -54,12 +54,12 @@ public class ProductoFacade extends AbstractFacade<Producto> {
     public List<Object[]> obtenerDescripcionProducto(String usuarioId) {
         String query;
         if (!"-1".equals(usuarioId)) {
-            query = "SELECT p.CODIGO,p.descripcion, sum(d.cantidad), round(avg(c.preciounitario),2) "
+            query = "SELECT p.CODIGO,p.descripcion, sum(d.cantidad) as sum, round(avg(c.preciounitario),2) "
                     + "FROM producto p, detalle_factura d, usuario u, factura f, control_precios c "
                     + "where u.CODIGO='"+usuarioId+"' and f.USU_CODIGO='"+usuarioId+"' and c.fac_codigo=f.codigo "
                     + "and d.FAC_CODIGO=f.CODIGO and d.PRO_CODIGO=p.codigo and c.pro_codigo=p.CODIGO "
                     + "group by  p.descripcion, p.TOTAL "
-                    + "order by p.TOTAL desc limit 10;";
+                    + "order by sum desc limit 10;";
         } else {
             query = "SELECT p.codigo, p.descripcion, count(d.pro_codigo) as tot "
                     + "FROM producto p, detalle_factura d, usuario u, factura f "
