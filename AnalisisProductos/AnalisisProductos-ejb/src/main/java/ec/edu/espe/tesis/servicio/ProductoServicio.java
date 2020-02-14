@@ -6,6 +6,7 @@
 package ec.edu.espe.tesis.servicio;
 
 import ec.edu.espe.tesis.facturas.facade.ProductoFacade;
+import ec.edu.espe.tesis.facturas.model.Producto;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -35,6 +36,14 @@ public class ProductoServicio implements Serializable {
         List<Object[]> obj = productoFacade.obtenerProductosPorUsuarioYAnio(usuarioId, year);
 
         return obj;
+    }
+
+    public String obtenerNombreProductoPorCodigo(String codigo) {
+        String nombre;
+        Producto p;
+        p = productoFacade.find(Integer.parseInt(codigo));
+        nombre = p.getDescripcion();
+        return nombre;
     }
 
 }

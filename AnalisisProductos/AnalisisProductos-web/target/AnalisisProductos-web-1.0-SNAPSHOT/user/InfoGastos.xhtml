@@ -272,11 +272,7 @@
     </ui:define>
 
     <ui:define name="content">
-        <div class="container">
-            <div class="ui-g">
-                <div class="ui-g-12">
-
-                    <h:form id="gastoForm">
+                      <h:form id="gastoForm">
                         <p:repeat value="#{gastosBean.gastoPorAnio}" var="anio">
                             <div class="ui-g-12 ui-md-12" >
                                 <div class="card clearfix summary" style="text-align:center;">
@@ -284,15 +280,15 @@
                                     <div class="card">
                                         <p:chart id="bar" type="bar" model="#{anio[1]}" responsive="true"/>
                                     </div>
+                                    <p:commandLink actionListener="#{gastosBean.verConsumoPorMeses(anio[0])}" update="gastoForm mostrarGastoMesForm">Ver información por meses</p:commandLink>
                                 </div>
                             </div>
                         </p:repeat>
 
                     </h:form>
                     <ui:include src="../dialog/gastoAnio.xhtml"/>
-                </div>
-            </div>
-        </div>
+                    <ui:include src="../dialog/gastoMes.xhtml"/>
+                    <ui:include src="../dialog/verFacturasMes.xhtml"/>
+                     <ui:include src="../dialog/factura.xhtml"/>
     </ui:define>
-
 </ui:composition>

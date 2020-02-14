@@ -42,6 +42,8 @@ public class GastosBean implements Serializable {
     private HttpSessionHandler sesion;
     @Inject
     private ProductoServicio productoServicio;
+    @Inject 
+    private FacturaBean facturaB;
 
     private BigDecimal totalGastoPorAnio;
     private List<Object[]> gastoPorAnio;
@@ -55,6 +57,7 @@ public class GastosBean implements Serializable {
     private List<Object[]> listaFacturasPorMesP;
     private List<Object[]> listaGastoFacturaPorMes;
     private List<String[]> listaPorMes;
+    private Object[] mesSeleccionado;
 
     @PostConstruct
     public void init() {
@@ -62,6 +65,7 @@ public class GastosBean implements Serializable {
         Calendar cal = null;
         Object[] obj = new Object[2];
         gastoPorAnio = new ArrayList();
+        listaPorMes= new ArrayList();
         listaFacturas = facturaServicio.obtenerFacturasOrdenadas(Integer.parseInt(sesion.getId()));
         cal = Calendar.getInstance();
         cal.setTime(listaFacturas.get(0).getFechaemision());
@@ -84,7 +88,12 @@ public class GastosBean implements Serializable {
             chart = createBarModel();
             gastoPorAnio.get(i)[1] = chart;
         }
-
+        anio=(Integer) gastoPorAnio.get(0)[0];
+    }
+    
+    public void abrirInfoMes(){
+        facturaB.setFechaYmes(mesSeleccionado, anio);
+        RequestContext.getCurrentInstance().execute("PF('FacturaMes').show();");
     }
 
     private BarChartModel initBarModel() {
@@ -372,4 +381,12 @@ public class GastosBean implements Serializable {
         this.listaPorMes = listaPorMes;
     }
 
-}
+    public Object[] getMesSeleccionado() {
+        return mesSeleccionado;
+    }
+
+    public void setMesSeleccionado(Object[] mesSeleccionado) {
+        this.mesSeleccionado = mesSeleccionado;
+    }
+    
+}   

@@ -11,15 +11,14 @@
     <p:dialog header="Detalle Factura" 
               widgetVar="producto" 
               modal="true" 
-              showEffect="fade" 
-              hideEffect="fade"
+              showEffect="clip" hideEffect="size"
               closeOnEscape="false"
               draggable="false"
-              closable="false"
+              closable="true"
               resizable="false"
               appendTo="@(body)"
               responsive="true">
-        <o:form id="mostrarInfoFac" useRequestURI="true" >
+        <o:form id="mostrarInfoProd" useRequestURI="true" >
             <p:panel styleClass="ui-panelgrid-blank" >
                 <div class="ui-g ui-fluid">
                     <p:growl id="growl"  sticky="true" /> 
@@ -35,10 +34,8 @@
                                              value="#{productoBean.listaPrecioProducto}"
                                              var="det"
                                              rows="4"
-                                            
                                              reflow="true"
                                              >
-
                                     <p:column   headerText="Fecha">
                                         <h:outputText value="#{det[0]}" />
                                     </p:column>
@@ -56,8 +53,6 @@
                                          styleClass="ui-panelgrid-blank form-group" >
 
                             </p:panelGrid>
-                                <p:commandButton value="Cerrar" immediate="true" icon="fa fa-sign-out"
-                                                 actionListener="#{productoBean.cerrarVentana()}" update=":ProductoForm:tablaProductos" />
                         </p:panelGrid>
                     </div>
                 </div>

@@ -11,8 +11,7 @@
     <p:dialog  header="Gasto del Año"
                widgetVar="gasto" 
                modal="true" 
-               showEffect="fade" 
-               hideEffect="fade"
+              showEffect="clip" hideEffect="size"
                closeOnEscape="true"
                draggable="false"
                closable="true"
@@ -47,13 +46,13 @@
                     <p:column sortBy="#{det[2]}" filterBy="#{det[2]}" style="width:50%; border-bottom: none;border-top: none;text-align: left;"  headerText="Descripción">
                         <h:outputText value="#{det[2]}" />
                     </p:column>
-                    <p:column  style="width:12%; border-bottom: none;border-top: none" headerText="Última fecha">
+                    <p:column sortBy="#{det[1]}" style="width:12%; border-bottom: none;border-top: none" headerText="Última fecha">
                         <h:outputText value="#{det[1]}" />
                     </p:column>
-                    <p:column  style="width:12%; border-bottom: none;border-top: none" headerText="Cantidad">
+                    <p:column sortBy="#{det[3]}" style="width:12%; border-bottom: none;border-top: none" headerText="Cantidad">
                         <h:outputText value="#{det[3]}" />
                     </p:column>
-                    <p:column  style="width:13%; border-bottom: none;border-top: none" headerText="Precio promedio">
+                    <p:column sortBy="#{det[4]}" style="width:13%; border-bottom: none;border-top: none" headerText="Precio promedio">
                         <h:outputText value="$ #{det[4]}" />
                     </p:column>
                     <p:column  style="width:13%; border-bottom: none;border-top: none" headerText="Total gastado">

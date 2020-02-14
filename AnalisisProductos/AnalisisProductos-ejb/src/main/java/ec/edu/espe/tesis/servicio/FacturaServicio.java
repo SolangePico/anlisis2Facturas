@@ -69,7 +69,7 @@ public class FacturaServicio implements Serializable {
 //    private TotalImpuestoFacade totalImpuestoFacade;
 
     public int guardarFactura(AutorizacionXML autorizacion, String usuCodigo) {
-        int error=0;
+        int error = 0;
         InfoTributaria infoTributaria = new InfoTributaria();
 //        try {
         if (infoTributariaFacade.obtenerEstablecimientoPorCriterio(autorizacion.getComprobante().getFactura().getInfoTributaria().getRuc(), autorizacion.getComprobante().getFactura().getInfoTributaria().getEstab()).isEmpty()) {
@@ -184,7 +184,7 @@ public class FacturaServicio implements Serializable {
                     }
                 }
             } else {
-                error=1;
+                error = 1;
                 System.out.println("No se ingreso factura");
             }
         } catch (NumberFormatException | ParseException e) {
@@ -194,7 +194,7 @@ public class FacturaServicio implements Serializable {
     }
 
     public int guardarFacturaTipo2(FacturaXML facturaxml, String usuCodigo) {
-        int error=0;
+        int error = 0;
         InfoTributaria infoTributaria = new InfoTributaria();
 //        try {
         if (infoTributariaFacade.obtenerEstablecimientoPorCriterio(facturaxml.getInfoTributaria().getRuc(), facturaxml.getInfoTributaria().getEstab()).isEmpty()) {
@@ -313,7 +313,7 @@ public class FacturaServicio implements Serializable {
                     }
                 }
             } else {
-                error=1;
+                error = 1;
             }
         } catch (Exception e) {
 
@@ -326,24 +326,25 @@ public class FacturaServicio implements Serializable {
         total = facturaFacade.totalFacturasPorUsuario(usuarioId);
         return total;
     }
-    
-    public Object obtenerGastoPromedioPorAnio(String usuarioId,int year){
-        Object obj=facturaFacade.obtenerGastoPromedioPorAnio(usuarioId,year);
-        
+
+    public Object obtenerGastoPromedioPorAnio(String usuarioId, int year) {
+        Object obj = facturaFacade.obtenerGastoPromedioPorAnio(usuarioId, year);
+
         return obj;
     }
-    
-    public Object obtenerTotalFacturasPorAnio(String usuarioId,int year){
-        Object obj=facturaFacade.obtenerTotalFacturasPorAnio(usuarioId,year);
-        
+
+    public Object obtenerTotalFacturasPorAnio(String usuarioId, int year) {
+        Object obj = facturaFacade.obtenerTotalFacturasPorAnio(usuarioId, year);
+
         return obj;
     }
-    public Object obtenerTotalGastoPorAnio(String usuarioId,int year){
-        Object obj=facturaFacade.obtenerTotalGastoPorAnio(usuarioId,year);
-        
+
+    public Object obtenerTotalGastoPorAnio(String usuarioId, int year) {
+        Object obj = facturaFacade.obtenerTotalGastoPorAnio(usuarioId, year);
+
         return obj;
     }
-    
+
     public double obtenerTotalGastado(String usuarioId) {
         double total = 0;
         total = facturaFacade.totalGastadoPorUsuario(usuarioId);
@@ -362,23 +363,62 @@ public class FacturaServicio implements Serializable {
         return listaFacturas;
         //return null;
     }
-    
+
     public List<Factura> obtenerFacturasOrdenadas(int usuarioId) {
         List<Factura> listaFacturas = facturaFacade.obtenerFacturasOrdenadas(usuarioId);
         return listaFacturas;
         //return null;
     }
-    
-     public List<Object[]> obtenerFacturasPorMes(String usuarioId, int anio) {
-        return facturaFacade.obtenerFacturasPorMes(usuarioId,anio);
+
+    public List<Object[]> obtenerFacturasPorMes(String usuarioId, int anio) {
+        return facturaFacade.obtenerFacturasPorMes(usuarioId, anio);
     }
-     
-     public List<Object[]> obtenerGastoFacturasPorMes(String usuarioId, int anio) {
-        return facturaFacade.obtenerGastoFacturasPorMes(usuarioId,anio);
+
+    public List<Factura> obtenerFacturasPorMesYAnio(String mes, int anio, String usuCodigo) {
+        int numMes;
+        switch (mes) {
+            case "Enero":
+                numMes=1;
+                break;
+            case "Febrero":
+                numMes=2;
+                break;
+                case "Marzo":
+                numMes=3;
+                break;case "Abril":
+                numMes=4;
+                break;case "Mayo":
+                numMes=5;
+                break;case "Junio":
+                numMes=6;
+                break;case "Julio":
+                numMes=7;
+                break;case "Agosto":
+                numMes=8;
+                break;case "Septiembre":
+                numMes=9;
+                break;case "Octubre":
+                numMes=10;
+                break;case "Noviembre":
+                numMes=11;
+                break;case "Diciembre":
+                numMes=12;
+                break;
+
+            default:
+                numMes=1;
+        }
+        return facturaFacade.obtenerFacturasPorMesYAnio(numMes, anio, usuCodigo);
     }
-     public List<Object[]> obtenerFacturasPorMesTot(String usuarioId, int anio) {
-        return facturaFacade.obtenerFacturasPorMesTot(usuarioId,anio);
+
+    public List<Object[]> obtenerGastoFacturasPorMes(String usuarioId, int anio) {
+        return facturaFacade.obtenerGastoFacturasPorMes(usuarioId, anio);
     }
+
+    public List<Object[]> obtenerFacturasPorMesTot(String usuarioId, int anio) {
+        return facturaFacade.obtenerFacturasPorMesTot(usuarioId, anio);
+    }
+
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Object[]> obtenerFacturasPorEstablecimiento(String string) {
 
@@ -393,14 +433,14 @@ public class FacturaServicio implements Serializable {
 
     public List<Factura> obtenerFacturasPorFecha(Date fechaInicio, Date fechaFin, String id) {
         try {
-            List<Factura> facturas=null;
+            List<Factura> facturas = null;
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String fecha1 = df.format(new java.sql.Date(fechaInicio.getTime()));
             fecha1 = fecha1 + " 00:00:00.000";
             String fecha2 = df.format(new java.sql.Date(fechaFin.getTime()));
-            fecha2 = fecha2 + " 23:59:59.000"; 
+            fecha2 = fecha2 + " 23:59:59.000";
             DateFormat dfsql = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-            facturas=facturaFacade.obtenerFacturasPorFecha(dfsql.parse(fecha1), dfsql.parse(fecha2), id);
+            facturas = facturaFacade.obtenerFacturasPorFecha(dfsql.parse(fecha1), dfsql.parse(fecha2), id);
             return facturas;
         } catch (ParseException ex) {
             Logger.getLogger(FacturaServicio.class.getName()).log(Level.SEVERE, null, ex);

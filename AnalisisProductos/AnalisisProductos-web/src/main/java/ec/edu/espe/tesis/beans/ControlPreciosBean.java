@@ -11,6 +11,7 @@ import ec.edu.espe.tesis.facturas.model.InfoTributaria;
 import ec.edu.espe.tesis.servicio.ControlPreciosServicio;
 import ec.edu.espe.tesis.servicio.FacturaServicio;
 import ec.edu.espe.tesis.servicio.InfoTributariaServicio;
+import ec.edu.espe.tesis.servicio.ProductoServicio;
 import java.io.File;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -25,6 +26,8 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import org.omnifaces.util.Messages;
@@ -46,12 +49,14 @@ public class ControlPreciosBean implements Serializable {
      * Creates a new instance of ControlPreciosBean
      */
     @Inject
-    ControlPreciosServicio controlPreciosServicio;
+    private ControlPreciosServicio controlPreciosServicio;
     @Inject
-    InfoTributariaServicio infoTributariaServicio;
+    private InfoTributariaServicio infoTributariaServicio;
     @Inject
     private FacturaServicio facturaServicio;
-    @Inject 
+    @Inject
+    private ProductoServicio productoServicio;
+    @Inject
     private HttpSessionHandler sesion;
 
     private String establecimientoId;
@@ -60,6 +65,7 @@ public class ControlPreciosBean implements Serializable {
     private InfoTributaria establecimientoSeleccionado;
     private List<Object[]> listaProductosVariacion;
     private String producto;
+    private String nombreProducto;
     private LineChartModel chartProducto;
     private List<Object[]> listaSupermercados;
     private String supermercadoSeleccionado;
@@ -67,12 +73,13 @@ public class ControlPreciosBean implements Serializable {
     private List<Integer> Anio;
     private List<Factura> listaFacturas;
     private int anioSeleccionado;
-    
+    private List<Object[]> listaMenorPrecioPorSupermercado;
+
     @PostConstruct
     public void init() {
         listaFacturas = facturaServicio.obtenerFacturasOrdenadas(-1);
         Calendar cal = null;
-        Anio= new ArrayList();
+        Anio = new ArrayList();
         cal = Calendar.getInstance();
         cal.setTime(listaFacturas.get(0).getFechaemision());
         Anio.add(cal.get(Calendar.YEAR));
@@ -82,9 +89,11 @@ public class ControlPreciosBean implements Serializable {
                 Anio.add(cal.get(Calendar.YEAR));
             }
         }
+        listaMenorPrecioPorSupermercado = new ArrayList();
         listaProductosVariacion = controlPreciosServicio.obtenerListaPreciosPorProductoTodo();
         listaSupermercados = infoTributariaServicio.obtenerSupermercados();
         producto = listaProductosVariacion.get(0)[5].toString();
+        nombreProducto = productoServicio.obtenerNombreProductoPorCodigo(producto);
         supermercadoSeleccionado = listaSupermercados.get(0)[0].toString();
         listaEstablecimientos = infoTributariaServicio.obtenerListaEstablecimientos();
         listaControlPrecios = controlPreciosServicio.obtenerListaPreciosPorProducto(Integer.parseInt(producto));
@@ -94,6 +103,13 @@ public class ControlPreciosBean implements Serializable {
             Logger.getLogger(ControlPreciosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         listaFacturas = facturaServicio.obtenerFacturasOrdenadas(Integer.parseInt(sesion.getId()));
+        for (int i = 0; i < listaSupermercados.size(); i++) { //Menor Precio del primer Producto
+            Object[] aux;
+            aux = controlPreciosServicio.obtenerMenorPrecioPorSupermercado(producto, listaSupermercados.get(i)[0].toString());
+            if (aux != null) {
+                listaMenorPrecioPorSupermercado.add(aux);
+            }
+        }
     }
 
     public void buscarEstablecimiento() {
@@ -101,10 +117,10 @@ public class ControlPreciosBean implements Serializable {
     }
 
     public String obtenerNombre(String ruc) {
-        String nom="";
+        String nom = "";
         for (int i = 0; i < listaSupermercados.size(); i++) {
-            if(ruc.equals(listaSupermercados.get(i)[0].toString())){
-                nom=listaSupermercados.get(i)[1].toString();
+            if (ruc.equals(listaSupermercados.get(i)[0].toString())) {
+                nom = listaSupermercados.get(i)[1].toString();
             }
 
         }
@@ -112,24 +128,36 @@ public class ControlPreciosBean implements Serializable {
     }
 
     public String obtenerCantidad(String ruc) {
-        String cant="";
+        String cant = "";
         for (int i = 0; i < listaSupermercados.size(); i++) {
-            if(ruc.equals(listaSupermercados.get(i)[0].toString())){
-                cant=listaSupermercados.get(i)[2].toString();
+            if (ruc.equals(listaSupermercados.get(i)[0].toString())) {
+                cant = listaSupermercados.get(i)[2].toString();
             }
         }
         return cant;
     }
 
     public void obtenerListaDetalleProducto() {
+        listaMenorPrecioPorSupermercado = new ArrayList();
+        for (int i = 0; i < listaSupermercados.size(); i++) {
+            Object[] aux;
+            aux = controlPreciosServicio.obtenerMenorPrecioPorSupermercado(producto, listaSupermercados.get(i)[0].toString());
+            if (aux != null) {
+                listaMenorPrecioPorSupermercado.add(aux);
+            }
+        }
+        nombreProducto = productoServicio.obtenerNombreProductoPorCodigo(producto);
         listaProductosPorSupermercado = controlPreciosServicio.obtenerListaProdSuper(supermercadoSeleccionado, producto, anioSeleccionado);
+        if(listaProductosPorSupermercado.isEmpty()){
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se ha encontrado registros del producto"));
+   
+        }
     }
 
     public void mostrarVariacion() {
         try {
             listaControlPrecios = controlPreciosServicio.obtenerListaPreciosPorProducto(Integer.parseInt(producto));
             if (listaControlPrecios.size() > 0) {
-
                 createLineModels();
             }
         } catch (ParseException ex) {
@@ -152,10 +180,8 @@ public class ControlPreciosBean implements Serializable {
         }
         chartProducto = new LineChartModel();
         chartProducto = initLinearModel();
-
         chartProducto.setTitle("Cambio de precio en el tiempo");
         chartProducto.setLegendPosition("e");
-
         Axis yAxis = chartProducto.getAxis(AxisType.Y);
         Axis xAxis = chartProducto.getAxis(AxisType.X);
         xAxis.setMin(0);
@@ -168,9 +194,7 @@ public class ControlPreciosBean implements Serializable {
 
     private LineChartModel initLinearModel() throws ParseException {
         LineChartModel model = new LineChartModel();
-
         LineChartSeries series1 = new LineChartSeries();
-
         int flag = 0;
         for (int i = 0; i < listaControlPrecios.size(); i++) {
             Calendar cal = null;
@@ -179,7 +203,6 @@ public class ControlPreciosBean implements Serializable {
             Date date2;
             int dia;
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
             try {
                 date = (Date) formatter.parse(listaControlPrecios.get(i)[1].toString());
                 cal = Calendar.getInstance();
@@ -201,10 +224,8 @@ public class ControlPreciosBean implements Serializable {
             } catch (ParseException e) {
                 dia = i;
             }
-
             series1.set(dia * 12 / 366, Double.parseDouble(listaControlPrecios.get(i)[0].toString()));
         }
-
         return model;
     }
 
@@ -312,5 +333,21 @@ public class ControlPreciosBean implements Serializable {
     public void setAnioSeleccionado(int anioSeleccionado) {
         this.anioSeleccionado = anioSeleccionado;
     }
-    
+
+    public List<Object[]> getListaMenorPrecioPorSupermercado() {
+        return listaMenorPrecioPorSupermercado;
+    }
+
+    public void setListaMenorPrecioPorSupermercado(List<Object[]> listaMenorPrecioPorSupermercado) {
+        this.listaMenorPrecioPorSupermercado = listaMenorPrecioPorSupermercado;
+    }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
+
 }

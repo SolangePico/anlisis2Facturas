@@ -342,7 +342,7 @@
                                          value="Mostrar Información" 
                                          actionListener="#{facturaBean.abrirInfo()}" 
                                          style="margin-top: 10px;"
-                                         update=":mostrarInfoFac"/>
+                                         update="facturaForm :mostrarInfoFac"/>
                         <br></br><br></br><br></br>
                         <h1>Facturas Por establecimiento</h1>
                         <p:dataTable id="tablaFacturaEstab" 
@@ -368,6 +368,14 @@
                             </p:column>
                             <p:column headerText="Total Facturas" sortBy="#{fac[2]}" style="width: 100px">
                                 <h:outputText value="#{fac[2]}" >
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Total Sin Impuestos" sortBy="#{fac[2]}" style="width: 100px">
+                                <h:outputText value=" $ #{fac[4]}" >
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Total Con Impuestos" sortBy="#{fac[2]}" style="width: 100px">
+                                <h:outputText value=" $ #{fac[3]}" >
                                 </h:outputText>
                             </p:column>
 

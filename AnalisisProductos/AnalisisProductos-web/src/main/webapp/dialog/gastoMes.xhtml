@@ -4,15 +4,12 @@
                  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                  xmlns:h="http://xmlns.jcp.org/jsf/html"
                  xmlns:f="http://xmlns.jcp.org/jsf/core"
-                 xmlns:p="http://primefaces.org/ui"
-                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                 xmlns:o="http://omnifaces.org/ui">
+                 xmlns:p="http://primefaces.org/ui">
 
     <p:dialog  header="Gasto Por Meses"
                widgetVar="gastoMes" 
                modal="true" 
-               showEffect="fade" 
-               hideEffect="fade"
+               showEffect="clip" hideEffect="size"
                closeOnEscape="true"
                draggable="false"
                closable="true"
@@ -23,7 +20,7 @@
                style="width:auto">
         <h:form id="mostrarGastoMesForm" >
             <p:growl id="growl"  sticky="true" /> 
-            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" id="datos">
+            <p:panelGrid columns="1" layout="grid"  id="datos">
                 <p:separator/>
                 <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" >
                     <h:outputText style="font-size: 120%; font-weight: bolder;" value="Año:"  />
@@ -32,15 +29,20 @@
                     <h:outputText style="font-size: 100%" value="$ #{gastosBean.promedioPorAnio}"  />
                     <h:outputText style="font-size: 120%;font-weight: bolder;" value="Total facturas: "/>
                     <h:outputText style="font-size: 100%" value="#{gastosBean.totalFacturasPorAnio}"  />
-                     <h:outputText style="font-size: 120%;font-weight: bolder;" value="Total Gastado: "/>
+                    <h:outputText style="font-size: 120%;font-weight: bolder;" value="Total Gastado: "/>
                     <h:outputText style="font-size: 100%" value="$ #{gastosBean.totalGastoPorAnio}"  />
                 </p:panelGrid>
                 <p:dataTable  id="tablaDetalles" 
                               value="#{gastosBean.listaPorMes}"
                               var="det"
                               rows="10"
+                              class="ui-datatable"
+                              selection="#{gastosBean.mesSeleccionado}"
+                              selectionMode="single"
+                              rowKey="#{det[0]}"
                               paginator="true"
                               style="height: auto;width:850px ;text-align: center;">
+                    <p:ajax event="rowSelect" update="mostrarGastoMesForm:btn_mostrarMes"/>
                     <f:facet name="header">
                         Información Por Mes
                     </f:facet>
@@ -57,6 +59,12 @@
                         <h:outputText value="#{det[3]}" />
                     </p:column>
                 </p:dataTable>
+                <p:commandButton id="btn_mostrarMes"
+                                 disabled="#{empty gastosBean.mesSeleccionado}"
+                                 value="Mostrar Facturas del Mes" 
+                                 actionListener="#{gastosBean.abrirInfoMes()}" 
+                                 style="margin-top: 10px;"
+                                 update="mostrarFacturasMesForm :mostrarGastoMesForm"/>
             </p:panelGrid>
         </h:form>
     </p:dialog>

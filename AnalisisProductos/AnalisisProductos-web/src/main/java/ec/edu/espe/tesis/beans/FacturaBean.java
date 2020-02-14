@@ -142,6 +142,11 @@ public class FacturaBean implements Serializable {
         facturaSeleccionada = null;
         RequestContext.getCurrentInstance().execute("PF('factura').hide();");
     }
+    
+    public void setFechaYmes(Object[] mes, int anio){
+        facturaSeleccionada = null;
+        listaFacturas = facturaServicio.obtenerFacturasPorMesYAnio(mes[0].toString(), anio, sesion.getId());
+    }
 
     public void abrirInfo() {
         cargarDetallesFactura();

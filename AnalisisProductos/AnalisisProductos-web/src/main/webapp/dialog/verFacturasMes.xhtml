@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 xmlns:o="http://omnifaces.org/ui">
+
+    <p:dialog  header="Facturas del Mes"
+               widgetVar="FacturaMes" 
+               modal="true" 
+               showEffect="clip" hideEffect="size"
+               closeOnEscape="true"
+               draggable="false"
+               closable="true"
+               resizable="true"
+               minWidth="200"
+               appendTo="@(body)"
+               responsive="true"
+               style="width:auto">
+        <h:form id="mostrarFacturasMesForm">
+            <c:if test="#{gastosBean.mesSeleccionado ne null}">
+                <p:growl id="growl"  sticky="true" /> 
+                <p:panelGrid columns="1" style="width:800px" layout="grid" id="datos">
+                    <p:separator/>
+                    <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" >
+                        <h:outputText style="font-size: 120%; font-weight: bolder;" value="Mes:"  />
+                        <h:outputText style="font-size: 100%" value="#{gastosBean.mesSeleccionado[0]}"  />
+                        <h:outputText style="font-size: 120%;font-weight: bolder;" value="Total de Gasto: "/>
+                        <h:outputText style="font-size: 100%" value="$ #{gastosBean.mesSeleccionado[1]}"  />
+                        <h:outputText style="font-size: 120%;font-weight: bolder;" value="# de Facturas: "/>
+                        <h:outputText style="font-size: 100%" value="#{gastosBean.mesSeleccionado[3]}"  />
+                        <h:outputText style="font-size: 120%;font-weight: bolder;" value="# Productos: "/>
+                        <h:outputText style="font-size: 100%" value="#{gastosBean.mesSeleccionado[2]}"  />
+                    </p:panelGrid>
+                    <p:dataTable id="tablaFacturaMes" 
+                                 var="fac" 
+                                 reflow="true"
+                                 value="#{facturaBean.listaFacturas}"
+                                 selection="#{facturaBean.facturaSeleccionada}"
+                                 selectionMode="single"
+                                 rowKey="#{fac.codigo}"
+                                 paginator="true"
+                                 paginatorPosition="bottom"
+                                 rows="10"
+                                 emptyMessage="No existen facturas subidas por el usuario."
+                                 style="font-size: 13px;"
+                                 >
+                        <p:ajax event="rowSelect" update=" mostrarFacturasMesForm:tablaFacturaMes mostrarFacturasMesForm:btn_mostrarFactura"/>
+                        <f:facet name="header">
+                            FACTURAS DEL MES
+                        </f:facet>
+                        <p:column headerText="Fecha Emisión" sortBy="#{fac.fechaemision}" >
+                            <h:outputText value="#{fac.fechaemision}" >
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Importe Total" style="width: 10%" sortBy="#{fac.importetotal}" >
+                            <h:outputText value="#{fac.importetotal}" >
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Total sin Impuestos" style="width: 10%" sortBy="#{fac.totalsinimpuesto}">
+                            <h:outputText value="#{fac.totalsinimpuesto}" />
+                        </p:column>
+                        <p:column headerText="Total Productos" style="width: 10%" sortBy="#{fac.detalleFacturaList.size()}">
+                            <h:outputText value="#{fac.detalleFacturaList.size()}" >
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{fac.infCodigo.razonsocial}" headerText="Razon Social" style="width:30%" sortBy="#{fac.infCodigo.razonsocial}" >
+                            <h:outputText value="#{fac.infCodigo.razonsocial}" >
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{fac.infCodigo.direccion}" headerText="Dirección" style="width: 30%" sortBy="#{fac.infCodigo.direccion}">
+                            <h:outputText value="#{fac.infCodigo.direccion}" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton id="btn_mostrarFactura"
+                                     disabled="#{facturaBean.facturaSeleccionada eq null}"
+                                     value="Mostrar Detalle de Factura" 
+                                     actionListener="#{facturaBean.abrirInfo()}" 
+                                     style="margin-top: 10px;"
+                                     update=":mostrarInfoFac"/>
+                </p:panelGrid>
+            </c:if>
+        </h:form>
+    </p:dialog>
+</ui:composition>

@@ -11,8 +11,7 @@
     <p:dialog header="Factura" 
               widgetVar="factura" 
               modal="true" 
-              showEffect="fade" 
-              hideEffect="fade"
+              showEffect="clip" hideEffect="size"
               closeOnEscape="true"
               draggable="false"
               closable="true"
@@ -25,7 +24,7 @@
                     <div class="ui-g ui-fluid">
                         <p:growl id="growl"  sticky="true" /> 
                         <div class="ui-g-12 ui-lg-12">
-                            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" id="datos">
+                            <p:panelGrid columns="1" layout="grid"  id="datos">
                                 <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group" >
                                     <h:outputText style="font-size: 110%;font-weight: bolder" value="Fecha emisión:"  />
                                     <h:outputText style="font-size: 90%" value="#{facturaBean.facturaSeleccionada.fechaemision}"  />
@@ -60,16 +59,16 @@
                          paginator="true"
                          reflow="true"
                          >
-                <p:column  style="width:50%" headerText="Descripción">
+                <p:column sortBy="#{det[0]}" style="width:50%" headerText="Descripción">
                     <h:outputText value="#{det[0]}" />
                 </p:column>
-                <p:column   headerText="cantidad">
+                <p:column sortBy="#{det[1]}"  headerText="cantidad">
                     <h:outputText value="#{det[1]}" />
                 </p:column>
-                <p:column   headerText="Precio Unitario">
+                <p:column sortBy="#{det[2]}"  headerText="Precio Unitario">
                     <h:outputText value="#{det[2]}" />
                 </p:column>
-                <p:column   headerText="Total">
+                <p:column sortBy="#{det[3]}"  headerText="Total">
                     <h:outputText value="#{det[3]}" />
                 </p:column>
 

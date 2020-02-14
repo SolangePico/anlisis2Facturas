@@ -119,7 +119,7 @@ public class FacturaFacade extends AbstractFacade<Factura> {
     }
 
     public List<Object[]> obtenerFacturaPorEstablecimiento(String usuCodigo) {
-        String query = "SELECT i.establecimiento, i.direccion, count(f.inf_codigo) as tot "
+        String query = "SELECT i.establecimiento, i.direccion, count(f.inf_codigo) as tot, sum(f.importetotal), sum(f.totalsinimpuesto) "
                 + "from info_tributaria i, factura f  "
                 + "where i.codigo=f.INF_CODIGO and f.USU_CODIGO='" + usuCodigo + "' "
                 + "group by i.establecimiento, i.direccion order by tot desc;";
@@ -138,6 +138,18 @@ public class FacturaFacade extends AbstractFacade<Factura> {
 
         List<Object[]> result = q.getResultList();
         return result;
+    }
+    
+     public List<Factura> obtenerFacturasPorMesYAnio(int mes, int anio, String usuCodigo) {
+       Usuario usu;
+        usu = usuarioFacade.obtenerUsuarioPorCodigo(Integer.parseInt(usuCodigo)).get(0);
+        String query = "SELECT f FROM Factura f where f.usuCodigo=:usuCodigo and year(f.fechaemision)=:anio and month(f.fechaemision)=:mes";
+        Query q = em.createQuery(query);
+        q.setParameter("usuCodigo", usu);
+        q.setParameter("mes", mes);
+        q.setParameter("anio", anio);
+        List<Factura> facturas = q.getResultList();
+        return facturas;
     }
     
     public List<Object[]> obtenerFacturasPorMesTot(String usuCodigo, int anio) {

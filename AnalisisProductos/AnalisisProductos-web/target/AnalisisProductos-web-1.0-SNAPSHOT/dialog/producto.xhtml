@@ -19,8 +19,9 @@
               appendTo="@(body)"
               responsive="true"
               style="width:auto">
-        <o:form id="mostrarInfoProd" useRequestURI="true" >
+        <o:form id="mostrarInfoProd" useRequestURI="true" style="text-align: center;">
             <p:growl id="growl"  sticky="true" /> 
+            <p:separator/>
             <h1 class="centerText">#{productoBean.productoSeleccionado.descripcion} </h1>
             <p:panelGrid columns="2">
 
@@ -39,9 +40,6 @@
                         </p:column>
                         <p:column sortBy="#{det[1]}" headerText="Fecha">
                             <h:outputText value="#{det[1]}" />
-                        </p:column>
-                        <p:column sortBy="#{det[4]}" headerText="Cantidad">
-                            <h:outputText value="#{det[4]}" />
                         </p:column>
                     </p:dataTable>
                 </p:panelGrid>
