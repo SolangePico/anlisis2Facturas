@@ -139,9 +139,9 @@ public class FacturaFacade extends AbstractFacade<Factura> {
         List<Object[]> result = q.getResultList();
         return result;
     }
-    
-     public List<Factura> obtenerFacturasPorMesYAnio(int mes, int anio, String usuCodigo) {
-       Usuario usu;
+
+    public List<Factura> obtenerFacturasPorMesYAnio(int mes, int anio, String usuCodigo) {
+        Usuario usu;
         usu = usuarioFacade.obtenerUsuarioPorCodigo(Integer.parseInt(usuCodigo)).get(0);
         String query = "SELECT f FROM Factura f where f.usuCodigo=:usuCodigo and year(f.fechaemision)=:anio and month(f.fechaemision)=:mes";
         Query q = em.createQuery(query);
@@ -151,7 +151,7 @@ public class FacturaFacade extends AbstractFacade<Factura> {
         List<Factura> facturas = q.getResultList();
         return facturas;
     }
-    
+
     public List<Object[]> obtenerFacturasPorMesTot(String usuCodigo, int anio) {
         String query = "select count(f.CODIGO), month(f.fechaemision) as mes "
                 + "from factura f, usuario u "
@@ -184,6 +184,13 @@ public class FacturaFacade extends AbstractFacade<Factura> {
         return result;
     }
 
+    public List<Object[]> obtenerProductoMasBaratoPorCodigo(String codProd, String codFac) {
+        String query = "";
+        Query q = em.createNativeQuery(query);
+        List<Object[]> result = q.getResultList();
+        return result;
+    }
+
     public Object obtenerTotalFacturasPorAnio(String usuCodigo, int year) {
         String query = "select count(*) from factura f, "
                 + "usuario u where f.USU_CODIGO=u.CODIGO and "
@@ -205,7 +212,7 @@ public class FacturaFacade extends AbstractFacade<Factura> {
     }
 
     public List<Object[]> obtenerDetallesFactura(String codigoFactura) {
-        String query = "SELECT p.descripcion, f.cantidad, c.preciounitario, c.PRECIO FROM detalle_factura f, producto p, control_precios c where f.fac_codigo='" + codigoFactura + "' and f.PRO_CODIGO=p.CODIGO and c.pro_codigo=p.CODIGO and c.fac_codigo=f.FAC_CODIGO;";
+        String query = "SELECT p.descripcion, f.cantidad, c.preciounitario, c.PRECIO, p.codigo FROM detalle_factura f, producto p, control_precios c where f.fac_codigo='" + codigoFactura + "' and f.PRO_CODIGO=p.CODIGO and c.pro_codigo=p.CODIGO and c.fac_codigo=f.FAC_CODIGO;";
         Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();

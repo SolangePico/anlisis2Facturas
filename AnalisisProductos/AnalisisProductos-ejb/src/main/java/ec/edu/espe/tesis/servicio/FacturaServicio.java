@@ -321,6 +321,10 @@ public class FacturaServicio implements Serializable {
         return error;
     }
 
+    public Factura obtenerFacturaPorCodigo(String codigo) {
+        return facturaFacade.find(codigo);
+    }
+
     public int obtenerFacturasPorUsuario(String usuarioId) {
         int total = 0;
         total = facturaFacade.totalFacturasPorUsuario(usuarioId);
@@ -378,35 +382,44 @@ public class FacturaServicio implements Serializable {
         int numMes;
         switch (mes) {
             case "Enero":
-                numMes=1;
+                numMes = 1;
                 break;
             case "Febrero":
-                numMes=2;
+                numMes = 2;
                 break;
-                case "Marzo":
-                numMes=3;
-                break;case "Abril":
-                numMes=4;
-                break;case "Mayo":
-                numMes=5;
-                break;case "Junio":
-                numMes=6;
-                break;case "Julio":
-                numMes=7;
-                break;case "Agosto":
-                numMes=8;
-                break;case "Septiembre":
-                numMes=9;
-                break;case "Octubre":
-                numMes=10;
-                break;case "Noviembre":
-                numMes=11;
-                break;case "Diciembre":
-                numMes=12;
+            case "Marzo":
+                numMes = 3;
+                break;
+            case "Abril":
+                numMes = 4;
+                break;
+            case "Mayo":
+                numMes = 5;
+                break;
+            case "Junio":
+                numMes = 6;
+                break;
+            case "Julio":
+                numMes = 7;
+                break;
+            case "Agosto":
+                numMes = 8;
+                break;
+            case "Septiembre":
+                numMes = 9;
+                break;
+            case "Octubre":
+                numMes = 10;
+                break;
+            case "Noviembre":
+                numMes = 11;
+                break;
+            case "Diciembre":
+                numMes = 12;
                 break;
 
             default:
-                numMes=1;
+                numMes = 1;
         }
         return facturaFacade.obtenerFacturasPorMesYAnio(numMes, anio, usuCodigo);
     }
@@ -429,6 +442,16 @@ public class FacturaServicio implements Serializable {
     public List<Object[]> obtenerDetallesFactura(String codigoFactura) {
 
         return facturaFacade.obtenerDetallesFactura(codigoFactura);
+    }
+
+    public Object[] obtenerProductoMasBarato(String codProd, String codFac) {
+        List<Object[]> Producto;
+        Producto = facturaFacade.obtenerProductoMasBaratoPorCodigo(codProd, codFac);
+        if (Producto.isEmpty()) {
+            return null;
+        } else {
+            return Producto.get(0);
+        }
     }
 
     public List<Factura> obtenerFacturasPorFecha(Date fechaInicio, Date fechaFin, String id) {
