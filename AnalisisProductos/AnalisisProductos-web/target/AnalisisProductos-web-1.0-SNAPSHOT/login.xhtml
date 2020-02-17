@@ -22,8 +22,11 @@
             <div id="login-wrapper">
 
                 <div id="login-container">
-                    <p:link outcome="landing"> 
+                    <p:link style="top: 100px" outcome="landing"> 
+                        <span style="margin-bottom: 50%;font-size: 200%;color:#9c1627;font-family: sans; font-style: oblique;">Bill</span>
                         <p:graphicImage width="100" height="100" name="images/logo.png" library="omega-layout" />
+                        <span style="margin-bottom: 50%;font-size: 200%;color:#9c1627;font-family: sans; font-style: oblique;">XML</span>
+                        
                     </p:link>
                     <!--<p:growl id="growl" life ="3000" />-->
                     <div class="ui-g ui-fluid">
@@ -37,11 +40,11 @@
                         <div class="ui-g-12">
                             <!--<p:button outcome="dashboard" value="Login" icon="fa fa-check" />-->
                             <p:commandButton style="width:70%" update="formLog" action="#{logBean.validarUsuario()}" value="Login" icon="fa fa-check"/><br/>
-                             <p:link style="color: #006de5; font-size: 10px; text-align: right" href="registrar.xhtml">Registrarse</p:link>
+                            <p:link style="color: #006de5; font-size: 10px; text-align: right" href="registrar.xhtml">Registrarse</p:link>
 
                             <!-- <h:link outcome="empty" value="Login" />-->
                         </div>
-                       
+
                     </div>
 
                 </div>

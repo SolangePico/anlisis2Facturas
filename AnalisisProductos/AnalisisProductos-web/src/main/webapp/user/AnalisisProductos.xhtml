@@ -277,10 +277,10 @@
                         <p:growl id="growl" showDetail="true" sticky="true" /> 
 
                         <p:panel class="ui-g-12">
-                            <p:panel class="ui-g-5" style="height: 300px;border:none">
+                            <p:panel class="ui-g-4" style="height: 300px;border:none">
                                 <p:outputLabel style="font-size: 150%;" value="Seleccione Producto:" />
                                 <p:separator/>
-                                <p:selectOneMenu style=" width: 70%" panelStyle="width:300px" id="producto"   value="#{controlPreciosBean.producto}" effect="fade" var="p"  filter="true" filterMatchMode="startsWith">
+                                <p:selectOneMenu style=" width: 90%" panelStyle="width:300px" id="producto"   value="#{controlPreciosBean.producto}" effect="fade" var="p"  filter="true" filterMatchMode="startsWith">
                                     <f:selectItems  value="#{controlPreciosBean.listaProductosVariacion}" var="theme"  itemLabel="#{theme[0]}" itemValue="#{theme[5]}" />
                                     <p:column style="width:10%">
                                         <h:outputText value="#{p[0]}" />
@@ -290,8 +290,8 @@
                                 <p:outputLabel style="font-size: 150%;" value="Seleccione Supermercado:" />
                                 <p:separator/>
 
-                                <p:selectOneMenu style=" width: 70%" panelStyle="width:500px" id="establecimiento" label="Seleccione"  value="#{controlPreciosBean.supermercadoSeleccionado}" effect="fade" var="e"  filter="true" filterMatchMode="startsWith">
-                                    <f:selectItems value="#{controlPreciosBean.listaSupermercados}" var="t" itemLabel="#{t[0]}  -  #{t[1]}  -  #{t[2]}"  itemValue="#{t[0]}" />
+                                <p:selectOneMenu style=" width: 90%" panelStyle="width:500px" id="establecimiento" label="Seleccione"  value="#{controlPreciosBean.supermercadoSeleccionado}" effect="fade" var="e"  filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{controlPreciosBean.listaSupermercados}" var="t" itemLabel="#{t[1]}  -  #{t[0]}  -  #{t[2]}"  itemValue="#{t[0]}" />
                                     <p:column headerText="RUC" style="width:40%">
                                         <h:outputText value="#{e}" />
                                     </p:column>
@@ -305,7 +305,7 @@
                                 <br/> <br/> <br/>
                                 <p:outputLabel style="font-size: 150%;" value="Seleccione Año:" />
                                 <p:separator/>
-                                <p:selectOneMenu style=" width: 70%" panelStyle="width:500px" id="anio" label="Seleccione"  value="#{controlPreciosBean.anioSeleccionado}" effect="fade" var="e"  filter="true" filterMatchMode="startsWith">
+                                <p:selectOneMenu style=" width: 90%" panelStyle="width:500px" id="anio" label="Seleccione"  value="#{controlPreciosBean.anioSeleccionado}" effect="fade" var="e"  filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="TODOS" itemValue="-1"/>
                                     <f:selectItems value="#{controlPreciosBean.anio}" var="a" itemLabel="#{a}"  itemValue="#{a}" />
                                     <h:outputText value="#{a}" />
@@ -313,7 +313,7 @@
                                 </p:selectOneMenu>
                                 <br/>
                             </p:panel>
-                            <p:panel class="ui-g-7" style="height:300px;border:none">
+                            <p:panel class="ui-g-8" style="height:300px;border:none">
                                 <p:dataTable id="tablaProdSuper" 
                                              var="fac" 
                                              reflow="true"
