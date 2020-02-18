@@ -42,16 +42,17 @@
                         <p:chart style="width: 800px;height: 400px" id="line1" type="line" model="#{productoBean.chartProducto1}" responsive="true" />
                     </c:if>
                 </p:panel>
-                <p:panelGrid columns="2">
-                    <p:repeat  value="#{productoBean.gastosTrimestre}" var="gas">
-                        <h:outputText style="font-size: 120%;" value="#{productoBean.obtenerTrimestre(index)}" /><br/>
-                        <h:outputText value="Total: " /><br/>
-                        <h:outputText value="#{gas[0]}" /><br/>
-                        <h:outputText value="Promedio por mes: " /><br/>
-                        <h:outputText value="#{gas[1]}" /><br/>
+                <p:repeat varStatus="index"  value="#{productoBean.gastosTrimestre}" var="gas">
+                    <h:outputText style="font-size: 120%;" value="#{productoBean.obtenerTrimestre(index.index)}" />
 
-                    </p:repeat>
-                </p:panelGrid>
+                    <p:panelGrid columns="2">
+                        <h:outputText value="Total: " />
+                        <h:outputText value=" $ #{productoBean.formatoNumero(gas[0])}" />
+                        <h:outputText value="Promedio por mes: " />
+                        <h:outputText value="$ #{productoBean.formatoNumero(gas[1])}" />
+                    </p:panelGrid>
+                    <br/>
+                </p:repeat>
             </p:panelGrid>
         </o:form>
     </p:dialog>

@@ -39,7 +39,7 @@ public class ControlPreciosServicio implements Serializable {
     
     public List<Object[]> obtenerListaProductoPorAnio(int anio, String codProd, String usuCodigo){
         List<Object[]> listaProdPorAnio;
-        listaProdPorAnio=controlPreciosFacade.obtenerListaProductoPorAnio(0, codProd, usuCodigo);
+        listaProdPorAnio=controlPreciosFacade.obtenerListaProductoPorAnio(anio, codProd, usuCodigo);
         return listaProdPorAnio;
     }
       public List<Object[]> obtenerListaProductoAnios(String usuCod,String proCod){

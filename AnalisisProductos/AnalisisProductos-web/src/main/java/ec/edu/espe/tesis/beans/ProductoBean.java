@@ -14,6 +14,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import ec.edu.espe.tesis.servicio.*;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,6 +74,7 @@ public class ProductoBean implements Serializable {
     @PostConstruct
     public void init() {
         codigoProducto = null;
+        anio = new ArrayList();
         listaMasComprados = productoServicio.obtenerProductosPorUsuario(sesion.getId());
         listaProductos = productoFacade.findAll();
         codigoProducto = listaMasComprados.get(0);
@@ -94,15 +96,17 @@ public class ProductoBean implements Serializable {
         }
 
     }
+    
+    public String formatoNumero(Object valor) {
+        String valorFormat = "";
+        DecimalFormat formato = new DecimalFormat("#.##");
+        valorFormat = formato.format(valor);
+        return valorFormat;
+    }
 
     public void actualizarAnio() {
-        //VAlidar que solo salgan años q tenga el producto :v 
-
         listaProdPorAnio = controlPrecioServicio.obtenerListaProductoPorAnio(anioSeleccionado, codigoProducto[0].toString(), sesion.getId());
-        listaProdAnios = controlPrecioServicio.obtenerListaProductoAnios(sesion.getId(), codigoProducto[0].toString());
-        for (int i = 0; i < listaProdAnios.size(); i++) {
-            anio.add(Integer.parseInt(listaProdAnios.get(i)[0].toString()));
-        }
+
         try {
 
             Double[] Total = new Double[4];
@@ -116,16 +120,16 @@ public class ProductoBean implements Serializable {
             Promedio[2] = 0.0;
             Promedio[3] = 0.0;
             for (int i = 0; i < listaProdPorAnio.size(); i++) {
-                if ((Integer) listaProdPorAnio.get(i)[2] > 0 && (Integer) listaProdPorAnio.get(i)[2] < 4) {
+                if (Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) > 0 && Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) < 4) {
                     Total[0] = Total[0] + Double.parseDouble(listaProdPorAnio.get(i)[1].toString());
                 } else {
-                    if ((Integer) listaProdPorAnio.get(i)[2] > 3 && (Integer) listaProdPorAnio.get(i)[2] < 7) {
+                    if (Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) > 3 && Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) < 7) {
                         Total[1] = Total[1] + Double.parseDouble(listaProdPorAnio.get(i)[1].toString());
                     } else {
-                        if ((Integer) listaProdPorAnio.get(i)[2] > 6 && (Integer) listaProdPorAnio.get(i)[2] < 10) {
+                        if (Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) > 6 && Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) < 10) {
                             Total[2] = Total[2] + Double.parseDouble(listaProdPorAnio.get(i)[1].toString());
                         } else {
-                            Total[3] = Total[3] + Double.parseDouble(listaProdPorAnio.get(i)[3].toString());
+                            Total[3] = Total[3] + Double.parseDouble(listaProdPorAnio.get(i)[1].toString());
                         }
                     }
                 }
@@ -135,6 +139,7 @@ public class ProductoBean implements Serializable {
             Promedio[1] = Total[1] / 3;
             Promedio[2] = Total[2] / 3;
             Promedio[3] = Total[3] / 3;
+            gastosTrimestre = new ArrayList();
             for (int i = 0; i < 4; i++) {
                 Double[] trim = new Double[2];
                 trim[0] = Total[i];
@@ -149,13 +154,13 @@ public class ProductoBean implements Serializable {
 
     public String obtenerTrimestre(int index) {
         switch (index) {
-            case 1:
+            case 0:
                 return "1er Trimestre";
-            case 2:
+            case 1:
                 return "2do Trimestre";
-            case 3:
+            case 2:
                 return "3er Trimestre";
-            case 4:
+            case 3:
                 return "4to Trimestre";
             default:
                 return "";
@@ -163,6 +168,12 @@ public class ProductoBean implements Serializable {
     }
 
     public void abrirInfoConsumo() throws ParseException {
+        anio = new ArrayList();
+        listaProdAnios = controlPrecioServicio.obtenerListaProductoAnios(sesion.getId(), codigoProducto[0].toString());
+        for (int i = 0; i < listaProdAnios.size(); i++) {
+            anio.add(Integer.parseInt(listaProdAnios.get(i)[0].toString()));
+        }
+        anioSeleccionado = anio.get(0);
         actualizarAnio();
         RequestContext.getCurrentInstance().execute("PF('consumoT').show();");
 
@@ -302,7 +313,7 @@ public class ProductoBean implements Serializable {
             }
 
             series1.set(dia * 12 / 366, Double.parseDouble(listaProdPorAnio.get(i)[1].toString()));
-            if ((i + 1) == listaPrecioProducto.size()) {
+            if ((i + 1) == listaProdPorAnio.size()) {
                 model.addSeries(series1);
             }
         }
