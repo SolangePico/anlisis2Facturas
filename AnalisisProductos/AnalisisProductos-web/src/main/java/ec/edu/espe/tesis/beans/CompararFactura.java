@@ -37,12 +37,7 @@ public class CompararFactura implements Serializable {
     private FacturaCodificacion codificar;
     private String codFactura;
 
-//    select min(c.preciounitario), p.descripcion, i.razonsocial, max(f.FECHAEMISION), i.establecimiento, i.direccion
-//from producto p, control_precios c, info_tributaria i, factura f, detalle_factura d
-//where f.CODIGO<>'1' and f.codigo=d.FAC_CODIGO and p.codigo=c.PRO_CODIGO and p.CODIGO=d.PRO_CODIGO
-//and i.CODIGO=f.INF_CODIGO and p.codigo='9484' group by p.descripcion, i.razonsocial, i.establecimiento, i.direccion;
-//    
-    @PostConstruct
+     @PostConstruct
     public void init() {
         listaDetalles = new ArrayList();
         FaceletContext fc = (FaceletContext) FacesContext.getCurrentInstance().getAttributes().get(FaceletContext.FACELET_CONTEXT_KEY);

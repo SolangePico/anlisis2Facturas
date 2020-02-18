@@ -290,7 +290,7 @@
                                                paginator="true"
                                                rows="10"
                                                >
-                                    <p:ajax event="rowSelect" update="ProductoForm:btn_mostrar"/>
+                                    <p:ajax event="rowSelect" update="ProductoForm:btn_mostrar ProductoForm:btn_mostrarGasto"/>
                                     <p:column filterBy="#{det[1]}"  sortBy="#{det[1]}" headerText="Nombre Producto">
                                         <h:outputText value="#{det[1]}" />
                                     </p:column>
@@ -306,16 +306,18 @@
                                     
                                 </p:dataTable>
                             </div>
-                            <!--<div class="card">
-                                <h1 class="centerText">Linea de tiempo del producto </h1>
-                                <p:chart id="line" type="line" model="" responsive="true" />
-                            </div>-->
                             <p:commandButton id="btn_mostrar"
                                              disabled="#{empty productoBean.codigoProducto}"
-                                             value="Mostrar Información" 
+                                             value="Mostrar Información General" 
                                              actionListener="#{productoBean.abrirInfo}" 
                                              style="margin-top: 10px;"
                                              update=":mostrarInfoProd mostrarInfoProd:line"/>
+                             <p:commandButton id="btn_mostrarGasto"
+                                             disabled="#{empty productoBean.codigoProducto}"
+                                             value="Ver consumo trimestral del producto" 
+                                             actionListener="#{productoBean.abrirInfoConsumo}" 
+                                             style="margin-top: 10px;"
+                                             />
                         </h:form>
 
                     </div>
@@ -323,6 +325,7 @@
             </div>
         </div>
         <ui:include src="../dialog/producto.xhtml"/>
+        <ui:include src="../dialog/consumoTrimestral.xhtml"/>
     </ui:define>
 
 </ui:composition>

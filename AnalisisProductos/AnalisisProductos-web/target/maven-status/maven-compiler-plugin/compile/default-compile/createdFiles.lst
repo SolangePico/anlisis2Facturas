@@ -53,11 +53,13 @@ org\primefaces\omega\view\input\SelectManyView.class
 org\primefaces\omega\view\multimedia\ImagesView.class
 org\primefaces\omega\view\data\datatable\ReorderView.class
 org\primefaces\omega\view\dnd\ColumnManagerView$ColumnModel.class
+ec\edu\espe\tesis\util\FacturaCodificacion.class
 org\primefaces\omega\domain\Movie.class
 org\primefaces\omega\view\data\RingView.class
 org\primefaces\omega\view\ajax\CounterView.class
 org\primefaces\omega\view\data\TagCloudView.class
 org\primefaces\omega\view\GuestPreferences.class
+ec\edu\espe\tesis\beans\CompararFactura.class
 org\primefaces\omega\view\data\datatable\PaginatorView.class
 org\primefaces\omega\view\panel\PanelView.class
 ec\edu\espe\tesis\beans\InfoGeneralBean.class
