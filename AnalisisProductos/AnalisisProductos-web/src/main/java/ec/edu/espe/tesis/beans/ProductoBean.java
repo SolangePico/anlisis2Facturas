@@ -96,7 +96,7 @@ public class ProductoBean implements Serializable {
         }
 
     }
-    
+
     public String formatoNumero(Object valor) {
         String valorFormat = "";
         DecimalFormat formato = new DecimalFormat("#.##");
@@ -120,13 +120,13 @@ public class ProductoBean implements Serializable {
             Promedio[2] = 0.0;
             Promedio[3] = 0.0;
             for (int i = 0; i < listaProdPorAnio.size(); i++) {
-                if (Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) > 0 && Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) < 4) {
+                if (Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) >= 0 && Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) < 4) {
                     Total[0] = Total[0] + Double.parseDouble(listaProdPorAnio.get(i)[1].toString());
                 } else {
-                    if (Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) > 3 && Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) < 7) {
+                    if (Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) >= 4 && Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) < 7) {
                         Total[1] = Total[1] + Double.parseDouble(listaProdPorAnio.get(i)[1].toString());
                     } else {
-                        if (Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) > 6 && Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) < 10) {
+                        if (Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) >= 7 && Integer.parseInt(listaProdPorAnio.get(i)[2].toString()) < 10) {
                             Total[2] = Total[2] + Double.parseDouble(listaProdPorAnio.get(i)[1].toString());
                         } else {
                             Total[3] = Total[3] + Double.parseDouble(listaProdPorAnio.get(i)[1].toString());
@@ -169,6 +169,7 @@ public class ProductoBean implements Serializable {
 
     public void abrirInfoConsumo() throws ParseException {
         anio = new ArrayList();
+        productoSeleccionado = productoFacade.obtenerProductoPorCodigoP((Integer) codigoProducto[0]).get(0);
         listaProdAnios = controlPrecioServicio.obtenerListaProductoAnios(sesion.getId(), codigoProducto[0].toString());
         for (int i = 0; i < listaProdAnios.size(); i++) {
             anio.add(Integer.parseInt(listaProdAnios.get(i)[0].toString()));
@@ -272,7 +273,7 @@ public class ProductoBean implements Serializable {
         xAxis.setLabel("Mes");
         xAxis.setTickInterval("1");
         yAxis.setMin(precioMinimo / 2);
-        yAxis.setMax(precioMaximo * 1.3);
+        //yAxis.setMax(precioMaximo * 10);
         yAxis.setLabel("Precio");
         chartProducto1.setExtender("skinChart");
     }
@@ -281,9 +282,12 @@ public class ProductoBean implements Serializable {
         LineChartModel model = new LineChartModel();
 
         LineChartSeries series1 = new LineChartSeries();
-
+        boolean flagNuevo;
         int flag = 0;
+        Double acum = 0.0;
+        int aux = 0;
         for (int i = 0; i < listaProdPorAnio.size(); i++) {
+
             Calendar cal = null;
             Calendar cal1 = null;
             Date date;
@@ -300,25 +304,80 @@ public class ProductoBean implements Serializable {
                     date2 = (Date) formatter.parse(listaProdPorAnio.get(i - 1)[0].toString());
                     cal1 = Calendar.getInstance();
                     cal1.setTime(date2);
-                    if (cal.get(Calendar.YEAR) != cal1.get(Calendar.YEAR)) {
+                    if (validarTrimestre(cal.get(Calendar.MONTH), cal1.get(Calendar.MONTH))) {
+
+                        if (cal1.get(Calendar.MONTH) >= 0 && cal1.get(Calendar.MONTH) < 3) {
+                            series1.set(3.0001, 0.0);
+                        } else if (cal1.get(Calendar.MONTH) >= 3 && cal1.get(Calendar.MONTH) < 6) {
+                            series1.set(6.0001, 0.0);
+                        } else if (cal1.get(Calendar.MONTH) >= 6 && cal1.get(Calendar.MONTH) < 9) {
+                            series1.set(9.0001, 0.0);
+                        } else {
+                            series1.set(12.0001, 0.0);
+                        }
+
                         model.addSeries(series1);
                         series1 = new LineChartSeries();
-                        series1.setLabel(cal.get(Calendar.YEAR) + "");
+                        series1.setLabel(obtenerMes(cal.get(Calendar.MONTH)) + "");
+                        acum = 0.0;
+                        if (cal.get(Calendar.MONTH) >= 0 && cal.get(Calendar.MONTH) < 3) {
+                            series1.set(-0.9999, acum);
+                        } else if (cal.get(Calendar.MONTH) >= 3 && cal.get(Calendar.MONTH) < 6) {
+                            series1.set(2.9999, acum);
+                        } else if (cal.get(Calendar.MONTH) >= 6 && cal.get(Calendar.MONTH) < 9) {
+                            series1.set(5.9999, acum);
+                        } else {
+                            series1.set(8.9999, acum);
+                        }
                     }
+
                 } else {
-                    series1.setLabel(cal.get(Calendar.YEAR) + "");
+                    series1.setLabel(obtenerMes(cal.get(Calendar.MONTH)) + "");
+                    if (cal.get(Calendar.MONTH) >= 0 && cal.get(Calendar.MONTH) < 3) {
+                        series1.set(0, 0.0);
+                    } else if (cal.get(Calendar.MONTH) >= 3 && cal.get(Calendar.MONTH) < 6) {
+                        series1.set(3, 0.0);
+                    } else if (cal.get(Calendar.MONTH) >= 6 && cal.get(Calendar.MONTH) < 9) {
+                        series1.set(6, 0.0);
+                    } else {
+                        series1.set(9, 0.0);
+                    }
                 }
             } catch (ParseException e) {
                 dia = i;
             }
 
-            series1.set(dia * 12 / 366, Double.parseDouble(listaProdPorAnio.get(i)[1].toString()));
+            acum = acum + Double.parseDouble(listaProdPorAnio.get(i)[1].toString());
+            series1.set(dia * 12 / 366, acum);
             if ((i + 1) == listaProdPorAnio.size()) {
+                if (cal.get(Calendar.MONTH) >= 0 && cal.get(Calendar.MONTH) < 3) {
+                    series1.set(3, 0.0);
+                } else if (cal.get(Calendar.MONTH) >= 3 && cal.get(Calendar.MONTH) < 6) {
+                    series1.set(6, 0.0);
+                } else if (cal.get(Calendar.MONTH) >= 6 && cal.get(Calendar.MONTH) < 9) {
+                    series1.set(9, 0.0);
+                } else {
+                    series1.set(12, 0.0);
+                }
                 model.addSeries(series1);
+
             }
+
         }
 
         return model;
+    }
+
+    public boolean validarTrimestre(int mes1, int mes2) {
+        if (mes1 < 3 && mes2 < 3) {
+            return false;
+        } else if (mes1 < 6 && mes2 < 6 && mes1 >= 3 && mes2 >= 3) {
+            return false;
+        } else if (mes1 < 9 && mes2 < 9 && mes1 >= 6 && mes2 >= 6) {
+            return false;
+        } else {
+            return !(mes1 < 12 && mes2 < 12 && mes1 >= 9 && mes2 >= 9);
+        }
     }
 
     public LineChartModel getChartProducto() {
@@ -423,6 +482,18 @@ public class ProductoBean implements Serializable {
 
     public void setGastosTrimestre(List<Double[]> gastosTrimestre) {
         this.gastosTrimestre = gastosTrimestre;
+    }
+
+    private String obtenerMes(int get) {
+        if (get >= 0 && get < 3) {
+            return "1er Trimestre";
+        } else if (get >= 3 && get < 6) {
+            return "2do Trimestre";
+        } else if (get >= 6 && get < 9) {
+            return "3er Trimestre";
+        } else {
+            return "4to Trimestre";
+        }
     }
 
 }

@@ -143,7 +143,7 @@ public class ControlPreciosFacade extends AbstractFacade<ControlPrecios> {
     public List<Object[]> obtenerListaProductoPorAnio(int anio, String codProd, String usuCodigo) {
         String query = "select f.FECHAEMISION, c.preciounitario, month(f.fechaemision) from control_precios c, factura f, usuario u "
                 + "where u.codigo='"+usuCodigo+"'  and f.USU_CODIGO=u.CODIGO and c.fac_codigo=f.codigo and c.pro_codigo='"+codProd+"' "
-                + "and year(FECHAEMISION)='"+anio+"';";
+                + "and year(FECHAEMISION)='"+anio+"' order by f.FECHAEMISION;";
 
         Query q = em.createNativeQuery(query);
         List<Object[]> result = q.getResultList();

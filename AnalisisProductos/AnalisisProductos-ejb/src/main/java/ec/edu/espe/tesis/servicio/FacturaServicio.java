@@ -322,7 +322,7 @@ public class FacturaServicio implements Serializable {
     }
 
     public Factura obtenerFacturaPorCodigo(String codigo) {
-        return facturaFacade.find(codigo);
+        return facturaFacade.find(Integer.parseInt(codigo));
     }
 
     public int obtenerFacturasPorUsuario(String usuarioId) {

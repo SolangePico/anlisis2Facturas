@@ -185,7 +185,10 @@ public class FacturaFacade extends AbstractFacade<Factura> {
     }
 
     public List<Object[]> obtenerProductoMasBaratoPorCodigo(String codProd, String codFac) {
-        String query = "";
+        String query = "select min(c.preciounitario), p.descripcion, i.razonsocial, max(f.FECHAEMISION), i.establecimiento, i.direccion "
+                + "from producto p, control_precios c, info_tributaria i, factura f, detalle_factura d "
+                + "where f.CODIGO<>'"+codFac+"' and f.codigo=d.FAC_CODIGO and p.codigo=c.PRO_CODIGO and p.CODIGO=d.PRO_CODIGO "
+                + "and i.CODIGO=f.INF_CODIGO and p.codigo='"+codProd+"' group by p.descripcion, i.razonsocial, i.establecimiento, i.direccion;";
         Query q = em.createNativeQuery(query);
         List<Object[]> result = q.getResultList();
         return result;

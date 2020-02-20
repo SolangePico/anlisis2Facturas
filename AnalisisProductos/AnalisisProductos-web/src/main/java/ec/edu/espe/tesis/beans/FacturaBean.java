@@ -7,7 +7,9 @@ package ec.edu.espe.tesis.beans;
 
 import ec.edu.espe.tesis.facturas.model.Factura;
 import ec.edu.espe.tesis.servicio.FacturaServicio;
+import ec.edu.espe.tesis.util.FacturaCodificacion;
 import java.io.Serializable;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +19,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -116,6 +120,18 @@ public class FacturaBean implements Serializable {
     public void mostrarTodo(){
        listaFacturas = facturaServicio.obtenerFacturasConCriterio(Integer.parseInt(sesion.getId())); 
     }
+    
+    public void verComparacion(){
+            
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            String contexto = request.getRequestURL().toString();
+            String FacIdTemp = FacturaCodificacion.codificarId(String.valueOf(facturaSeleccionada.getCodigo()));
+            contexto = contexto.substring(0, contexto.indexOf("user/") + 5);
+            contexto = contexto.concat("CompararFacturas.xhtml?facId=" + FacIdTemp);
+            PrimeFaces.current().executeScript("window.open('" + contexto + "','_blank');");
+      
+    }
+   
     
     public void buscarRangoFechas() {
         if (fechaInicio.before(fechaFin) || fechaInicio.equals(fechaFin)) {

@@ -13,12 +13,12 @@ import java.util.Base64;
  */
 public class FacturaCodificacion {
     
-    public String codificarId(String id) {
+    public static String codificarId(String id) {
         String encoded = Base64.getEncoder().encodeToString(id.getBytes());
         return encoded;
     }
 
-    public  String decodificarId(String id) {
+    public static String decodificarId(String id) {
         String decode = null;
         try {
             byte[] encoded = Base64.getDecoder().decode(id);

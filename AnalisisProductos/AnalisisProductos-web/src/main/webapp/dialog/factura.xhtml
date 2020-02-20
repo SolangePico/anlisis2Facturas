@@ -48,7 +48,8 @@
                         </p:panelGrid>
                     </p:panel>
                      <p:commandButton id="btn_Comparar"
-                                         value="Comparar factura con otros establecimientos" 
+                                      actionListener="#{facturaBean.verComparacion()}" 
+                                        value="Comparar factura con otros establecimientos" 
                                          style="margin-top: 10px;"/>
                 </p:panelGrid>
             </p:panelGrid>
