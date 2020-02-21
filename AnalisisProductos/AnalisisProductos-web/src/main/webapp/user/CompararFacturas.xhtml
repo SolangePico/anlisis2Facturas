@@ -278,8 +278,8 @@
                             <div class="ui-g ui-fluid">
                                 <p:growl id="growl"  sticky="true" /> 
                                 <div class="ui-g-12 ui-lg-12">
-                                    <p:panelGrid columns="1" layout="grid"  id="datos">
-                                        <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group" >
+                                    <p:panelGrid columns="2" columnClasses="ui-g-3,ui-g-9" layout="grid"  id="datos">
+                                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" >
                                             <h:outputText style="font-size: 110%;font-weight: bolder" value="Fecha emisión:"  />
                                             <h:outputText style="font-size: 90%" value="#{compararFacturaBean.factura.fechaemision}"  />
                                             <h:outputText style="font-size: 110%;font-weight: bolder" value="Establecimiento"  />
@@ -291,83 +291,100 @@
                                             <h:outputText style="font-size: 110%;font-weight: bolder" value="Importe sin Impuestos"  />
                                             <h:outputText style="font-size: 90%" value="$ #{compararFacturaBean.factura.totalsinimpuesto}"  />
                                         </p:panelGrid>
-                                        <p:panel class="ui-g-8" style="height:300px;border:none">
-                                            <p:dataTable id="tablaProdSuper" 
-                                                         var="det" 
-                                                         reflow="true"
-                                                         paginator="true"
-                                                         paginatorPosition="bottom"
-                                                         value="#{compararFacturaBean.listaDetalles}"
-                                                         rows="7"
-                                                         emptyMessage="No hay registros del producto"
-                                                         style="text-align: center;font-size: 90%;height:299px">
-                                                <p:column headerText="Descripción">
-                                                    <h:outputText value="#{det[0]}"></h:outputText>
-                                                </p:column>
-                                                <p:column headerText="Cantidad">
-                                                    <h:outputText value="#{det[1]}" ></h:outputText>
-                                                </p:column>
-                                                <p:column headerText="Precio Unitario">
-                                                    <h:outputText value="#{det[2]}"></h:outputText>
-                                                </p:column>
-                                                <p:column headerText="Total">
-                                                    <h:outputText value="#{det[3]}"></h:outputText>
-                                                </p:column>
-                                            </p:dataTable>
-                                        </p:panel>
+
+                                        <p:dataTable id="tablaProdSuper" 
+                                                     var="det" 
+                                                     reflow="true"
+                                                     paginator="true"
+                                                     paginatorPosition="bottom"
+                                                     value="#{compararFacturaBean.listaDetalles}"
+                                                     rows="7"
+                                                     emptyMessage="No hay registros del producto"
+                                                     style="text-align: center;font-size: 90%;height:299px">
+                                            <p:column headerText="Descripción">
+                                                <h:outputText value="#{det[0]}"></h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Cantidad">
+                                                <h:outputText value="#{det[1]}" ></h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Precio Unitario">
+                                                <h:outputText value="#{det[2]}"></h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Total">
+                                                <h:outputText value="#{det[3]}"></h:outputText>
+                                            </p:column>
+                                        </p:dataTable>
+
                                     </p:panelGrid>
                                 </div>
                             </div>
                         </p:panel>
 
                         <p:panel class="ui-g-12">
-                            <p:panel class="ui-g-4" style="height: 300px;border:none">
+                            <p:panel class="ui-g-12" style="border:none">
 
                                 <p:outputLabel style="font-size: 150%;" value="Seleccione Supermercado:" />
                                 <p:separator/>
 
-                                <p:selectOneMenu style=" width: 90%" panelStyle="width:500px" id="establecimiento" label="Seleccione"  value="#{controlPreciosBean.supermercadoSeleccionado}" effect="fade" var="e"  filter="true" filterMatchMode="startsWith">
-                                    <f:selectItems value="#{controlPreciosBean.listaSupermercados}" var="t" itemLabel="#{t[1]}  -  #{t[0]}  -  #{t[2]}"  itemValue="#{t[0]}" />
+                                <p:selectOneMenu style=" width: 90%" panelStyle="width:500px" id="establecimiento" label="Seleccione"  value="#{compararFacturaBean.supermercadoSeleccionado}" effect="fade" var="e"  filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="TODOS" value="1"/>
+                                    <f:selectItems value="#{compararFacturaBean.listaSupermercados}" var="t" itemLabel="#{t[1]}  -  #{t[0]}  -  #{t[2]}"  itemValue="#{t[0]}" />
                                     <p:column headerText="RUC" style="width:40%">
                                         <h:outputText value="#{e}" />
                                     </p:column>
                                     <p:column headerText="Nombre" style="width:50%">
-                                        <h:outputText value="#{controlPreciosBean.obtenerNombre(e)}" />
+                                        <h:outputText value="#{compararFacturaBean.obtenerNombre(e)}" />
                                     </p:column>
                                     <p:column headerText="# de sucursales" style="width:10%">
-                                        <h:outputText value="#{controlPreciosBean.obtenerCantidad(e)}" />
+                                        <h:outputText value="#{compararFacturaBean.obtenerCantidad(e)}" />
                                     </p:column>
                                 </p:selectOneMenu>
-                                <br/> <br/> <br/>
+                                <p:outputLabel style="font-size: 150%;" value="Seleccione Año:" />
+                                <p:separator/>
+                                <p:selectOneMenu style=" width: 90%" panelStyle="width:500px" id="anio" label="Seleccione"  value="#{compararFacturaBean.anio}" effect="fade" var="e"  >
+                                    <f:selectItem itemLabel="TODOS" itemValue="-1"/>
+                                    <f:selectItems value="#{compararFacturaBean.listaAnio}" var="a" itemLabel="#{a}"  itemValue="#{a}" />
+                                    <h:outputText value="#{e}" />
 
-                                <br/>
+                                </p:selectOneMenu>
                             </p:panel>
-
                             <p:commandButton id="btn_mostrar"
-                                             value="Mostrar Información" 
-                                             action="#{controlPreciosBean.obtenerListaDetalleProducto()}" 
+                                             value="Actualizar Información" 
+                                             action="#{compararFacturaBean.actualizarDatos()}" 
                                              style="margin-top: 10px;"
-                                             update="compararFactura growl"/>
-                            <br/><br/>
-                            <div class="card">
+                                             update="compararFactura:tablaProdBarato"/>
+                            <p:dataTable id="tablaProdBarato" 
+                                         var="fac" 
+                                         reflow="true"
+                                         value="#{compararFacturaBean.listaDetallesMasBarato}"
+                                         paginator="true"
+                                         paginatorPosition="bottom"
+                                         rows="10"
+                                         emptyMessage="No hay registros del producto"
+                                         style="text-align: center;font-size: 90%">
+                                <f:facet name="header">
+                                    Información de Producto por Establecimientos
+                                </f:facet>
+                                <p:column  headerText="Descripción" sortBy="#{fac[1]}" style="width:10%">
+                                    <h:outputText value="#{fac[1]}" />
+                                </p:column>
+                                <p:column style="width:5%"  headerText="Precio" sortBy="#{fac[0]}">
+                                    <h:outputText style="font-weight: bolder;font-size:150%;color: #{compararFacturaBean.verificarProductoFactura(fac[2], fac[4], fac[5])};" value="#{fac[0]}" />
+                                </p:column>
+                                <p:column  headerText="Supermercado" sortBy="#{fac[2]}" style="width:20%">
+                                    <h:outputText value="#{fac[2]}" />
+                                </p:column>
+                                <p:column  headerText="Fecha" sortBy="#{fac[3]}" style="width:10%">
+                                    <h:outputText value="#{fac[3]}" />
+                                </p:column>
+                                <p:column  headerText="# de sucursal" sortBy="#{fac[4]}" style="width:5%">
+                                    <h:outputText value="#{fac[4]}" />
+                                </p:column>
+                                <p:column  headerText="Dirección" sortBy="#{fac[5]}" style="width:20%">
+                                    <h:outputText value="#{fac[5]}" />
+                                </p:column>
+                            </p:dataTable>
 
-                                <p:dataTable id="tablaProdEstab" 
-                                             var="fac" 
-                                             reflow="true"
-                                             value="#{compararFacturaBean.listaDetallesMasBarato}"
-                                             paginator="true"
-                                             paginatorPosition="bottom"
-                                             rows="10"
-                                             emptyMessage="No hay registros del producto"
-                                             style="text-align: center;font-size: 90%">
-                                    <f:facet name="header">
-                                        Información de Producto por Establecimientos
-                                    </f:facet>
-                                    <p:column  headerText="# de sucursal" sortBy="#{fac[0]}" style="width:10%">
-                                        <h:outputText value="#{fac[0]}" />
-                                    </p:column>
-                                </p:dataTable>
-                            </div>
                         </p:panel>
 
                     </h:form>

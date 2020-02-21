@@ -45,17 +45,22 @@
                         <p:chart style="width: 800px;height: 400px" id="line1" type="line" model="#{productoBean.chartProducto1}" responsive="true" />
                     </c:if>
                 </p:panel>
-                <p:repeat varStatus="index"  value="#{productoBean.gastosTrimestre}" var="gas">
-                    <h:outputText style="font-size: 120%;" value="#{productoBean.obtenerTrimestre(index.index)}" />
+                <p:panelGrid columns="1">
+                    <p:outputLabel style="font-size: 150%;" value="Año: #{productoBean.anioSeleccionado}" />
 
-                    <p:panelGrid columns="2">
-                        <h:outputText value="Total: " />
-                        <h:outputText value=" $ #{productoBean.formatoNumero(gas[0])}" />
-                        <h:outputText value="Promedio por mes: " />
-                        <h:outputText value="$ #{productoBean.formatoNumero(gas[1])}" />
-                    </p:panelGrid>
-                    <br/>
-                </p:repeat>
+                    <p:repeat varStatus="index"  value="#{productoBean.gastosTrimestre}" var="gas">
+                        <h:outputText style="font-size: 120%;" value="#{productoBean.obtenerTrimestre(index.index)}" />
+
+                        <p:panelGrid columns="2">
+                            <h:outputText value="Total: " />
+                            <h:outputText value=" $ #{productoBean.formatoNumero(gas[0])}" />
+                            <h:outputText value="Promedio por mes: " />
+                            <h:outputText value="$ #{productoBean.formatoNumero(gas[1])}" />
+                        </p:panelGrid>
+                        <br/>
+                    </p:repeat>
+                </p:panelGrid>
+            </p:panelGrid>
             </p:panelGrid>
         </o:form>
     </p:dialog>

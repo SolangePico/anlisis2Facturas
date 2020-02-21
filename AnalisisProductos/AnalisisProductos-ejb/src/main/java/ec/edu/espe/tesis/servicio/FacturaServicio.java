@@ -471,4 +471,15 @@ public class FacturaServicio implements Serializable {
         return null;
     }
 
+    public Object[] obtenerProductoMasBaratoPorEstabYAnio(String codProd, String codFac, String ruc, String anio) {
+        List<Object[]> Producto;
+        Producto = facturaFacade.obtenerProductoMasBaratoPorEstabYAnio(codProd, codFac, ruc, anio);
+        if (Producto.isEmpty()) {
+            return null;
+        } else {
+            return Producto.get(0);
+        }
+
+    }
+
 }
