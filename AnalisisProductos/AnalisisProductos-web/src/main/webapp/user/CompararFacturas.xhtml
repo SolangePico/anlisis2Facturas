@@ -278,8 +278,8 @@
                             <div class="ui-g ui-fluid">
                                 <p:growl id="growl"  sticky="true" /> 
                                 <div class="ui-g-12 ui-lg-12">
-                                    <p:panelGrid columns="2" layout="grid"  id="datos">
-                                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group" >
+                                    <p:panelGrid columns="1" layout="grid"  id="datos">
+                                        <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group" >
                                             <h:outputText style="font-size: 110%;font-weight: bolder" value="Fecha emisión:"  />
                                             <h:outputText style="font-size: 90%" value="#{compararFacturaBean.factura.fechaemision}"  />
                                             <h:outputText style="font-size: 110%;font-weight: bolder" value="Establecimiento"  />
@@ -293,15 +293,26 @@
                                         </p:panelGrid>
                                         <p:panel class="ui-g-8" style="height:300px;border:none">
                                             <p:dataTable id="tablaProdSuper" 
-                                                         var="fac" 
+                                                         var="det" 
                                                          reflow="true"
                                                          paginator="true"
                                                          paginatorPosition="bottom"
-                                                         rows="10"
+                                                         value="#{compararFacturaBean.listaDetalles}"
+                                                         rows="7"
                                                          emptyMessage="No hay registros del producto"
                                                          style="text-align: center;font-size: 90%;height:299px">
-
-
+                                                <p:column headerText="Descripción">
+                                                    <h:outputText value="#{det[0]}"></h:outputText>
+                                                </p:column>
+                                                <p:column headerText="Cantidad">
+                                                    <h:outputText value="#{det[1]}" ></h:outputText>
+                                                </p:column>
+                                                <p:column headerText="Precio Unitario">
+                                                    <h:outputText value="#{det[2]}"></h:outputText>
+                                                </p:column>
+                                                <p:column headerText="Total">
+                                                    <h:outputText value="#{det[3]}"></h:outputText>
+                                                </p:column>
                                             </p:dataTable>
                                         </p:panel>
                                     </p:panelGrid>
@@ -343,7 +354,7 @@
                                 <p:dataTable id="tablaProdEstab" 
                                              var="fac" 
                                              reflow="true"
-                                             value="#{controlPreciosBean.listaProductosPorSupermercado}"
+                                             value="#{compararFacturaBean.listaDetallesMasBarato}"
                                              paginator="true"
                                              paginatorPosition="bottom"
                                              rows="10"
@@ -352,33 +363,9 @@
                                     <f:facet name="header">
                                         Información de Producto por Establecimientos
                                     </f:facet>
-                                    <p:column  headerText="# de sucursal" sortBy="#{fac[2]}" style="width:10%">
-                                        <h:outputText value="#{fac[2]}" />
+                                    <p:column  headerText="# de sucursal" sortBy="#{fac[0]}" style="width:10%">
+                                        <h:outputText value="#{fac[0]}" />
                                     </p:column>
-                                    <p:column headerText="Dirección" sortBy="#{fac[3]} " style="width:30%" >
-                                        <h:outputText value="#{fac[3]}" >
-                                        </h:outputText>
-                                    </p:column>
-                                    <p:column headerText="Precio Máximo | Fecha" sortBy="#{fac[4]}" style="width:20%">
-                                        <h:outputText value="$#{fac[4]}" >
-                                        </h:outputText>
-                                        <p:spacer style="width:20px"/>-<p:spacer style="width:20px"/>
-                                        <h:outputText value="#{fac[6]}" />
-                                    </p:column>
-                                    <p:column headerText="Precio Minimo | Fecha" sortBy="#{fac[5]}" style="width:20%">
-                                        <h:outputText value="$#{fac[5]}" >
-                                        </h:outputText>
-                                        <p:spacer style="width:20px"/>-<p:spacer style="width:20px"/>
-                                        <h:outputText value="#{fac[7]}" />
-                                    </p:column>
-                                    <p:column headerText="Último Precio | Fecha" sortBy="#{fac[2]}" style="width:20%" >
-                                        <h:outputText value="$#{fac[8]}" >
-                                        </h:outputText>
-                                        <p:spacer style="width:20px"/>-<p:spacer style="width:20px"/>
-                                        <h:outputText value="#{fac[9]}" >
-                                        </h:outputText>
-                                    </p:column>
-
                                 </p:dataTable>
                             </div>
                         </p:panel>
