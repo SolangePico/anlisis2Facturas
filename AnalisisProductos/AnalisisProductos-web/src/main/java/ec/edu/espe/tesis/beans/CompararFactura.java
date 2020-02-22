@@ -16,6 +16,7 @@ import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -44,6 +45,7 @@ public class CompararFactura implements Serializable {
     private List<Object[]> listaSupermercados;
     private List<Integer> listaAnio;
     private int anio;
+    private double totalAhorrado;
 
     @PostConstruct
     public void init() {
@@ -59,22 +61,18 @@ public class CompararFactura implements Serializable {
         if (codFactura != null) {
             factura = facturaServicio.obtenerFacturaPorCodigo(FacturaCodificacion.decodificarId(codFactura));
             listaDetalles = facturaServicio.obtenerDetallesFactura(factura.getCodigo().toString());
-            for (int i = 0; i < listaDetalles.size(); i++) {
-                if (facturaServicio.obtenerProductoMasBarato(listaDetalles.get(i)[4].toString(), factura.getCodigo().toString()) != null) {
-                    listaDetallesMasBarato.add(facturaServicio.obtenerProductoMasBarato(listaDetalles.get(i)[4].toString(), factura.getCodigo().toString()));
-                } else {
-                    Object[] obj = new Object[6];
-                    obj[0] = listaDetalles.get(i)[2];
-                    obj[1] = listaDetalles.get(i)[0];
-                    obj[2] = factura.getInfCodigo().getRazonsocial();
-                    obj[3] = factura.getFechaemision();
-                    obj[4] = factura.getInfCodigo().getEstablecimiento();
-                    obj[5] = factura.getInfCodigo().getDireccion();
-                    listaDetallesMasBarato.add(obj);
-                }
-            }
+            verProductosMasBaratos();
         }
         cargarAniosFactura();
+    }
+
+    public String obtenerPrecio(String descripcion) {
+        for (int i = 0; i < listaDetalles.size(); i++) {
+            if (listaDetalles.get(i)[0].equals(descripcion)) {
+                return listaDetalles.get(i)[2].toString();
+            }
+        }
+        return "0";
     }
 
     public String obtenerNombre(String ruc) {
@@ -100,10 +98,12 @@ public class CompararFactura implements Serializable {
 
     public void actualizarDatos() {
         listaDetallesMasBarato = new ArrayList();
+        Boolean flagNo = true;
         if (!supermercadoSeleccionado.equals("1") || anio != -1) {
             for (int i = 0; i < listaDetalles.size(); i++) {
                 if (facturaServicio.obtenerProductoMasBaratoPorEstabYAnio(listaDetalles.get(i)[4].toString(), factura.getCodigo().toString(), supermercadoSeleccionado, anio + "") != null) {
                     listaDetallesMasBarato.add(facturaServicio.obtenerProductoMasBaratoPorEstabYAnio(listaDetalles.get(i)[4].toString(), factura.getCodigo().toString(), supermercadoSeleccionado, anio + ""));
+                    flagNo = false;
                 } else {
                     Object[] obj = new Object[6];
                     obj[0] = listaDetalles.get(i)[2];
@@ -116,16 +116,33 @@ public class CompararFactura implements Serializable {
                 }
 
             }
-        }else{
+            calcularTotal();
+            if (flagNo) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se encontraron productos en otros establecimientos"));
+
+            }
+        } else {
             verProductosMasBaratos();
+        }
+    }
+    
+    public void calcularTotal(){
+        totalAhorrado=0.0;
+        for (int i = 0; i < listaDetallesMasBarato.size(); i++) {
+            double aux;
+            aux=Double.parseDouble(listaDetallesMasBarato.get(i)[0].toString());
+            totalAhorrado=totalAhorrado+aux;
+            
         }
     }
 
     public void verProductosMasBaratos() {
         listaDetallesMasBarato = new ArrayList();
+        boolean flagNo = true;
         for (int i = 0; i < listaDetalles.size(); i++) {
             if (facturaServicio.obtenerProductoMasBarato(listaDetalles.get(i)[4].toString(), factura.getCodigo().toString()) != null) {
                 listaDetallesMasBarato.add(facturaServicio.obtenerProductoMasBarato(listaDetalles.get(i)[4].toString(), factura.getCodigo().toString()));
+                flagNo = false;
             } else {
                 Object[] obj = new Object[6];
                 obj[0] = listaDetalles.get(i)[2];
@@ -136,6 +153,10 @@ public class CompararFactura implements Serializable {
                 obj[5] = factura.getInfCodigo().getDireccion();
                 listaDetallesMasBarato.add(obj);
             }
+        }
+        calcularTotal();
+        if (flagNo) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se encontraron productos en otros establecimientos"));
         }
     }
 
@@ -159,15 +180,15 @@ public class CompararFactura implements Serializable {
         if (razS.equals(factura.getInfCodigo().getRazonsocial())) {
             if (estab.equals(factura.getInfCodigo().getEstablecimiento())) {
                 if (Dir.equals(factura.getInfCodigo().getDireccion())) {
-                    return "red";
+                    return "black";
                 } else {
-                    return "green";
+                    return "blue";
                 }
             } else {
-                return "green";
+                return "blue";
             }
         } else {
-            return "green";
+            return "greenyellow";
         }
     }
 
@@ -225,6 +246,14 @@ public class CompararFactura implements Serializable {
 
     public void setAnio(int anio) {
         this.anio = anio;
+    }
+
+    public double getTotalAhorrado() {
+        return totalAhorrado;
+    }
+
+    public void setTotalAhorrado(double totalAhorrado) {
+        this.totalAhorrado = totalAhorrado;
     }
 
 }

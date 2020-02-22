@@ -276,7 +276,7 @@
                     <h:form id="compararFactura">
                         <p:panel style="width:auto;" styleClass="ui-panelgrid-blank" >
                             <div class="ui-g ui-fluid">
-                                <p:growl id="growl"  sticky="true" /> 
+                                <p:growl id="growl2"  sticky="true" /> 
                                 <div class="ui-g-12 ui-lg-12">
                                     <p:panelGrid columns="2" columnClasses="ui-g-3,ui-g-9" layout="grid"  id="datos">
                                         <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" >
@@ -298,17 +298,17 @@
                                                      paginator="true"
                                                      paginatorPosition="bottom"
                                                      value="#{compararFacturaBean.listaDetalles}"
-                                                     rows="7"
+                                                     rows="10"
                                                      emptyMessage="No hay registros del producto"
                                                      style="text-align: center;font-size: 90%;height:299px">
-                                            <p:column headerText="Descripción">
+                                            <p:column headerText="Descripción" style="width:50%">
                                                 <h:outputText value="#{det[0]}"></h:outputText>
                                             </p:column>
-                                            <p:column headerText="Cantidad">
-                                                <h:outputText value="#{det[1]}" ></h:outputText>
-                                            </p:column>
                                             <p:column headerText="Precio Unitario">
-                                                <h:outputText value="#{det[2]}"></h:outputText>
+                                                <h:outputText value="#{det[2]}" ></h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Cantidad">
+                                                <h:outputText value="#{det[1]}"></h:outputText>
                                             </p:column>
                                             <p:column headerText="Total">
                                                 <h:outputText value="#{det[3]}"></h:outputText>
@@ -327,7 +327,7 @@
                                 <p:separator/>
 
                                 <p:selectOneMenu style=" width: 90%" panelStyle="width:500px" id="establecimiento" label="Seleccione"  value="#{compararFacturaBean.supermercadoSeleccionado}" effect="fade" var="e"  filter="true" filterMatchMode="startsWith">
-                                    <f:selectItem itemLabel="TODOS" value="1"/>
+                                    <f:selectItem itemLabel="TODOS" itemValue="1"/>
                                     <f:selectItems value="#{compararFacturaBean.listaSupermercados}" var="t" itemLabel="#{t[1]}  -  #{t[0]}  -  #{t[2]}"  itemValue="#{t[0]}" />
                                     <p:column headerText="RUC" style="width:40%">
                                         <h:outputText value="#{e}" />
@@ -344,7 +344,7 @@
                                 <p:selectOneMenu style=" width: 90%" panelStyle="width:500px" id="anio" label="Seleccione"  value="#{compararFacturaBean.anio}" effect="fade" var="e"  >
                                     <f:selectItem itemLabel="TODOS" itemValue="-1"/>
                                     <f:selectItems value="#{compararFacturaBean.listaAnio}" var="a" itemLabel="#{a}"  itemValue="#{a}" />
-                                    <h:outputText value="#{e}" />
+                                    <h:outputText value="#{a}" />
 
                                 </p:selectOneMenu>
                             </p:panel>
@@ -352,7 +352,7 @@
                                              value="Actualizar Información" 
                                              action="#{compararFacturaBean.actualizarDatos()}" 
                                              style="margin-top: 10px;"
-                                             update="compararFactura:tablaProdBarato"/>
+                                             update="compararFactura:tablaProdBarato compararFactura:growl2"/>
                             <p:dataTable id="tablaProdBarato" 
                                          var="fac" 
                                          reflow="true"
@@ -365,17 +365,8 @@
                                 <f:facet name="header">
                                     Información de Producto por Establecimientos
                                 </f:facet>
-                                <p:column  headerText="Descripción" sortBy="#{fac[1]}" style="width:10%">
-                                    <h:outputText value="#{fac[1]}" />
-                                </p:column>
-                                <p:column style="width:5%"  headerText="Precio" sortBy="#{fac[0]}">
-                                    <h:outputText style="font-weight: bolder;font-size:150%;color: #{compararFacturaBean.verificarProductoFactura(fac[2], fac[4], fac[5])};" value="#{fac[0]}" />
-                                </p:column>
-                                <p:column  headerText="Supermercado" sortBy="#{fac[2]}" style="width:20%">
+                                <p:column  headerText="Supermercado" sortBy="#{fac[2]}" style="width:15%">
                                     <h:outputText value="#{fac[2]}" />
-                                </p:column>
-                                <p:column  headerText="Fecha" sortBy="#{fac[3]}" style="width:10%">
-                                    <h:outputText value="#{fac[3]}" />
                                 </p:column>
                                 <p:column  headerText="# de sucursal" sortBy="#{fac[4]}" style="width:5%">
                                     <h:outputText value="#{fac[4]}" />
@@ -383,7 +374,25 @@
                                 <p:column  headerText="Dirección" sortBy="#{fac[5]}" style="width:20%">
                                     <h:outputText value="#{fac[5]}" />
                                 </p:column>
+                                <p:column  headerText="Fecha" sortBy="#{fac[3]}" style="width:10%">
+                                    <h:outputText value="#{fac[3]}" />
+                                </p:column>
+                                <p:column  headerText="Descripción" sortBy="#{fac[1]}" style="width:10%">
+                                    <h:outputText value="#{fac[1]}" />
+                                </p:column>
+                                <p:column style="width:5%"  headerText="Precio" sortBy="#{fac[0]}">
+                                    <h:outputText style="font-weight: bolder;font-size:150%;color: #{compararFacturaBean.verificarProductoFactura(fac[2], fac[4], fac[5])};" value="#{fac[0]}" />
+                                </p:column>
+                                <p:column style="width:5%"  headerText="Precio Factura" >
+                                    <h:outputText style="font-weight: bolder;font-size:150%;" value="#{compararFacturaBean.obtenerPrecio(fac[1])}" />
+                                </p:column> 
+                                <p:column style="width:5%"  headerText="Diferencia" >
+                                    <h:outputText style="font-weight: bolder;font-size:150%;color: green" value="#{fac[0]-compararFacturaBean.obtenerPrecio(fac[1])}" />                               
+                                </p:column> 
+
                             </p:dataTable>
+                            <h:outputText style="font-weight: bolder;font-size:150%;color: black" value="Total: " />                               
+                            <h:outputText style="font-weight: bolder;font-size:150%;color: black" value="#{compararFacturaBean.totalAhorrado}" />                               
 
                         </p:panel>
 
