@@ -11,9 +11,14 @@ import ec.edu.espe.tesis.servicio.FacturaServicio;
 import ec.edu.espe.tesis.servicio.InfoTributariaServicio;
 import ec.edu.espe.tesis.util.FacturaCodificacion;
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -86,6 +91,45 @@ public class CompararFactura implements Serializable {
         return nom;
     }
 
+    public String diferenciaFechas(String date) {
+        int difM=0;
+        Date fecha1;
+        Date fecha2;
+        fecha1 = ParseFecha(date);
+        fecha2 = factura.getFechaemision();
+        try {
+            Calendar inicio = new GregorianCalendar();
+            Calendar fin = new GregorianCalendar();
+            inicio.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+            fin.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(fecha2.toString()));
+            int difA = fin.get(Calendar.YEAR) - inicio.get(Calendar.YEAR);
+            difM = difA * 12 + fin.get(Calendar.MONTH) - inicio.get(Calendar.MONTH);
+            
+        } catch (ParseException ex) {
+
+        }
+        if(difM==0){
+           return "-"; 
+        }else{
+            if(Math.abs(difM)==1){
+                return Math.abs(difM)+" Mes";
+            }else{
+                return Math.abs(difM)+ " Meses";
+            }
+        }
+    }
+
+    public Date ParseFecha(String fecha) {
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaDate = null;
+        try {
+            fechaDate = formato.parse(fecha);
+        } catch (ParseException ex) {
+            System.out.println(ex);
+        }
+        return fechaDate;
+    }
+
     public String obtenerCantidad(String ruc) {
         String cant = "";
         for (int i = 0; i < listaSupermercados.size(); i++) {
@@ -125,15 +169,24 @@ public class CompararFactura implements Serializable {
             verProductosMasBaratos();
         }
     }
-    
-    public void calcularTotal(){
-        totalAhorrado=0.0;
+
+    public void calcularTotal() {
+        totalAhorrado = 0.0;
         for (int i = 0; i < listaDetallesMasBarato.size(); i++) {
             double aux;
-            aux=Double.parseDouble(listaDetallesMasBarato.get(i)[0].toString());
-            totalAhorrado=totalAhorrado+aux;
-            
+            double cantidad;
+            cantidad = Double.parseDouble(listaDetalles.get(i)[1].toString());
+            aux = Double.parseDouble(listaDetallesMasBarato.get(i)[0].toString());
+            totalAhorrado = totalAhorrado + aux * cantidad;
+
         }
+    }
+    
+    public String formatoNumero(Object valor) {
+        String valorFormat = "";
+        DecimalFormat formato = new DecimalFormat("#.##");
+        valorFormat = formato.format(valor);
+        return valorFormat;
     }
 
     public void verProductosMasBaratos() {

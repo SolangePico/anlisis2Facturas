@@ -17,7 +17,7 @@ public class InfoFacturaXML {
     String fechaEmision;
     BigDecimal totalSinImpuestos;
     BigDecimal totalDescuento;
-    List<TotalImpuestoXML> totalImpuestos;
+    List<TotalImpuestoXML> totalConImpuestos;
     BigDecimal importeTotal;
     String dirEstablecimiento;
 
@@ -58,11 +58,11 @@ public class InfoFacturaXML {
     }
 
     public List<TotalImpuestoXML> getTotalImpuestos() {
-        return totalImpuestos;
+        return totalConImpuestos;
     }
 
-    public void setTotalImpuestos(List<TotalImpuestoXML> totalImpuestos) {
-        this.totalImpuestos = totalImpuestos;
+    public void setTotalImpuestos(List<TotalImpuestoXML> totalConImpuestos) {
+        this.totalConImpuestos = totalConImpuestos;
     }
 
     public BigDecimal getImporteTotal() {

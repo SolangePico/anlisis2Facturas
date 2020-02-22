@@ -2228,8 +2228,9 @@ html {
     padding: 50px 16px 16px 16px;
 }
 .wrapper .footer {
+    text-align: center;
     margin-left: 250px;
-    height: 40px;
+    height: 50px;
     background-color: #ffffff;
     padding: 0.7em 1.5em 0em 1.5em;
 }
@@ -2864,8 +2865,9 @@ h2 {
     padding: 1em 5em;
 }
 .landing-wrapper #features {
-    background-color: #B1B0BF;
-    padding: 100px 0;
+    background-color: #1f3b59 !important;
+    color:white !important;
+     padding: 100px 0;
 
 }
 .landing-wrapper #features .features-content {
@@ -2875,7 +2877,7 @@ h2 {
 
 }
 .landing-wrapper #features .features-content p {
-    color: #1f2023;
+    color: whitesmoke;
 }
 .landing-wrapper #features .features-content > p {
     font-size: 20px;
@@ -2884,7 +2886,7 @@ h2 {
     font-size: 32px;
 }
 .landing-wrapper #features .features-content .ui-g {
-    text-align: left;
+    text-align: center;
 }
 .landing-wrapper #features .features-content .ui-g > div {
     margin-top: 2px;
@@ -2895,7 +2897,7 @@ h2 {
 .landing-wrapper #features .features-content .feature-text {
     display: inline-block;
     vertical-align: top;
-    width: 200px;
+    width: 400px;
     box-sizing: border-box;
     padding-left: 10px;
 }

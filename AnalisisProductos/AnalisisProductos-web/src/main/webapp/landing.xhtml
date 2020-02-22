@@ -47,43 +47,51 @@
                     <p:graphicImage width="400" height="400" name="images/logo.png" library="omega-layout"/>
                     <span class="title">Bill</span>
                     <span class="title1">XML</span>
-                    <span class="subtitle">Analisa tu consumo, y la variación de precios en supermercados</span>
+                    <span class="subtitle">Analiza tu consumo y la variación de precios en supermercados</span>
                     <p:button style="background-color:#00448f; " outcome="login" value="Inicia Sesión"></p:button>
                 </div>
             </div>
 
             <div id="features">
                 <div class="features-content">
-                    <span class="feature-title">Información General</span>
+                    <span class="feature-title " style=" font-size: 300%;">Información General</span>
                     <p>La información aplica para los supermercados de la ciudad de Quito</p>
 
                     <div class="ui-g">
-                        <div class="ui-g-12 ui-md-6">
-                            <p:graphicImage name="images/landing/section2_1.png" library="omega-layout" styleClass="feature-icon"/>
+                        <div class="ui-g-12 ui-md-12">
+                            <p:separator style="width:50%"/>
+                            <p:graphicImage style="width:50px" name="images/landing/section2_1.png" library="omega-layout" styleClass="feature-icon"/>
                             <span class="feature-text">
-                                <span>Establecimiento con más ventas registradas</span>
+                                <span style="font-weight: bolder; font-size: 150%;">Establecimiento con más ventas registradas</span>
                                 <p>#{infoGeneralBean.infoTributaria[0]} (#{infoGeneralBean.infoTributaria[3]})</p>
                             </span>
+                            <p:separator style="width:50%"/>
                         </div>
-                        <div class="ui-g-12 ui-md-6">
-                            <p:graphicImage name="images/landing/section2_2.png" library="omega-layout" styleClass="feature-icon"/>
+                        <div class="ui-g-12 ui-md-12">
+                            <p:graphicImage style="width:50px" name="images/landing/section2_2.png" library="omega-layout" styleClass="feature-icon"/>
                             <span class="feature-text">
-                                <span>Producto más comprados</span>
-                                <p>#{infoGeneralBean.producto[1]} - (#{infoGeneralBean.producto[2]})</p>
+                                <span style="font-weight: bolder; font-size: 150%;">Producto más comprados</span>
+                                <p>#{infoGeneralBean.producto[1]}  (#{infoGeneralBean.producto[2]})</p>
                             </span>
+                            <p:separator style="width:50%"/>
                         </div>
 
-                        <div class="ui-g-12 ui-md-6">
-                            <p:graphicImage name="images/landing/section2_4.png" library="omega-layout" styleClass="feature-icon"/>
+                        <div class="ui-g-12 ui-md-12">
+                            <p:graphicImage style="width:50px" name="images/landing/section2_4.png" library="omega-layout" styleClass="feature-icon"/>
                             <span class="feature-text">
-                                <span>Total facturas subidas</span>
+                                <span style="font-weight: bolder; font-size: 150%;">Total facturas subidas</span>
                                 <p>#{infoGeneralBean.totalFacturas}</p>
                             </span>
+                            <p:separator style="width:50%"/>
                         </div>
 
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="footer" style="height: 100px;text-align: center; font-weight: bolder; background-color: #ffffff ">
+            <p:graphicImage style="margin-left: 0" name="images/logo.png" library="omega-layout" width="70"/><br></br>
+            <span style="font-size: 110%;" class="footer-text">*Los precios se indican en dólares y dependiendo del caso contara con el cálculo del IVA*</span>
         </div>
         <h:outputStylesheet name="css/layout.css" library="omega-layout" />
     </h:body>

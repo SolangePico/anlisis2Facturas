@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  *
  * @author AGG
  */
-public class TotalImpuestoXML extends java.lang.Object {
+public class TotalImpuestoXML {
     String codigo;
     BigDecimal descuentoAdicional;
     BigDecimal baseImponible;

@@ -174,7 +174,7 @@ public class FacturaServicio implements Serializable {
                         TotalImpuesto totalImpuesto = new TotalImpuesto();
                         try {
                             totalImpuesto.setBaseimponible(autorizacion.getComprobante().getFactura().getInfoFactura().getTotalImpuestos().get(i).getBaseImponible());
-                            //  totalImpuesto.setCodigo(totalImpuestoFacade.count() + "");
+                              totalImpuesto.setCodigo(totalImpuestoFacade.count() + "");
                             totalImpuesto.setDescuento(autorizacion.getComprobante().getFactura().getInfoFactura().getTotalImpuestos().get(i).getDescuentoAdicional());
                             totalImpuesto.setFacCodigo(factura);
                             totalImpuestoFacade.create(totalImpuesto);

@@ -144,6 +144,7 @@ public class FacturaBean implements Serializable {
             fechaFin=getToday();
         }
     }
+    
 
     public void cargarDetallesFactura() {
         listaDetallesFacturaSeleccionada = facturaServicio.obtenerDetallesFactura(facturaSeleccionada.getCodigo().toString());
