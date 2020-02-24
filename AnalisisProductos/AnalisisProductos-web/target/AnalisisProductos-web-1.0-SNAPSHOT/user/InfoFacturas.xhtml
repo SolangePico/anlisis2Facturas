@@ -271,25 +271,56 @@
                     <p:growl id="growl" showDetail="true" sticky="true" /> 
                     <div class="card">
                         <h1>Facturas Subidas</h1>
-                        <p:outputLabel for="fecha_inicial" value="Fecha Inicial:"/>
-                        <p:calendar id="fecha_inicial" 
-                                    locale="es" pattern="yyyy-MM-dd"
-                                    maxdate="#{facturaBean.today}"
-                                    value="#{facturaBean.fechaInicio}">
-                        </p:calendar>
-                        <p:outputLabel for="fecha_final" value="Fecha Fin:"/>
+                        <p:panel id="buscarFech" style="border:none">
+                            <p:selectBooleanCheckbox value="#{facturaBean.fechFlag}" itemLabel="Filtrar Por Fecha">
+                                <p:ajax update="buscarFech" />
+                            </p:selectBooleanCheckbox><br/><br/>
+                            <p:outputLabel rendered="#{facturaBean.fechFlag}" for="fecha_inicial" value="Fecha Inicial:"/>
+                            <p:spacer height="22px" style="width: 3%"/>
+                            <p:calendar rendered="#{facturaBean.fechFlag}" id="fecha_inicial" 
+                                        locale="es" pattern="yyyy-MM-dd"
+                                        maxdate="#{facturaBean.today}"
+                                        value="#{facturaBean.fechaInicio}">
+                            </p:calendar>
+                            <p:spacer height="22px" style="width: 5%"/> 
+                            <p:outputLabel rendered="#{facturaBean.fechFlag}" for="fecha_final" value="Fecha Fin:"/>
+                            <p:spacer height="22px" style="width: 3%"/>
+                            <p:calendar rendered="#{facturaBean.fechFlag}" id="fecha_final" 
+                                        locale="es" pattern="yyyy-MM-dd"
+                                        maxdate="#{facturaBean.today}"
+                                        value="#{facturaBean.fechaFin}">
 
-                        <p:calendar id="fecha_final" 
-                                    locale="es" pattern="yyyy-MM-dd"
-                                    maxdate="#{facturaBean.today}"
-                                    value="#{facturaBean.fechaFin}">
+                            </p:calendar>
+                            <p:spacer height="22px" style="width: 4%"/>
+                            <p:commandButton rendered="#{facturaBean.fechFlag}" id="btn_buscar"
+                                             icon="fa fa-search"
+                                             actionListener="#{facturaBean.buscarRangoFechas()}" 
+                                             update=":facturaForm" />
+                        </p:panel>
+                        <p:panel id="buscarProd" style="border:none">
+                            <p:selectBooleanCheckbox value="#{facturaBean.prodFlag}" itemLabel="Filtrar Por Productos">
+                                <p:ajax update="buscarProd" />
+                            </p:selectBooleanCheckbox>
+                            <br/><br/>
+                            <p:outputLabel rendered="#{facturaBean.prodFlag}" style="font-size: 100%;" value="Seleccione Producto:" />
+                            <p:spacer height="22px" style="width: 4%"/>
+                            <p:selectOneMenu rendered="#{facturaBean.prodFlag}" style=" width: auto" panelStyle="width:100px" id="producto"   value="#{facturaBean.producto}" effect="fade" var="p"  filter="true" filterMatchMode="startsWith">
+                                <f:selectItems  value="#{facturaBean.listaProds}" var="theme"  itemLabel="#{theme[1]}" itemValue="#{theme[0]}" />
+                                <p:column style="width:10%">
+                                    <h:outputText value="#{facturaBean.nombreProd(p)}" />
+                                </p:column>
+                            </p:selectOneMenu>
+                            <p:spacer height="22px" style="width: 4%"/>
+                            <p:commandButton  rendered="#{facturaBean.prodFlag}" id="btn_buscarPorProd"
+                                              icon="fa fa-search"
+                                              actionListener="#{facturaBean.buscarFacturasPorProducto()}" 
+                                              update=":facturaForm" />
+                        </p:panel>
 
-                        </p:calendar>
-                        <p:commandButton id="btn_buscar"
-                                         icon="fa fa-search"
-                                         actionListener="#{facturaBean.buscarRangoFechas()}" 
-                                         update=":facturaForm" />
-                        <p:spacer height="22px" width="300px"/>
+
+
+                        <br/><br/>
+                        <p:spacer height="22px" style="width: 90%"/>
                         <p:commandButton id="btn_buscarTodo"
                                          icon="fa fa-search"
                                          value="Mostrar todo"

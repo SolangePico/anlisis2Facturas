@@ -174,7 +174,7 @@ public class FacturaServicio implements Serializable {
                         TotalImpuesto totalImpuesto = new TotalImpuesto();
                         try {
                             totalImpuesto.setBaseimponible(autorizacion.getComprobante().getFactura().getInfoFactura().getTotalImpuestos().get(i).getBaseImponible());
-                              totalImpuesto.setCodigo(totalImpuestoFacade.count() + "");
+                            totalImpuesto.setCodigo(totalImpuestoFacade.count() + "");
                             totalImpuesto.setDescuento(autorizacion.getComprobante().getFactura().getInfoFactura().getTotalImpuestos().get(i).getDescuentoAdicional());
                             totalImpuesto.setFacCodigo(factura);
                             totalImpuestoFacade.create(totalImpuesto);
@@ -480,6 +480,33 @@ public class FacturaServicio implements Serializable {
             return Producto.get(0);
         }
 
+    }
+
+    public List<Object[]> obtenerFacturasPorProducto(String usuCodigo, String codPro, Date fechaInicio, Date fechaFin) {
+        List<Object[]> facturaPorProducto = null;
+
+        try {
+            if (fechaInicio != null) {
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                String fecha1 = df.format(new java.sql.Date(fechaInicio.getTime()));
+                fecha1 = fecha1 + " 00:00:00.000";
+                String fecha2 = df.format(new java.sql.Date(fechaFin.getTime()));
+                fecha2 = fecha2 + " 23:59:59.000";
+                DateFormat dfsql = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                facturaPorProducto = facturaFacade.obtenerFacturasPorProducto(usuCodigo, codPro, dfsql.parse(fecha1), dfsql.parse(fecha2));
+
+            }else{
+                  facturaPorProducto = facturaFacade.obtenerFacturasPorProducto(usuCodigo, codPro, null, null);
+
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(FacturaServicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (facturaPorProducto.isEmpty()) {
+            return null;
+        } else {
+            return facturaPorProducto;
+        }
     }
 
 }

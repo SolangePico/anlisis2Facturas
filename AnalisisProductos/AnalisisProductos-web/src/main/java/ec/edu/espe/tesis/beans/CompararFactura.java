@@ -92,10 +92,8 @@ public class CompararFactura implements Serializable {
     }
 
     public String diferenciaFechas(String date) {
-        int difM=0;
-        Date fecha1;
+        int difM = 0;
         Date fecha2;
-        fecha1 = ParseFecha(date);
         fecha2 = factura.getFechaemision();
         try {
             Calendar inicio = new GregorianCalendar();
@@ -104,17 +102,17 @@ public class CompararFactura implements Serializable {
             fin.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(fecha2.toString()));
             int difA = fin.get(Calendar.YEAR) - inicio.get(Calendar.YEAR);
             difM = difA * 12 + fin.get(Calendar.MONTH) - inicio.get(Calendar.MONTH);
-            
+
         } catch (ParseException ex) {
 
         }
-        if(difM==0){
-           return "-"; 
-        }else{
-            if(Math.abs(difM)==1){
-                return Math.abs(difM)+" Mes";
-            }else{
-                return Math.abs(difM)+ " Meses";
+        if (difM == 0) {
+            return "-";
+        } else {
+            if (Math.abs(difM) == 1) {
+                return Math.abs(difM) + " Mes";
+            } else {
+                return Math.abs(difM) + " Meses";
             }
         }
     }
@@ -162,7 +160,7 @@ public class CompararFactura implements Serializable {
             }
             calcularTotal();
             if (flagNo) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se encontraron productos en otros establecimientos"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No hay registros en el supermercado seleccionado", "."));
 
             }
         } else {
@@ -181,7 +179,7 @@ public class CompararFactura implements Serializable {
 
         }
     }
-    
+
     public String formatoNumero(Object valor) {
         String valorFormat = "";
         DecimalFormat formato = new DecimalFormat("#.##");

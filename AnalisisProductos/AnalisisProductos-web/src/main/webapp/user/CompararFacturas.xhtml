@@ -276,7 +276,7 @@
                     <h:form id="compararFactura">
                         <p:panel style="width:auto;" styleClass="ui-panelgrid-blank" >
                             <div class="ui-g ui-fluid">
-                                <p:growl id="growl2"  sticky="true" /> 
+                                <p:growl id="growl"  sticky="true" /> 
                                 <div class="ui-g-12 ui-lg-12">
                                     <p:panelGrid columns="2" columnClasses="ui-g-3,ui-g-9" layout="grid"  id="datos">
                                         <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" >
@@ -375,7 +375,7 @@
                                                  value="Actualizar Información" 
                                                  action="#{compararFacturaBean.actualizarDatos()}" 
                                                  style="margin-top: 10px;"
-                                                 update="compararFactura:tablaProdBarato compararFactura:growl2 tot dif"/>
+                                                 update="compararFactura:tablaProdBarato compararFactura:growl tot dif"/>
                                 <p:dataTable id="tablaProdBarato" 
                                              var="fac" 
                                              reflow="true"

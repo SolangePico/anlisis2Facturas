@@ -251,6 +251,18 @@ public class FacturaFacade extends AbstractFacade<Factura> {
         return result;
     }
 
+    public List<Object[]> obtenerFacturasPorProducto(String usuCodigo, String codPro, Date fecha1, Date fecha2) {
+        String query;
+        if (fecha1==null) {
+            query = "select f.codigo, f.fechaemision from factura f, detalle_factura df where df.FAC_CODIGO=f.codigo and f.USU_CODIGO='" + usuCodigo + "' and df.PRO_CODIGO='" + codPro + "' group by f.codigo;";
+        } else {
+            query = "select f.codigo, f.fechaemision from factura f, detalle_factura df where df.FAC_CODIGO=f.codigo and f.fechaemision<='" + fecha2 + "' and f.fechaemision>='" + fecha1 + "' and f.USU_CODIGO='" + usuCodigo + "' and df.PRO_CODIGO='" + codPro + "' group by f.codigo;";
+        }
+        Query q = em.createNativeQuery(query);
+        List<Object[]> result = q.getResultList();
+        return result;
+    }
+
     public List<Factura> obtenerFacturasPorFecha(Date fechaInicio, Date fechaFin, String id) {
         Usuario usu;
         usu = usuarioFacade.obtenerUsuarioPorCodigo(Integer.parseInt(id)).get(0);

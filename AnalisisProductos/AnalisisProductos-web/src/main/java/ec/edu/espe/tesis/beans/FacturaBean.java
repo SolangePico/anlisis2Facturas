@@ -7,8 +7,10 @@ package ec.edu.espe.tesis.beans;
 
 import ec.edu.espe.tesis.facturas.model.Factura;
 import ec.edu.espe.tesis.servicio.FacturaServicio;
+import ec.edu.espe.tesis.servicio.ProductoServicio;
 import ec.edu.espe.tesis.util.FacturaCodificacion;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,19 +36,51 @@ public class FacturaBean implements Serializable {
     private Factura facturaSeleccionada;
     private List<Object[]> listaFacturasPorEstab;
     private List<Object[]> listaDetallesFacturaSeleccionada;
+    private List<Object[]> listaFacPorProd;
     private List<Factura> listaFacturas;
     private String codigoFactura;
     private Date fechaInicio;
     private Date fechaFin;
+    private String producto;
+    private boolean prodFlag;
+    private boolean fechFlag;
+    private List<Object[]> listaProds;
 
     @Inject
     FacturaServicio facturaServicio;
 
     @Inject
+    ProductoServicio productoServicio;
+
+    @Inject
     HttpSessionHandler sesion;
+
+    public boolean isFechFlag() {
+        return fechFlag;
+    }
+
+    public List<Object[]> getListaProds() {
+        return listaProds;
+    }
+
+    public void setListaProds(List<Object[]> listaProds) {
+        this.listaProds = listaProds;
+    }
+
+    public void setFechFlag(boolean fechFlag) {
+        this.fechFlag = fechFlag;
+    }
 
     public Date getFechaInicio() {
         return fechaInicio;
+    }
+
+    public boolean isProdFlag() {
+        return prodFlag;
+    }
+
+    public void setProdFlag(boolean prodFlag) {
+        this.prodFlag = prodFlag;
     }
 
     public void setFechaInicio(Date fechaInicio) {
@@ -73,6 +107,14 @@ public class FacturaBean implements Serializable {
         return codigoFactura;
     }
 
+    public List<Object[]> getListaFacPorProd() {
+        return listaFacPorProd;
+    }
+
+    public void setListaFacPorProd(List<Object[]> listaFacPorProd) {
+        this.listaFacPorProd = listaFacPorProd;
+    }
+
     public void setCodigoFactura(String codigoFactura) {
         this.codigoFactura = codigoFactura;
     }
@@ -93,6 +135,14 @@ public class FacturaBean implements Serializable {
         this.listaFacturas = listaFacturas;
     }
 
+    public String getProducto() {
+        return producto;
+    }
+
+    public void setProducto(String producto) {
+        this.producto = producto;
+    }
+
     public Factura getFacturaSeleccionada() {
         return facturaSeleccionada;
     }
@@ -103,13 +153,17 @@ public class FacturaBean implements Serializable {
 
     @PostConstruct
     public void Init() {
-
+        fechFlag = true;
         facturaSeleccionada = null;
         fechaFin = getToday();
         fechaInicio = getToday();
         listaFacturas = facturaServicio.obtenerFacturasConCriterio(Integer.parseInt(sesion.getId()));
         listaFacturasPorEstab = facturaServicio.obtenerFacturasPorEstablecimiento(sesion.getId());
+        listaProds=productoServicio.obtenerProductosPorUsuario(sesion.getId());
+    }
 
+    public String nombreProd(String cod) {
+        return productoServicio.obtenerNombreProductoPorCodigo(cod);
     }
 
     public Date getToday() {
@@ -117,22 +171,21 @@ public class FacturaBean implements Serializable {
         return c.getTime();
     }
 
-    public void mostrarTodo(){
-       listaFacturas = facturaServicio.obtenerFacturasConCriterio(Integer.parseInt(sesion.getId())); 
+    public void mostrarTodo() {
+        listaFacturas = facturaServicio.obtenerFacturasConCriterio(Integer.parseInt(sesion.getId()));
     }
-    
-    public void verComparacion(){
-            
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            String contexto = request.getRequestURL().toString();
-            String FacIdTemp = FacturaCodificacion.codificarId(String.valueOf(facturaSeleccionada.getCodigo()));
-            contexto = contexto.substring(0, contexto.indexOf("user/") + 5);
-            contexto = contexto.concat("CompararFacturas.xhtml?facId=" + FacIdTemp);
-            PrimeFaces.current().executeScript("window.open('" + contexto + "','_blank');");
-      
+
+    public void verComparacion() {
+
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String contexto = request.getRequestURL().toString();
+        String FacIdTemp = FacturaCodificacion.codificarId(String.valueOf(facturaSeleccionada.getCodigo()));
+        contexto = contexto.substring(0, contexto.indexOf("user/") + 5);
+        contexto = contexto.concat("CompararFacturas.xhtml?facId=" + FacIdTemp);
+        PrimeFaces.current().executeScript("window.open('" + contexto + "','_blank');");
+
     }
-   
-    
+
     public void buscarRangoFechas() {
         if (fechaInicio.before(fechaFin) || fechaInicio.equals(fechaFin)) {
             listaFacturas = facturaServicio.obtenerFacturasPorFecha(fechaInicio, fechaFin, sesion.getId());
@@ -141,10 +194,26 @@ public class FacturaBean implements Serializable {
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La Fecha inicial debe ser menor a la final"));
-            fechaFin=getToday();
+            fechaFin = getToday();
         }
     }
-    
+
+    public void buscarFacturasPorProducto() {
+
+        listaFacPorProd = facturaServicio.obtenerFacturasPorProducto(sesion.getId(), producto, null, fechaFin);
+        listaFacturas = new ArrayList();
+        if (listaFacPorProd != null) {
+            for (int i = 0; i < listaFacPorProd.size(); i++) {
+                Factura fac = new Factura();
+                fac = facturaServicio.obtenerFacturaPorCodigo(listaFacPorProd.get(i)[0].toString());
+                listaFacturas.add(fac);
+
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aviso", "No existen facturas con el producto seleccionado"));
+
+        }
+    }
 
     public void cargarDetallesFactura() {
         listaDetallesFacturaSeleccionada = facturaServicio.obtenerDetallesFactura(facturaSeleccionada.getCodigo().toString());
@@ -154,8 +223,8 @@ public class FacturaBean implements Serializable {
         facturaSeleccionada = null;
         RequestContext.getCurrentInstance().execute("PF('factura').hide();");
     }
-    
-    public void setFechaYmes(Object[] mes, int anio){
+
+    public void setFechaYmes(Object[] mes, int anio) {
         facturaSeleccionada = null;
         listaFacturas = facturaServicio.obtenerFacturasPorMesYAnio(mes[0].toString(), anio, sesion.getId());
     }
