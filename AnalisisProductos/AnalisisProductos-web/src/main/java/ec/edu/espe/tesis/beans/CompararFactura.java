@@ -71,17 +71,17 @@ public class CompararFactura implements Serializable {
         cargarAniosFactura();
     }
 
-    public String obtenerPrecio(String descripcion) {
+    public double obtenerPrecio(String descripcion) {
         for (int i = 0; i < listaDetalles.size(); i++) {
             if (listaDetalles.get(i)[0].equals(descripcion)) {
-               String precio;
+                String precio;
                 double aux;
-               aux=Double.parseDouble(listaDetalles.get(i)[2].toString())-Double.parseDouble(listaDetalles.get(i)[5].toString())/Double.parseDouble(listaDetalles.get(i)[1].toString());
-               
-               return aux+"";
+                aux = Double.parseDouble(listaDetalles.get(i)[2].toString()) - Double.parseDouble(listaDetalles.get(i)[5].toString()) / Double.parseDouble(listaDetalles.get(i)[1].toString());
+                
+                return aux;
             }
         }
-        return "0";
+        return 0.0;
     }
 
     public String obtenerNombre(String ruc) {
@@ -148,10 +148,27 @@ public class CompararFactura implements Serializable {
         if (!supermercadoSeleccionado.equals("1") || anio != -1) {
             for (int i = 0; i < listaDetalles.size(); i++) {
                 if (facturaServicio.obtenerProductoMasBaratoPorEstabYAnio(listaDetalles.get(i)[4].toString(), factura.getCodigo().toString(), supermercadoSeleccionado, anio + "") != null) {
-                    Object aux;
-                    aux
-                            = listaDetallesMasBarato.add(facturaServicio.obtenerProductoMasBaratoPorEstabYAnio(listaDetalles.get(i)[4].toString(), factura.getCodigo().toString(), supermercadoSeleccionado, anio + ""));
-                    flagNo = false;
+                    Object[] aux;
+                    Object[] aux1;
+                    aux1 = listaDetalles.get(i);
+                    aux = facturaServicio.obtenerProductoMasBaratoPorEstabYAnio(listaDetalles.get(i)[4].toString(), factura.getCodigo().toString(), supermercadoSeleccionado, anio + "");
+                    if ((Double.parseDouble(aux[0].toString()) - Double.parseDouble(aux[8].toString()) / Double.parseDouble(aux[7].toString()))
+                            < Double.parseDouble(aux1[2].toString()) - Double.parseDouble(aux1[5].toString()) / Double.parseDouble(aux1[1].toString())) {
+                        listaDetallesMasBarato.add(aux);
+                        flagNo = false;
+                    } else {
+                        Object[] obj = new Object[9];
+                        obj[0] = listaDetalles.get(i)[2];
+                        obj[1] = listaDetalles.get(i)[0];
+                        obj[2] = factura.getInfCodigo().getRazonsocial();
+                        obj[3] = factura.getFechaemision();
+                        obj[4] = factura.getInfCodigo().getEstablecimiento();
+                        obj[5] = factura.getInfCodigo().getDireccion();
+                        obj[6] = listaDetalles.get(i)[0];
+                        obj[7] = listaDetalles.get(i)[1];
+                        obj[8] = listaDetalles.get(i)[5];
+                        listaDetallesMasBarato.add(obj);
+                    }
                 } else {
                     Object[] obj = new Object[9];
                     obj[0] = listaDetalles.get(i)[2];
@@ -169,7 +186,7 @@ public class CompararFactura implements Serializable {
             }
             calcularTotal();
             if (flagNo) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No hay registros en el supermercado seleccionado", "."));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No hay registros en el supermercado o año seleccionado", "."));
 
             }
         } else {
@@ -182,10 +199,10 @@ public class CompararFactura implements Serializable {
         for (int i = 0; i < listaDetallesMasBarato.size(); i++) {
             double aux;
             double cantidad;
-            cantidad = Double.parseDouble(listaDetallesMasBarato.get(i)[7].toString());
-            aux = Double.parseDouble(listaDetallesMasBarato.get(i)[0].toString()) - (Double.parseDouble(listaDetallesMasBarato.get(i)[8].toString()) / cantidad);
+            cantidad = Double.parseDouble(listaDetalles.get(i)[1].toString());
+            aux = Double.parseDouble(formatoNumero(Double.parseDouble(listaDetallesMasBarato.get(i)[0].toString()) - (Double.parseDouble(listaDetallesMasBarato.get(i)[8].toString()) / cantidad)).replace(",","."));
             totalAhorrado = totalAhorrado + aux * cantidad;
-    
+
         }
     }
 
@@ -193,6 +210,9 @@ public class CompararFactura implements Serializable {
         String valorFormat = "";
         DecimalFormat formato = new DecimalFormat("#.##");
         valorFormat = formato.format(valor);
+        if(valorFormat.equals("-0")||valorFormat.equals("0")){
+            valorFormat="-";
+        }
         return valorFormat;
     }
 
@@ -201,8 +221,27 @@ public class CompararFactura implements Serializable {
         boolean flagNo = true;
         for (int i = 0; i < listaDetalles.size(); i++) {
             if (facturaServicio.obtenerProductoMasBarato(listaDetalles.get(i)[4].toString(), factura.getCodigo().toString()) != null) {
-                listaDetallesMasBarato.add(facturaServicio.obtenerProductoMasBarato(listaDetalles.get(i)[4].toString(), factura.getCodigo().toString()));
-                flagNo = false;
+                Object[] aux;
+                Object[] aux1;
+                aux1 = listaDetalles.get(i);
+                aux = facturaServicio.obtenerProductoMasBarato(listaDetalles.get(i)[4].toString(), factura.getCodigo().toString());
+                if ((Double.parseDouble(aux[0].toString()) - Double.parseDouble(aux[8].toString()) / Double.parseDouble(aux[7].toString()))
+                        < Double.parseDouble(aux1[2].toString()) - Double.parseDouble(aux1[5].toString()) / Double.parseDouble(aux1[1].toString())) {
+                    listaDetallesMasBarato.add(aux);
+                    flagNo = false;
+                } else {
+                    Object[] obj = new Object[9];
+                    obj[0] = listaDetalles.get(i)[2];
+                    obj[1] = listaDetalles.get(i)[0];
+                    obj[2] = factura.getInfCodigo().getRazonsocial();
+                    obj[3] = factura.getFechaemision();
+                    obj[4] = factura.getInfCodigo().getEstablecimiento();
+                    obj[5] = factura.getInfCodigo().getDireccion();
+                    obj[6] = listaDetalles.get(i)[0];
+                    obj[7] = listaDetalles.get(i)[1];
+                    obj[8] = listaDetalles.get(i)[5];
+                    listaDetallesMasBarato.add(obj);
+                }
             } else {
                 Object[] obj = new Object[9];
                 obj[0] = listaDetalles.get(i)[2];
@@ -216,6 +255,7 @@ public class CompararFactura implements Serializable {
                 obj[8] = listaDetalles.get(i)[5];
                 listaDetallesMasBarato.add(obj);
             }
+
         }
         calcularTotal();
         if (flagNo) {

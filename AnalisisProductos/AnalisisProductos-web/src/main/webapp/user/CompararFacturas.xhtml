@@ -7,267 +7,6 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="title">Análisis de Factura</ui:define>
-    <ui:define name="head">
-        <script type="text/javascript">
-            function skinChart() {
-                this.cfg.shadow = false;
-                this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#ffffff',
-                    gridLineColor: '#F5F5F5',
-                    shadow: false
-                };
-                this.cfg.axesDefaults = {
-                    rendererOptions: {
-                        textColor: '#666F77'
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    shadow: false,
-                    lineWidth: 1,
-                    markerOptions: {
-                        shadow: false,
-                        size: 7,
-                        style: 'circle'
-                    }
-                }
-            }
-
-            function skinBar() {
-                this.cfg.shadow = false;
-                this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#ffffff',
-                    gridLineColor: '#F5F5F5',
-                    shadow: false
-                };
-                this.cfg.axesDefaults = {
-                    rendererOptions: {
-                        textColor: '#666F77'
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    shadow: false,
-                    lineWidth: 1,
-                    renderer: $.jqplot.BarRenderer,
-                    markerOptions: {
-                        shadow: false,
-                        size: 7,
-                        style: 'circle'
-                    }
-                }
-            }
-
-            function skinArea() {
-                this.cfg.shadow = false;
-                this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#ffffff',
-                    gridLineColor: '#F5F5F5',
-                    shadow: false
-                };
-                this.cfg.axesDefaults = {
-                    rendererOptions: {
-                        textColor: '#666F77'
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    shadow: false,
-                    lineWidth: 1,
-                    markerOptions: {
-                        shadow: false,
-                        size: 7,
-                        style: 'circle'
-                    }
-                }
-            }
-
-            function skinBubble() {
-                this.cfg.shadow = false;
-                this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#ffffff',
-                    gridLineColor: '#F5F5F5',
-                    shadow: false
-                };
-                this.cfg.axesDefaults = {
-                    rendererOptions: {
-                        textColor: '#666F77'
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    shadow: false,
-                    lineWidth: 1,
-                    renderer: $.jqplot.BubbleRenderer,
-                    markerOptions: {
-                        shadow: false,
-                        size: 7,
-                        style: 'circle'
-                    }
-                }
-            }
-
-            function skinZoom() {
-                this.cfg.shadow = false;
-                this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#ffffff',
-                    gridLineColor: '#F5F5F5',
-                    shadow: false
-                };
-                this.cfg.axesDefaults = {
-                    rendererOptions: {
-                        textColor: '#666F77'
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    shadow: false,
-                    lineWidth: 1,
-                    markerOptions: {
-                        shadow: false,
-                        size: 7,
-                        style: 'circle'
-                    }
-                }
-            }
-
-            function skinPie() {
-                this.cfg.shadow = false;
-                this.cfg.title = 'Establecimientos';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#ffffff',
-                    gridLineColor: '#F5F5F5',
-                    shadow: false
-                };
-                this.cfg.axesDefaults = {
-                    rendererOptions: {
-                        textColor: '#666F77',
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    renderer: $.jqplot.PieRenderer,
-                    shadow: true,
-                    lineWidth: 1,
-                    markerOptions: {
-                        shadow: false,
-                        size: 10,
-                        style: 'circle'
-                    }
-                }
-            }
-
-            function skinDonut() {
-                this.cfg.shadow = false;
-                this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#ffffff',
-                    gridLineColor: '#F5F5F5',
-                    shadow: false
-                };
-                this.cfg.axesDefaults = {
-                    rendererOptions: {
-                        textColor: '#666F77',
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    renderer: $.jqplot.DonutRenderer,
-                    shadow: false,
-                    lineWidth: 1,
-                    markerOptions: {
-                        shadow: false,
-                        size: 7,
-                        style: 'circle'
-                    }
-                }
-            }
-
-            function skinBarAndLine() {
-                this.cfg.shadow = false;
-                this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#ffffff',
-                    gridLineColor: '#F5F5F5',
-                    shadow: false
-                };
-                this.cfg.axesDefaults = {
-                    rendererOptions: {
-                        textColor: '#666F77'
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    shadow: false,
-                    lineWidth: 5,
-                    renderer: $.jqplot.BarRenderer,
-                    markerOptions: {
-                        shadow: false,
-                        size: 7,
-                        style: 'circle'
-                    }
-                }
-            }
-
-            function skinMeterGauge() {
-                this.cfg.title = '';
-                this.cfg.seriesDefaults = {
-                    shadow: false,
-                    lineWidth: 5,
-                    renderer: $.jqplot.MeterGaugeRenderer,
-                    rendererOptions: {
-                        shadow: false,
-                        min: 100,
-                        max: 800,
-                        intervals: [200, 300, 400, 500, 600, 700, 800],
-                        intervalColors: ['#3E98D3', '#EF3F61', '#2BB673', '#F15732', '#3E98D3', '#EF3F61', '#2BB673']
-                    }
-                }
-            }
-
-            function skinMultiAxis() {
-                this.cfg.shadow = false;
-                this.cfg.title = '';
-                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#ffffff',
-                    gridLineColor: '#F5F5F5',
-                    shadow: false
-                };
-                this.cfg.axesDefaults = {
-                    rendererOptions: {
-                        textColor: '#666F77'
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    shadow: false,
-                    lineWidth: 1,
-                    renderer: $.jqplot.BarRenderer,
-                    markerOptions: {
-                        shadow: false,
-                        size: 7,
-                        style: 'circle'
-                    }
-                }
-            }
-        </script>
-
-    </ui:define>
-
     <ui:define name="content">
         <div class="container">
             <div class="ui-g">
@@ -310,6 +49,9 @@
                                             <p:column headerText="Cantidad">
                                                 <h:outputText value="#{det[1]}"></h:outputText>
                                             </p:column>
+                                             <p:column headerText="Descuento">
+                                                <h:outputText value="#{det[5]}"></h:outputText>
+                                            </p:column>
                                             <p:column headerText="Total">
                                                 <h:outputText value="#{det[3]}"></h:outputText>
                                             </p:column>
@@ -351,12 +93,11 @@
                             <p:panel class="ui-g-8" style="border:none;">
                                 <p:panel class="ui-g-4" style="border:none;padding: 0">
                                     <h:outputText style="font-weight: bolder;font-size:150%;color: black" value="Total sin Impuesto: " /><br/>                                
-                                    <p:separator style="width: 50%;margin-left: 0px;"/>
+                                    <br/><br/>
 
-                                    <h:outputText id="tot" style="font-size:150%;color: black" value="#{compararFacturaBean.formatoNumero(compararFacturaBean.totalAhorrado)}" /><br/><br/>                           
+                                    <h:outputText id="tot" style="font-size:150%;color: black" value="#{compararFacturaBean.formatoNumero(compararFacturaBean.totalAhorrado)}" /><br/><br/><br/>                         
                                     <h:outputText style="font-weight: bolder;font-size:150%;color: black" value="Ahorro: " /><br/>                                
-                                    <p:separator style="width: 50%;margin-left: 0px;"/>
-
+                                   <br/><br/>
                                     <h:outputText id="dif" style="font-size:150%;color: black" value="#{compararFacturaBean.formatoNumero(compararFacturaBean.factura.totalsinimpuesto-compararFacturaBean.totalAhorrado)}" />                               
                                 </p:panel>
                                 <p:panel class="ui-g-6" style="border:none;">
@@ -407,10 +148,10 @@
                                         <h:outputText style="font-weight: bolder;font-size:150%;color: #{compararFacturaBean.verificarProductoFactura(fac[2], fac[4], fac[5])};" value="#{fac[0]-fac[8]/fac[7]}" />
                                     </p:column>
                                     <p:column style="width:5%"  headerText="Precio Factura" >
-                                        <h:outputText style="font-weight: bolder;font-size:150%;" value="#{compararFacturaBean.obtenerPrecio(fac[1])}" />
+                                        <h:outputText style="font-weight: bolder;font-size:150%;" value="#{compararFacturaBean.formatoNumero(compararFacturaBean.obtenerPrecio(fac[1]))}" />
                                     </p:column> 
                                     <p:column style="width:5%"  headerText="Diferencia" >
-                                        <h:outputText style="font-weight: bolder;font-size:150%;color: green" value="#{(fac[0]-fac[8]/fac[7])-compararFacturaBean.obtenerPrecio(fac[1])}" />                               
+                                        <h:outputText style="font-weight: bolder;font-size:150%;color: green" value="#{compararFacturaBean.formatoNumero(fac[0]-fac[8]/fac[7]-compararFacturaBean.obtenerPrecio(fac[1]))}" />                               
                                     </p:column> 
 
                                 </p:dataTable>
