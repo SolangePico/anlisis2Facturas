@@ -145,6 +145,9 @@ public class LeerXMLBean implements Serializable {
     @PostConstruct
     public void init() {
         totFacturas = facturaServicio.obtenerFacturasPorUsuario(sesion.getId());
+        if(totFacturas==0){
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Sube al menos una factura para navegar por la plataforma"));
+        }
         facturasSubidas = 0;
         flagCargar = true;
 
@@ -159,7 +162,7 @@ public class LeerXMLBean implements Serializable {
             usu.setEstado('S');
             sesion.setFlag(false);
             totFacturas = facturaServicio.obtenerFacturasPorUsuario(sesion.getId());
-
+            PrimeFaces.current().ajax().update("menuform");
         } else {
             sesion.setFlag(false);
             usu.setEstado('N');

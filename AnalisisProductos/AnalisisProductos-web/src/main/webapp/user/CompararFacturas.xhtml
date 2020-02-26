@@ -404,13 +404,13 @@
                                         <h:outputText value="#{fac[1]}" />
                                     </p:column>
                                     <p:column style="width:5%"  headerText="Precio Mas Barato" sortBy="#{fac[0]}">
-                                        <h:outputText style="font-weight: bolder;font-size:150%;color: #{compararFacturaBean.verificarProductoFactura(fac[2], fac[4], fac[5])};" value="#{fac[0]}" />
+                                        <h:outputText style="font-weight: bolder;font-size:150%;color: #{compararFacturaBean.verificarProductoFactura(fac[2], fac[4], fac[5])};" value="#{fac[0]-fac[8]/fac[7]}" />
                                     </p:column>
                                     <p:column style="width:5%"  headerText="Precio Factura" >
                                         <h:outputText style="font-weight: bolder;font-size:150%;" value="#{compararFacturaBean.obtenerPrecio(fac[1])}" />
                                     </p:column> 
                                     <p:column style="width:5%"  headerText="Diferencia" >
-                                        <h:outputText style="font-weight: bolder;font-size:150%;color: green" value="#{fac[0]-compararFacturaBean.obtenerPrecio(fac[1])}" />                               
+                                        <h:outputText style="font-weight: bolder;font-size:150%;color: green" value="#{(fac[0]-fac[8]/fac[7])-compararFacturaBean.obtenerPrecio(fac[1])}" />                               
                                     </p:column> 
 
                                 </p:dataTable>

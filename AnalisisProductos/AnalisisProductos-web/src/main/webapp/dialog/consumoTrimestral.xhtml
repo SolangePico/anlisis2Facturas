@@ -25,21 +25,20 @@
             <p:separator/>
             <h1 class="centerText">#{productoBean.productoSeleccionado.descripcion} </h1>
             <p:separator/>
-            <p:panelGrid columns="3" style="width:100%">
+            <p:panel>
                 <p:outputLabel style="font-size: 150%;" value="Seleccione Año:" />
-
-                <p:selectOneMenu style=" width: 90%" panelStyle="width:200px" id="anio" label="Seleccione"  value="#{productoBean.anioSeleccionado}" effect="fade" var="e"  filter="true" filterMatchMode="startsWith">
+                <p:spacer width="40"/>
+                <p:selectOneMenu style=" width: auto;margin-top: 20px" panelStyle="width:200px" id="anio" label="Seleccione"  value="#{productoBean.anioSeleccionado}" effect="fade" var="e"  filter="true" filterMatchMode="startsWith">
                     <f:selectItems value="#{productoBean.anio}" var="a" itemLabel="#{a}"  itemValue="#{a}" />
                     <h:outputText value="#{a}" />
-
                 </p:selectOneMenu>
+                <p:spacer width="40"/>
                 <p:commandButton id="btn_mostrarInfoConsumo"
                                  icon="fa fa-search"
                                  actionListener="#{productoBean.actualizarAnio()}" 
-                                 style="margin-top: 10px;"
-                                 update=":mostrarInfoConsumoTri :mostrarInfoConsumoTri:chartConsumo"/>
-            </p:panelGrid>
-            <p:panelGrid columns="2">
+                                                                  update=":mostrarInfoConsumoTri :mostrarInfoConsumoTri:chartConsumo"/>
+           </p:panel>
+                <p:panelGrid columns="2">
                 <p:panel id="chartConsumo">
                     <c:if test="#{productoBean.listaProdPorAnio.size()>0}">
                         <p:chart style="width: 800px;height: 400px" id="line1" type="line" model="#{productoBean.chartProducto1}" responsive="true" />

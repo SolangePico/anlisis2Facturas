@@ -19,6 +19,7 @@ import javax.inject.Inject;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -155,7 +156,7 @@ public class LogBean implements Serializable {
         } else {
             session.setFlag(true);
             try {
-                facesContext.getExternalContext().redirect("user/CargarFactura.xhtml");
+                facesContext.getExternalContext().redirect("user/CargarFactura.xhtml");    
             } catch (IOException ex) {
                 Logger.getLogger(LogBean.class.getName()).log(Level.SEVERE, null, ex);
             }

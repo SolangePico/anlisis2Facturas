@@ -197,23 +197,23 @@ public class FacturaFacade extends AbstractFacade<Factura> {
     public List<Object[]> obtenerProductoMasBaratoPorEstabYAnio(String codProd, String codFac, String ruc, String anio) {
         String query;
         if (anio.equals("-1")) {
-            query = "select min(c.preciounitario), p.descripcion, i.razonsocial, max(f.FECHAEMISION) as M, i.establecimiento, i.direccion, f.codigo "
+            query = "select min(c.preciounitario), p.descripcion, i.razonsocial, max(f.FECHAEMISION) as M, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
                     + "from producto p, control_precios c, info_tributaria i, factura f, detalle_factura d "
                     + "where f.CODIGO<>'" + codFac + "' and f.codigo=d.FAC_CODIGO and p.codigo=c.PRO_CODIGO and p.CODIGO=d.PRO_CODIGO and i.ruc='" + ruc + "' "
-                    + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by p.descripcion, i.razonsocial, i.establecimiento, i.direccion, f.codigo order by M desc;";
+                    + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by p.descripcion, i.razonsocial, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento order by M desc;";
 
         } else {
             if (ruc.equals("1")) {
-                query = "select min(c.preciounitario), p.descripcion, i.razonsocial, max(f.FECHAEMISION) as M, i.establecimiento, i.direccion, f.codigo "
+                query = "select min(c.preciounitario), p.descripcion, i.razonsocial, max(f.FECHAEMISION) as M, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
                         + "from producto p, control_precios c, info_tributaria i, factura f, detalle_factura d "
                         + "where f.CODIGO<>'" + codFac + "' and f.codigo=d.FAC_CODIGO and p.codigo=c.PRO_CODIGO and p.CODIGO=d.PRO_CODIGO and year(f.fechaemision)='" + anio + "' "
-                        + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by p.descripcion, i.razonsocial, i.establecimiento, i.direccion, f.codigo order by M desc;";
+                        + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by p.descripcion, i.razonsocial, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento order by M desc;";
 
             } else {
-                query = "select min(c.preciounitario), p.descripcion, i.razonsocial, max(f.FECHAEMISION) as M, i.establecimiento, i.direccion, f.codigo "
+                query = "select min(c.preciounitario), p.descripcion, i.razonsocial, max(f.FECHAEMISION) as M, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
                         + "from producto p, control_precios c, info_tributaria i, factura f, detalle_factura d "
                         + "where f.CODIGO<>'" + codFac + "' and f.codigo=d.FAC_CODIGO and p.codigo=c.PRO_CODIGO and p.CODIGO=d.PRO_CODIGO and year(f.fechaemision)='" + anio + "' and i.ruc='" + ruc + "' "
-                        + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by p.descripcion, i.razonsocial, i.establecimiento, i.direccion, f.codigo order by M desc;";
+                        + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by p.descripcion, i.razonsocial, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento order by M desc;";
 
             }
         }
@@ -244,7 +244,7 @@ public class FacturaFacade extends AbstractFacade<Factura> {
     }
 
     public List<Object[]> obtenerDetallesFactura(String codigoFactura) {
-        String query = "SELECT p.descripcion, f.cantidad, c.preciounitario, c.PRECIO, p.codigo FROM detalle_factura f, producto p, control_precios c where f.fac_codigo='" + codigoFactura + "' and f.PRO_CODIGO=p.CODIGO and c.pro_codigo=p.CODIGO and c.fac_codigo=f.FAC_CODIGO group by f.codigo;";
+        String query = "SELECT p.descripcion, f.cantidad, c.preciounitario, c.PRECIO, p.codigo, c.descuento FROM detalle_factura f, producto p, control_precios c where f.fac_codigo='" + codigoFactura + "' and f.PRO_CODIGO=p.CODIGO and c.pro_codigo=p.CODIGO and c.fac_codigo=f.FAC_CODIGO group by f.codigo;";
         Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();

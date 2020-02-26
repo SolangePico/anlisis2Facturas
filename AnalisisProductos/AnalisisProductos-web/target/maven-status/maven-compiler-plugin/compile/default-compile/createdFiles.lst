@@ -41,7 +41,6 @@ org\primefaces\omega\view\data\ScheduleView.class
 org\primefaces\omega\view\ajax\DropdownView.class
 org\primefaces\omega\view\file\FileDownloadView.class
 org\primefaces\omega\view\data\datatable\BasicView.class
-ec\edu\espe\tesis\session\SessionFilterAdministrador.class
 org\primefaces\omega\view\input\SelectOneView.class
 org\primefaces\omega\filter\CharacterEncodingFilter.class
 org\primefaces\omega\view\MarkersView.class
