@@ -185,10 +185,10 @@ public class FacturaFacade extends AbstractFacade<Factura> {
     }
 
     public List<Object[]> obtenerProductoMasBaratoPorCodigo(String codProd, String codFac) {
-        String query = "select min(c.preciounitario) as n, p.descripcion, i.razonsocial, max(f.FECHAEMISION) as M, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
+        String query = "select c.preciounitario, p.descripcion, i.razonsocial, f.FECHAEMISION, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
                 + "from producto p, control_precios c, info_tributaria i, factura f, detalle_factura d "
                 + "where f.CODIGO<>'" + codFac + "' and f.codigo=d.FAC_CODIGO and p.codigo=c.PRO_CODIGO and p.CODIGO=d.PRO_CODIGO "
-                + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by p.descripcion, i.razonsocial, i.establecimiento, i.direccion, f.codigo order by n, M;";
+                + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by c.codigo order by c.preciounitario;";
         Query q = em.createNativeQuery(query);
         List<Object[]> result = q.getResultList();
         return result;
@@ -197,23 +197,23 @@ public class FacturaFacade extends AbstractFacade<Factura> {
     public List<Object[]> obtenerProductoMasBaratoPorEstabYAnio(String codProd, String codFac, String ruc, String anio) {
         String query;
         if (anio.equals("-1")) {
-            query = "select min(c.preciounitario) as n, p.descripcion, i.razonsocial, max(f.FECHAEMISION) as M, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
+            query = "select c.preciounitario, p.descripcion, i.razonsocial,f.FECHAEMISION, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
                     + "from producto p, control_precios c, info_tributaria i, factura f, detalle_factura d "
                     + "where f.CODIGO<>'" + codFac + "' and f.codigo=d.FAC_CODIGO and p.codigo=c.PRO_CODIGO and p.CODIGO=d.PRO_CODIGO and i.ruc='" + ruc + "' "
-                    + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by p.descripcion, i.razonsocial, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento order by n,M;";
+                    + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by c.codigo order by c.preciounitario;";
 
         } else {
             if (ruc.equals("1")) {
-                query = "select min(c.preciounitario) as n, p.descripcion, i.razonsocial, max(f.FECHAEMISION) as M, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
+                query = "select min(c.preciounitario) as n, p.descripcion, i.razonsocial, f.FECHAEMISION, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
                         + "from producto p, control_precios c, info_tributaria i, factura f, detalle_factura d "
                         + "where f.CODIGO<>'" + codFac + "' and f.codigo=d.FAC_CODIGO and p.codigo=c.PRO_CODIGO and p.CODIGO=d.PRO_CODIGO and year(f.fechaemision)='" + anio + "' "
-                        + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by p.descripcion, i.razonsocial, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento order by n,M;";
+                        + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by c.codigo order by c.preciounitario;";
 
             } else {
-                query = "select min(c.preciounitario) as n, p.descripcion, i.razonsocial, max(f.FECHAEMISION) as M, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
+                query = "select c.preciounitario, p.descripcion, i.razonsocial, f.FECHAEMISION, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
                         + "from producto p, control_precios c, info_tributaria i, factura f, detalle_factura d "
                         + "where f.CODIGO<>'" + codFac + "' and f.codigo=d.FAC_CODIGO and p.codigo=c.PRO_CODIGO and p.CODIGO=d.PRO_CODIGO and year(f.fechaemision)='" + anio + "' and i.ruc='" + ruc + "' "
-                        + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by p.descripcion, i.razonsocial, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento order by n,M;";
+                        + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by c.codigo order by c.preciounitario;";
 
             }
         }
@@ -253,7 +253,7 @@ public class FacturaFacade extends AbstractFacade<Factura> {
 
     public List<Object[]> obtenerFacturasPorProducto(String usuCodigo, String codPro, Date fecha1, Date fecha2) {
         String query;
-        if (fecha1==null) {
+        if (fecha1 == null) {
             query = "select f.codigo, f.fechaemision from factura f, detalle_factura df where df.FAC_CODIGO=f.codigo and f.USU_CODIGO='" + usuCodigo + "' and df.PRO_CODIGO='" + codPro + "' group by f.codigo;";
         } else {
             query = "select f.codigo, f.fechaemision from factura f, detalle_factura df where df.FAC_CODIGO=f.codigo and f.fechaemision<='" + fecha2 + "' and f.fechaemision>='" + fecha1 + "' and f.USU_CODIGO='" + usuCodigo + "' and df.PRO_CODIGO='" + codPro + "' group by f.codigo;";
