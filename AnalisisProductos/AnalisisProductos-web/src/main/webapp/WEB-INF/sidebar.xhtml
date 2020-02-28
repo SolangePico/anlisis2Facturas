@@ -5,8 +5,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
     xmlns:po="http://primefaces.org/omega">
-    <h:form id="menuform">
-        <div class="sidebar">
+    <h:form id="menuform" >
+       <div class="sidebar">
             <div class="nano">
                 <div class="nano-content sidebar-scroll-content">
                     <div class="logo">
@@ -30,17 +30,17 @@
 
                     <div class="menu">
                         <po:menu>
-                            <p:menuitem id="info_perfil" disabled="#{sesionBean.flag}" value="Perfil" icon="fa fa-home" outcome="/user/InfoPerfil"/>
-                            <p:menuitem id="info_productos" disabled="#{sesionBean.flag}" value="Productos" icon="fa fa-cubes" outcome="/user/InfoProductos"/>
-                            <p:menuitem id="info_facturas" disabled="#{sesionBean.flag}" value="Facturas" icon="fa fa-file-code-o" outcome="/user/InfoFacturas"/>
-                            <p:menuitem id="info_gastos" disabled="#{sesionBean.flag}" value="Gastos" icon="fa fa-money" outcome="/user/InfoGastos"/>
-                            <p:menuitem id="info_analisis" disabled="#{sesionBean.flag}" value="Análisis de Productos" icon="fa fa-line-chart" outcome="/user/AnalisisProductos"/>
+                            <p:menuitem id="info_perfil" update="menuForm:mensaje" value="Perfil" icon="fa fa-home" outcome="#{sesionBean.flag ? '/user/CargarFactura' : '/user/InfoPerfil'}"/>
+                            <p:menuitem id="info_productos"  value="Productos" icon="fa fa-cubes" outcome="#{sesionBean.flag ? '/user/CargarFactura' : '/user/InfoProductos'}"/>
+                            <p:menuitem id="info_facturas"   value="Facturas" icon="fa fa-file-code-o" outcome="#{sesionBean.flag ? '/user/CargarFactura' : '/user/InfoFacturas'}"/>
+                            <p:menuitem id="info_gastos"   value="Gastos" icon="fa fa-money" outcome="#{sesionBean.flag ? '/user/CargarFactura' : '/user/InfoGastos'}"/>
+                            <p:menuitem id="info_analisis"  value="Análisis de Productos" icon="fa fa-line-chart" outcome="#{sesionBean.flag ? '/user/CargarFactura' : '/user/AnalisisProductos'}"/>
                         </po:menu>
                     </div>
 
                     <div class="logo">
-                        <p:graphicImage name="images/logo.png" library="omega-layout" width="150"/>
-                        
+                        <p:graphicImage  name="images/logo.png" library="omega-layout" width="150"/>
+
                     </div>
 
                 </div>
