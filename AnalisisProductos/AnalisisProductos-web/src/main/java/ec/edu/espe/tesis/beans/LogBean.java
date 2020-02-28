@@ -145,21 +145,33 @@ public class LogBean implements Serializable {
             usuarioLogin.setEstado('N');
         }
         usuarioServicio.actualizarUsuario(usuarioLogin);
-        if (usuarioLogin.getEstado() != 'N') {
-            session.setFlag(false);
-            try {
+        if (!usuarioLogin.getCorreo().equals("admin")) {
+            session.setIsAdmin(false);
+            if (usuarioLogin.getEstado() != 'N') {
+                session.setFlag(false);
+                try {
 
-                facesContext.getExternalContext().redirect("user/InfoPerfil.xhtml");
-            } catch (IOException ex) {
-                Logger.getLogger(LogBean.class.getName()).log(Level.SEVERE, null, ex);
+                    facesContext.getExternalContext().redirect("user/InfoPerfil.xhtml");
+                } catch (IOException ex) {
+                    Logger.getLogger(LogBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                session.setFlag(true);
+                try {
+                    facesContext.getExternalContext().redirect("user/CargarFactura.xhtml");
+                } catch (IOException ex) {
+                    Logger.getLogger(LogBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        } else {
-            session.setFlag(true);
-            try {
-                facesContext.getExternalContext().redirect("user/CargarFactura.xhtml");    
-            } catch (IOException ex) {
-                Logger.getLogger(LogBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        }else{
+             session.setFlag(false);
+             session.setId("-1");
+             session.setIsAdmin(true);
+                try {
+                    facesContext.getExternalContext().redirect("admin/InfoPerfilAdmin.xhtml");
+                } catch (IOException ex) {
+                    Logger.getLogger(LogBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
         }
     }
 

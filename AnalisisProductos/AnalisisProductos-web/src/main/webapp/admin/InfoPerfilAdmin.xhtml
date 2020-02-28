@@ -1,0 +1,348 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">Información de Perfil</ui:define>
+    <ui:define name="head">
+        <script type="text/javascript">
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinBar() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinArea() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinBubble() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BubbleRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinZoom() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinPie() {
+                this.cfg.shadow = false;
+                this.cfg.title = 'Establecimientos';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77',
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    renderer: $.jqplot.PieRenderer,
+                    shadow: true,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 10,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinDonut() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77',
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    renderer: $.jqplot.DonutRenderer,
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinBarAndLine() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 5,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinMeterGauge() {
+                this.cfg.title = '';
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 5,
+                    renderer: $.jqplot.MeterGaugeRenderer,
+                    rendererOptions: {
+                        shadow: false,
+                        min: 100,
+                        max: 800,
+                        intervals: [200, 300, 400, 500, 600, 700, 800],
+                        intervalColors: ['#3E98D3', '#EF3F61', '#2BB673', '#F15732', '#3E98D3', '#EF3F61', '#2BB673']
+                    }
+                }
+            }
+
+            function skinMultiAxis() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                };
+            }
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <div class="container">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card">
+                        <h1 style="font-weight: bolder;font-size: 30px">Información</h1>
+                        <h:form>
+                            <div class="ui-g ui-fluid dashboard">
+                                <div class="ui-g-12 ui-md-4">
+                                    <div class="card clearfix summary">
+                                        <span style="font-size:25px" class="title">Total Facturas</span>
+                                        <h1><span style="font-size:40px" class="count visitors">#{infoBean.totalFacturas}</span></h1>
+                                    </div>
+                                </div>
+                                <br></br>
+                                <br></br>
+                                <div class="ui-g-12 ui-md-6">
+                                    <div class="card clearfix summary">
+                                        <span style="font-size:25px" class="title">Total Gastado</span>
+                                        <h1> <span  style="font-size:40px" class="count revenue">$ #{infoBean.totalGastado}</span></h1>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <div class="card clearfix summary">
+                                        <span style="font-size:25px" class="title">Promedio por Factura</span>
+                                        <h1> <span style="font-size:40px" class="count purchases">$ #{infoBean.promedioFactura}</span></h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g ui-fluid dashboard">
+                                <div class="ui-g-12 ui-md-12">
+                                    <div class="card clearfix summary" >
+                                        <h1><span style="font-weight: bolder;font-size: 30px" class="title">Producto más comprado</span></h1>
+                                        <br/><br/>
+                                        <div align="center" >
+                                            <span style="font-family: sans;font-weight: bolder;font-size: 25px" class="title">#{infoBean.productoMasComprado.get(0)[1]}   -    #{infoBean.productoMasComprado.get(0)[2]}</span>
+                                            <span style="font-family: sans;font-weight: bolder;font-size: 20px" class="detail">$#{infoBean.productoMasComprado.get(0)[3]}</span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <br/><br/><br/><br/>
+                            <div class="ui-g ui-fluid dashboard">
+                                <div class="ui-g-12 ui-md-12">
+                                    <div class="card clearfix summary" >
+                                        <h1><span style="font-weight: bolder;font-size: 30px" class="title">Establecimiento más concurrido</span></h1>
+                                        <br/><br/>
+                                        <div align="center" >
+                                            <span style="font-family: sans;font-weight: bolder;font-size: 25px" class="title">#{infoBean.infoTributaria.get(0)[1]} </span>
+                                            <span style="font-family: sans;font-weight: bolder;font-size: 20px" class="detail">#{infoBean.infoTributaria.get(0)[0]}</span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <br/><br/><br/><br/>
+                            <div class="card">
+                                <h1 style="font-weight: bolder;font-size: 30px" class="centerText">Cinco establecimientos con más compras </h1>
+                                <p:chart id="pie" type="pie" model="#{infoBean.chartEstablecimientos}" responsive="true" />
+                            </div>
+                            
+                        </h:form>
+                    </div>
+                    <i class="pi pi-spin pi-spinner" style="font-size: 3em"></i>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

@@ -23,6 +23,7 @@ public class HttpSessionHandler implements Serializable {
     private String correo;
     private String id;
     private boolean flag;
+    private boolean isAdmin; 
 
     public boolean isFlag() {
         return flag;
@@ -45,6 +46,14 @@ public class HttpSessionHandler implements Serializable {
         return session;
     }
 
+    public boolean isIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+    
     public void setSession(HttpSession session) {
         this.session = session;
     }

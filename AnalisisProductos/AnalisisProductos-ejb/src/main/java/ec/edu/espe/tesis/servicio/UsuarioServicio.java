@@ -8,6 +8,7 @@ package ec.edu.espe.tesis.servicio;
 import ec.edu.espe.tesis.facturas.facade.UsuarioFacade;
 import ec.edu.espe.tesis.facturas.model.Usuario;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -52,6 +53,12 @@ public class UsuarioServicio implements Serializable {
             usuarioFacade.edit(usuario);
         }catch(Exception e){
         }
+    }
+    
+    public List<Object[]> obtenerUsuarios(){
+        
+        return usuarioFacade.obtenerUsuarios();
+        
     }
     public Usuario crearUsuario(String correo, String password) {
         Usuario usuario = new Usuario();

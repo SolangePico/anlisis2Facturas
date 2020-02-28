@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Daniel
  */
-@WebFilter(filterName = "sessionFilterAdministrador", urlPatterns = {"/user/*"})
+@WebFilter(filterName = "sessionFilterAdministrador", urlPatterns = {"/user/*", "/admin/*"})
 public class SessionFilterAdministrador implements Filter {
 
     private static final boolean DEBUG = true;
@@ -70,9 +70,19 @@ public class SessionFilterAdministrador implements Filter {
                         t.printStackTrace();
                     }
                 } else {
-                    session.session.invalidate();
-                    HttpServletResponse httpResponse = (HttpServletResponse) response;
-                    httpResponse.sendRedirect(requestHttp.getContextPath() + "/access.xhtml");
+                    if (requestHttp.getRequestURL().toString().contains("/admin/")) {
+                        try {
+                            chain.doFilter(request, response);
+                        } catch (IOException t) {
+                            t.printStackTrace();
+                        } catch (ServletException t) {
+                            t.printStackTrace();
+                        }
+                    } else {
+                        session.session.invalidate();
+                        HttpServletResponse httpResponse = (HttpServletResponse) response;
+                        httpResponse.sendRedirect(requestHttp.getContextPath() + "/access.xhtml");
+                    }
                 }
 
             }
@@ -80,7 +90,7 @@ public class SessionFilterAdministrador implements Filter {
         } else {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.sendRedirect(requestHttp.getContextPath() + "/access.xhtml");
-            
+
         }
     }
 

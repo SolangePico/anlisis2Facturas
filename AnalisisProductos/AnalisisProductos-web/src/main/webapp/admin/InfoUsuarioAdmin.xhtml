@@ -1,0 +1,319 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">Información de Perfil</ui:define>
+    <ui:define name="head">
+        <script type="text/javascript">
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinBar() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinArea() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinBubble() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BubbleRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinZoom() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinPie() {
+                this.cfg.shadow = false;
+                this.cfg.title = 'Establecimientos';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77',
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    renderer: $.jqplot.PieRenderer,
+                    shadow: true,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 10,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinDonut() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77',
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    renderer: $.jqplot.DonutRenderer,
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinBarAndLine() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 5,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+
+            function skinMeterGauge() {
+                this.cfg.title = '';
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 5,
+                    renderer: $.jqplot.MeterGaugeRenderer,
+                    rendererOptions: {
+                        shadow: false,
+                        min: 100,
+                        max: 800,
+                        intervals: [200, 300, 400, 500, 600, 700, 800],
+                        intervalColors: ['#3E98D3', '#EF3F61', '#2BB673', '#F15732', '#3E98D3', '#EF3F61', '#2BB673']
+                    }
+                }
+            }
+
+            function skinMultiAxis() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8', '#B7D666', '#DA5E5B'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                };
+            }
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <p:panel style="border: none;padding: 50px">
+            <h:outputText style="font-size: 200%" value="Usuarios Registrados" >
+                    </h:outputText>
+            <p:separator/>
+            <br/><br/>
+            <p:dataTable id="tablaFactura" 
+                         var="u" 
+                         reflow="true"
+                         value="#{usuarioBean.listaUsuarios}"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         rows="10"
+                         emptyMessage="No existen usuarios."
+                         style="font-size: 13px;"
+                         >
+                <p:column headerText="Usuario" filterBy="#{u[0]}" sortBy="#{u[0]}" >
+                    <h:outputText value="#{u[0]}" >
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Fecha de Creación"  sortBy="#{u[1]}" >
+                    <h:outputText value="#{u[1]}" >
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Último ingreso"  sortBy="#{u[2]}">
+                    <h:outputText value="#{u[2]}" />
+                </p:column>
+                <p:column headerText="Estado"  sortBy="#{u[3]}">
+                    <h:outputText value="#{u[3]}" >
+                    </h:outputText>
+                </p:column>
+                <p:column  headerText="Total Facturas"  sortBy="#{u[4]}" >
+                    <h:outputText value="#{u[4]}" >
+                    </h:outputText>
+                </p:column>
+                <p:column  headerText="Total Gastado"  sortBy="#{u[5]}" >
+                    <h:outputText value="#{u[5]}" >
+                    </h:outputText>
+                </p:column>
+
+            </p:dataTable>
+        </p:panel>
+
+    </ui:define>
+
+</ui:composition>

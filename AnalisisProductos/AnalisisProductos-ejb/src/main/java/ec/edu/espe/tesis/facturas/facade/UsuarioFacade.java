@@ -45,6 +45,15 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         
     }
     
+    public List<Object[]> obtenerUsuarios(){
+       String query = "SELECT u.correo, u.fechacreacion, u.fechaingreso, u.estado, count(f.codigo), sum(f.importetotal) "
+               + "FROM Usuario u, Factura f where u.codigo=f.usu_codigo group by u.correo, u.fechacreacion, u.fechaingreso, u.estado;";
+        Query q = em.createNativeQuery(query);
+         List<Object[]> usuarios = q
+                .getResultList();
+        return usuarios; 
+    }
+    
     public Usuario validarUsuario(String correo) {
         Usuario temp = null;
         try {

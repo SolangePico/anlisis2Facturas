@@ -42,9 +42,17 @@ public class ProductoFacade extends AbstractFacade<Producto> {
     }
 
     public List<Object[]> obtenerProductosPorUsuarioYAnio(String usuCodigo, int year) {
-        String query = "select p.CODIGO, f.fechaemision ,p.DESCRIPCION, df.CANTIDAD as suma, round(avg(cp.preciounitario),2) from control_precios cp, producto p, factura f, detalle_factura df, usuario u "
-                + "where p.codigo=df.PRO_CODIGO and cp.PRO_CODIGO=p.codigo and df.FAC_CODIGO=f.CODIGO and year(f.fechaemision)='" + year + "' "
-                + "and u.codigo=f.USU_CODIGO and u.codigo=" + usuCodigo + " group by df.PRO_CODIGO, f.fechaemision ,p.DESCRIPCION order by f.fechaemision, count(p.codigo) desc;";
+       String query;
+        if (!usuCodigo.equals("-1")) {
+            query = "select p.CODIGO, f.fechaemision ,p.DESCRIPCION, df.CANTIDAD as suma, round(avg(cp.preciounitario),2) from control_precios cp, producto p, factura f, detalle_factura df, usuario u "
+                    + "where p.codigo=df.PRO_CODIGO and cp.PRO_CODIGO=p.codigo and df.FAC_CODIGO=f.CODIGO and year(f.fechaemision)='" + year + "' "
+                    + "and u.codigo=f.USU_CODIGO and u.codigo=" + usuCodigo + " group by df.PRO_CODIGO, f.fechaemision ,p.DESCRIPCION order by f.fechaemision, count(p.codigo) desc;";
+        } else {
+            query = "select p.CODIGO, f.fechaemision ,p.DESCRIPCION, df.CANTIDAD as suma, round(avg(cp.preciounitario),2) from control_precios cp, producto p, factura f, detalle_factura df, usuario u "
+                    + "where p.codigo=df.PRO_CODIGO and cp.PRO_CODIGO=p.codigo and df.FAC_CODIGO=f.CODIGO and year(f.fechaemision)='" + year + "' "
+                    + " group by df.PRO_CODIGO, f.fechaemision ,p.DESCRIPCION order by f.fechaemision, count(p.codigo) desc;";
+
+        }
         Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();
@@ -56,16 +64,16 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         if (!"-1".equals(usuarioId)) {
             query = "SELECT p.CODIGO,p.descripcion, sum(d.cantidad) as sum, round(avg(c.preciounitario),2) "
                     + "FROM producto p, detalle_factura d, usuario u, factura f, control_precios c "
-                    + "where u.CODIGO='"+usuarioId+"' and f.USU_CODIGO='"+usuarioId+"' and c.fac_codigo=f.codigo "
+                    + "where u.CODIGO='" + usuarioId + "' and f.USU_CODIGO='" + usuarioId + "' and c.fac_codigo=f.codigo "
                     + "and d.FAC_CODIGO=f.CODIGO and d.PRO_CODIGO=p.codigo and c.pro_codigo=p.CODIGO "
                     + "group by  p.descripcion, p.TOTAL "
                     + "order by sum desc;";
         } else {
-            query = "SELECT p.codigo, p.descripcion, count(d.pro_codigo) as tot "
-                    + "FROM producto p, detalle_factura d, usuario u, factura f "
-                    + "where d.FAC_CODIGO=f.CODIGO and d.PRO_CODIGO=p.codigo "
-                    + "group by p.descripcion "
-                    + "order by tot desc;";
+            query = "SELECT p.CODIGO,p.descripcion, p.total, round(avg(c.preciounitario),2) "
+                    + "                    FROM producto p, control_precios c  "
+                    + "                    where c.pro_codigo=p.CODIGO "
+                    + "                    group by  p.CODIGO,p.descripcion, p.TOTAL "
+                    + "                    order by p.total desc;";
 
         }
         Query q = em.createNativeQuery(query);

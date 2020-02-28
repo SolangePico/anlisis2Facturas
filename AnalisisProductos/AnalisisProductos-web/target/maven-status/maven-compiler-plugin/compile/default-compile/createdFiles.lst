@@ -46,6 +46,7 @@ org\primefaces\omega\filter\CharacterEncodingFilter.class
 org\primefaces\omega\view\MarkersView.class
 org\primefaces\omega\view\data\PickListView.class
 org\primefaces\omega\view\misc\MockosxView.class
+ec\edu\espe\tesis\beans\UsuarioBean.class
 org\primefaces\omega\view\multimedia\PhotoCamView.class
 org\primefaces\omega\view\data\datatable\ResizableColumnsView.class
 org\primefaces\omega\view\input\SelectManyView.class

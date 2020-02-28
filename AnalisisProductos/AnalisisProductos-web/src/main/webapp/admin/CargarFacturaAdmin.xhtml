@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Subir Facturas</ui:define>
+    <ui:define name="content">
+        <div class="container">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card">
+                        <h1>Carga tus facturas</h1>
+                        <h:form id="cargarForm">
+                            <p:growl id="growl" showDetail="true" sticky="true" /> 
+                            <div class="card clearfix summary">
+                                <span class="title" style="font-size: 200%;font-family: Helvetica;">Total facturas subidas :</span>
+
+                                <h1><p:outputLabel id="totalFacturas" style="font-size: 150%"  value="#{LeerXMLBean.totFacturas}"/></h1>
+                            </div>
+                            <p:fileUpload  sequential="true" oncomplete="#{LeerXMLBean.terminarCarga()}" update=":cargarForm:totalFacturas"  uploadLabel="Cargar" label="Seleccionar Archivos" cancelLabel="Cancelar" value="#{LeerXMLBean.file}" mode="advanced" multiple="true"
+                                          fileUploadListener="#{LeerXMLBean.fileUploadListener}" allowTypes="/(\.|\/)(xml)$/" style="width:100%">
+                             </p:fileUpload>
+                            <p:growl id="messages" showDetail="true" />
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

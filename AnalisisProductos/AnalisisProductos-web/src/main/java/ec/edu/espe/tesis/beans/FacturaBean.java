@@ -159,7 +159,7 @@ public class FacturaBean implements Serializable {
         fechaInicio = getToday();
         listaFacturas = facturaServicio.obtenerFacturasConCriterio(Integer.parseInt(sesion.getId()));
         listaFacturasPorEstab = facturaServicio.obtenerFacturasPorEstablecimiento(sesion.getId());
-        listaProds=productoServicio.obtenerProductosPorUsuario(sesion.getId());
+        listaProds = productoServicio.obtenerProductosPorUsuario(sesion.getId());
     }
 
     public String nombreProd(String cod) {
@@ -180,9 +180,16 @@ public class FacturaBean implements Serializable {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String contexto = request.getRequestURL().toString();
         String FacIdTemp = FacturaCodificacion.codificarId(String.valueOf(facturaSeleccionada.getCodigo()));
-        contexto = contexto.substring(0, contexto.indexOf("user/") + 5);
-        contexto = contexto.concat("CompararFacturas.xhtml?facId=" + FacIdTemp);
-        PrimeFaces.current().executeScript("window.open('" + contexto + "','_blank');");
+        if (!sesion.isIsAdmin()) {
+            contexto = contexto.substring(0, contexto.indexOf("user/") + 5);
+            contexto = contexto.concat("CompararFacturas.xhtml?facId=" + FacIdTemp);
+            PrimeFaces.current().executeScript("window.open('" + contexto + "','_blank');");
+        } else {
+            contexto = contexto.substring(0, contexto.indexOf("admin/") + 6);
+            contexto = contexto.concat("CompararFacturasAdmin.xhtml?facId=" + FacIdTemp);
+            PrimeFaces.current().executeScript("window.open('" + contexto + "','_blank');");
+
+        }
 
     }
 
@@ -191,6 +198,9 @@ public class FacturaBean implements Serializable {
             listaFacturas = facturaServicio.obtenerFacturasPorFecha(fechaInicio, fechaFin, sesion.getId());
             if (listaFacturas.isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se encuentran facturas en este rango de fechas"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se encontraron " + listaFacturas.size() + " Facturas"));
+
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La Fecha inicial debe ser menor a la final"));
@@ -209,6 +219,8 @@ public class FacturaBean implements Serializable {
                 listaFacturas.add(fac);
 
             }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se encontraron " + listaFacPorProd.size() + " Facturas"));
+
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aviso", "No existen facturas con el producto seleccionado"));
 

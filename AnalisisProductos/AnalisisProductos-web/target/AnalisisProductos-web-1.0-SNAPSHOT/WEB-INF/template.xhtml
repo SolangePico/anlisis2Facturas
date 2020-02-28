@@ -3,7 +3,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <h:head>
         <f:facet name="first">
@@ -25,8 +26,12 @@
 
         <div class="wrapper">
             <ui:include id="barra" src="topbar.xhtml" />
-
+            <c:if test="#{!sesionBean.isAdmin}">
             <ui:include id="barraLateral" src="sidebar.xhtml" />
+            </c:if>
+            <c:if test="#{sesionBean.isAdmin}">
+            <ui:include id="barraLateral" src="sidebar_admin.xhtml" />
+            </c:if>
 
             <div class="main">
                 <ui:insert name="content"/>
