@@ -299,7 +299,7 @@
                     <h:outputText value="#{u[2]}" />
                 </p:column>
                 <p:column headerText="Estado"  sortBy="#{u[3]}">
-                    <h:outputText value="#{u[3]}" >
+                    <h:outputText value="#{u[3]=='S'?'Habilitado':'Deshabilitado'}" >
                     </h:outputText>
                 </p:column>
                 <p:column  headerText="Total Facturas"  sortBy="#{u[4]}" >

@@ -71,12 +71,18 @@ public class SessionFilterAdministrador implements Filter {
                     }
                 } else {
                     if (requestHttp.getRequestURL().toString().contains("/admin/")) {
-                        try {
-                            chain.doFilter(request, response);
-                        } catch (IOException t) {
-                            t.printStackTrace();
-                        } catch (ServletException t) {
-                            t.printStackTrace();
+                        if (session.isIsAdmin()) {
+                            try {
+                                chain.doFilter(request, response);
+                            } catch (IOException t) {
+                                t.printStackTrace();
+                            } catch (ServletException t) {
+                                t.printStackTrace();
+                            }
+                        } else {
+
+                            HttpServletResponse httpResponse = (HttpServletResponse) response;
+                            httpResponse.sendRedirect(requestHttp.getContextPath() + "/access.xhtml");
                         }
                     } else {
                         session.session.invalidate();

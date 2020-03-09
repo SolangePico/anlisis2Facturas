@@ -67,7 +67,37 @@ public class FacturaServicio implements Serializable {
 //
 //    @Inject
 //    private TotalImpuestoFacade totalImpuestoFacade;
-
+    public int verificarFactura(AutorizacionXML autorizacion, String usuCodigo){
+        int men;
+        if (!facturaFacade.obtenerFacturaPorCodigo(autorizacion.getNumeroAutorizacion()).isEmpty()) {
+            Factura aux;
+            aux=facturaFacade.obtenerFacturaPorCodigo(autorizacion.getNumeroAutorizacion()).get(0);
+            if(aux.getUsuCodigo().getCodigo()==Integer.parseInt(usuCodigo)){
+                men=1; //Si encontro con  el usuario
+            }else{
+                men=2;//Existe la factura pero no es el usuario 
+            }
+        }else{
+            men=3;//No existe la factura
+        } 
+        return men;
+    }
+    public int verificarFactura1(FacturaXML facturaxml, String usuCodigo){
+        int men;
+        if (!facturaFacade.obtenerFacturaPorCodigo(facturaxml.getInfoTributaria().getClaveAcceso()).isEmpty()) {
+            Factura aux;
+            aux=facturaFacade.obtenerFacturaPorCodigo(facturaxml.getInfoTributaria().getClaveAcceso()).get(0);
+            if(aux.getUsuCodigo().getCodigo()==Integer.parseInt(usuCodigo)){
+                men=1; //Si encontro con  el usuario
+            }else{
+                men=2;//Existe la factura pero no es el usuario 
+            }
+        }else{
+            men=3;//No existe la factura
+        } 
+        return men;
+    }
+            
     public int guardarFactura(AutorizacionXML autorizacion, String usuCodigo) {
         int error = 0;
         InfoTributaria infoTributaria = new InfoTributaria();

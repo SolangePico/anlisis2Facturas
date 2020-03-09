@@ -14,24 +14,21 @@
         </f:facet>
         <title>Bill XML</title>
     </h:head>
-
-    <h:body style="padding: 0 !important;" styleClass="login-body">
+    <h:body style="padding: 50px" styleClass="login-body">
 
         <div id="login-wrapper" style="padding: 0px">
-            <p:link outcome="landing"> 
-                <p:graphicImage width="200" height="200" name="images/logo.png" library="omega-layout" />
+            <p:link title="Ir al inicio" style="top: 70px" outcome="landing"> 
+                <span style="margin-top: 2%;margin-left: -3%;position: absolute;font-size: 300%;color:#9c1627;font-family: sans; font-style: oblique;">Bill</span>
+                <p:graphicImage style="margin-top: -30px;margin-right: 30px" width="150" height="150" name="images/logo.png" library="omega-layout" />
+                <span style="margin-top:2%;margin-left: -4%;position: absolute;font-size: 300%;color:#9c1627;font-family: sans; font-style: oblique;">XML</span>
             </p:link>
             <div id="login-container">
                 <span class="title">Bill XML - Registro</span>
-
                 <h:form id="formLog" prependId="false" >
                     <p:growl id="growl" showDetail="true" sticky="true" /> 
-
                     <!--<p:growl id="growl" life ="3000" />-->
                     <div class="ui-g ui-fluid">
-
                         <div class="ui-g-12 " >  
-
                             <p:outputLabel style="font-size: 20px; "  value="Correo:"/>
                             <p:inputText  type="email" value="#{logBean.correo}" id="email" />
                         </div>
@@ -51,11 +48,8 @@
                     </div>
                 </h:form>
             </div>
-
-
             <div class="login-footer">Bill XML</div>
         </div>
-
         <h:outputStylesheet name="css/layout.css" library="omega-layout" />
     </h:body>
 

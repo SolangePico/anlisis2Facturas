@@ -17,6 +17,8 @@
                             <div class="ui-g ui-fluid">
                                 <p:growl id="growl"  sticky="true" /> 
                                 <div class="ui-g-12 ui-lg-12">
+                                    <p:outputLabel style="font-size: 200%;font-weight: bolder;" value="Factura Original"/>
+                                  <br/><br/>
                                     <p:panelGrid columns="2" columnClasses="ui-g-3,ui-g-9" layout="grid"  id="datos">
                                         <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" >
                                             <h:outputText style="font-size: 110%;font-weight: bolder" value="Fecha emisión:"  />
@@ -37,7 +39,7 @@
                                                      paginator="true"
                                                      paginatorPosition="bottom"
                                                      value="#{compararFacturaBean.listaDetalles}"
-                                                     rows="10"
+                                                     rows="9"
                                                      emptyMessage="No hay registros del producto"
                                                      style="text-align: center;font-size: 90%;height:299px">
                                             <p:column headerText="Descripción" style="width:50%">
@@ -49,7 +51,7 @@
                                             <p:column headerText="Cantidad">
                                                 <h:outputText value="#{det[1]}"></h:outputText>
                                             </p:column>
-                                             <p:column headerText="Descuento">
+                                            <p:column headerText="Descuento">
                                                 <h:outputText value="#{det[5]}"></h:outputText>
                                             </p:column>
                                             <p:column headerText="Total">
@@ -63,6 +65,9 @@
                         </p:panel>
 
                         <p:panel class="ui-g-12">
+                            <p:outputLabel style="font-size: 200%;font-weight: bolder;" value="Factura con productos más baratos"/>
+                            <p:separator/>
+
                             <p:panel class="ui-g-4" style="border:none">
 
                                 <p:outputLabel style="font-size: 150%;" value="Seleccione Supermercado:" />
@@ -89,6 +94,12 @@
                                     <h:outputText value="#{a}" />
 
                                 </p:selectOneMenu>
+                                <br/><br/>
+                                <p:commandButton id="btn_mostrar"
+                                                 value="Actualizar Información" 
+                                                 action="#{compararFacturaBean.actualizarDatos()}" 
+                                                 style="margin-top: 10px;"
+                                                 update="compararFactura:tablaProdBarato compararFactura:growl tot dif"/>
                             </p:panel>
                             <p:panel class="ui-g-8" style="border:none;">
                                 <p:panel class="ui-g-4" style="border:none;padding: 0">
@@ -97,7 +108,7 @@
 
                                     <h:outputText id="tot" style="font-size:150%;color: black" value="#{compararFacturaBean.formatoNumero(compararFacturaBean.totalAhorrado)}" /><br/><br/><br/>                         
                                     <h:outputText style="font-weight: bolder;font-size:150%;color: black" value="Ahorro: " /><br/>                                
-                                   <br/><br/>
+                                    <br/><br/>
                                     <h:outputText id="dif" style="font-size:150%;color: black" value="#{compararFacturaBean.formatoNumero(compararFacturaBean.factura.totalsinimpuesto-compararFacturaBean.totalAhorrado)}" />                               
                                 </p:panel>
                                 <p:panel class="ui-g-6" style="border:none;">
@@ -111,19 +122,13 @@
                                 </p:panel>
                             </p:panel>
                             <p:panel class="ui-g-12" style="border:none">
-
-                                <p:commandButton id="btn_mostrar"
-                                                 value="Actualizar Información" 
-                                                 action="#{compararFacturaBean.actualizarDatos()}" 
-                                                 style="margin-top: 10px;"
-                                                 update="compararFactura:tablaProdBarato compararFactura:growl tot dif"/>
                                 <p:dataTable id="tablaProdBarato" 
                                              var="fac" 
                                              reflow="true"
                                              value="#{compararFacturaBean.listaDetallesMasBarato}"
                                              paginator="true"
                                              paginatorPosition="bottom"
-                                             rows="10"
+                                             rows="9"
                                              emptyMessage="No hay registros del producto"
                                              style="text-align: center;font-size: 90%">
                                     <f:facet name="header">

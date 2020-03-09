@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.ConditionalFeature;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -19,6 +20,7 @@ import javax.inject.Inject;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.mindrot.jbcrypt.BCrypt;
 import org.primefaces.PrimeFaces;
 
 /**
@@ -32,16 +34,29 @@ public class LogBean implements Serializable {
     private Usuario usuarioLogin;
     private String correo;
     private String password;
+    private String cPassword;
+    private boolean flagCambiar;
+    private boolean flagFactura;
+    private boolean flagUsuario;
+    private boolean flagExito;
 
     @Inject
     HttpSessionHandler session;
 
-    private String cPassword;
+    @Inject
+    private FacturaServicio facturaServicio;
+    @Inject
+    private UsuarioServicio usuarioServicio;
+    @Inject
+    private LeerXMLBean leer;
 
-    @Inject
-    FacturaServicio facturaServicio;
-    @Inject
-    UsuarioServicio usuarioServicio;
+    public boolean isFlagExito() {
+        return flagExito;
+    }
+
+    public void setFlagExito(boolean flagExito) {
+        this.flagExito = flagExito;
+    }
 
     public Usuario getUsuarioLogin() {
         return usuarioLogin;
@@ -53,6 +68,22 @@ public class LogBean implements Serializable {
 
     public String getCorreo() {
         return correo;
+    }
+
+    public boolean isFlagUsuario() {
+        return flagUsuario;
+    }
+
+    public void setFlagUsuario(boolean flagUsuario) {
+        this.flagUsuario = flagUsuario;
+    }
+
+    public boolean isFlagFactura() {
+        return flagFactura;
+    }
+
+    public void setFlagFactura(boolean flagFactura) {
+        this.flagFactura = flagFactura;
     }
 
     public void setCorreo(String correo) {
@@ -67,6 +98,14 @@ public class LogBean implements Serializable {
         this.password = password;
     }
 
+    public boolean isFlagCambiar() {
+        return flagCambiar;
+    }
+
+    public void setFlagCambiar(boolean flagCambiar) {
+        this.flagCambiar = flagCambiar;
+    }
+
     public String getcPassword() {
         return cPassword;
     }
@@ -77,6 +116,10 @@ public class LogBean implements Serializable {
 
     @PostConstruct
     public void Inicializar() {
+        flagCambiar = false;
+        flagFactura = false;
+        flagUsuario = true;
+        flagExito = false;
         correo = "";
         password = "";
         cPassword = "";
@@ -86,20 +129,78 @@ public class LogBean implements Serializable {
     public void validarUsuario() {
         //System.out.println(this.servicio.validarUsuario(this.getUsuarioLogin()));
         if (!correo.equals("") && !password.equals("")) {
-            usuarioLogin = usuarioServicio.validarUsuario(correo, password);
-
-            if (usuarioLogin != null) {
-                session.setId(usuarioLogin.getCodigo() + "");
-                session.setCorreo(correo);
-                finalizeLogin();
+            if (!usuarioServicio.buscarUsuarioPorCorreo(correo)) {
+                usuarioLogin = usuarioServicio.validarUsuario(correo, password);
+                if (usuarioLogin != null) {
+                    session.setId(usuarioLogin.getCodigo() + "");
+                    session.setCorreo(correo);
+                    finalizeLogin();
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Usuario o Contraseña incorrectos"));
+                }
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se encuentra registrado como usuario"));
 
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Complete todos los campos"));
-
         }
+    }
+
+    public void validarFactura() {
+        if (leer.getValidar() != 0) {
+            switch (leer.getValidar()) {
+                case 1:
+                    flagFactura = false;
+                    flagCambiar = true;
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Cambie su contraseña"));
+                    break;
+                case 2:
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "La factura no se encuentra registrada con su usuario"));
+                    break;
+                default:
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "La factura no se encuentra registrada"));
+                    break;
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Suba una factura para verificar"));
+        }
+
+    }
+
+    public void buscarUsuario() {
+        if (!usuarioServicio.buscarUsuarioPorCorreo(correo)) {
+            usuarioLogin = usuarioServicio.obtenerUsuarioPorCorreo(correo);
+            flagFactura = true;
+            flagUsuario = false;
+            leer.setCodigoUsuario(usuarioLogin.getCodigo() + "");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Suba una factura que haya sido registrada con su Usuario para continuar con la verificación"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No existe un usuario registrado con el correo " + correo));
+        }
+    }
+
+    public void cambiarContrasena() {
+        if (!password.equals("")) {
+            if (password.equals(cPassword)) {
+                String hashPassw = BCrypt.hashpw(password, BCrypt.gensalt());
+                usuarioLogin.setClave(hashPassw);
+                usuarioServicio.actualizarUsuario(usuarioLogin);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Se actualizo su constraseña con éxito"));
+                flagExito = true;
+                flagCambiar = false;
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Las Contraseñas no coinciden"));
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Digite la contraseña nueva"));
+        }
+        // redireccionarLogin();
+    }
+
+    public void redireccionarLogin() {
+        PrimeFaces.current().executeScript("window.open('/login.xhtml','_tarjet');");
+
     }
 
     public void registarUsuario() throws IOException {
@@ -163,15 +264,15 @@ public class LogBean implements Serializable {
                     Logger.getLogger(LogBean.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        }else{
-             session.setFlag(false);
-             session.setId("-1");
-             session.setIsAdmin(true);
-                try {
-                    facesContext.getExternalContext().redirect("admin/InfoPerfilAdmin.xhtml");
-                } catch (IOException ex) {
-                    Logger.getLogger(LogBean.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        } else {
+            session.setFlag(false);
+            session.setId("-1");
+            session.setIsAdmin(true);
+            try {
+                facesContext.getExternalContext().redirect("admin/InfoPerfilAdmin.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(LogBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

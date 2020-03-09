@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>Cambio de Constraseña</title>
+    </h:head>
+
+    <h:body styleClass="login-body">
+        <h:form id="formChange" prependId="false">
+            <p:growl id="growl" showDetail="true" sticky="true" /> 
+
+            <div id="login-wrapper">
+                <p:link style="top: 60px" outcome="landing"> 
+                    <span style="margin-top: 2%;margin-left: -1.5%;position: absolute;font-size: 300%;color:#9c1627;font-family: sans; font-style: oblique;">Bill</span>
+                    <p:graphicImage style="margin-top: -30px;margin-right: 5%;" width="150" height="150" name="images/logo.png" library="omega-layout" />
+                    <span style="margin-top:2%;margin-left: -4.5%;position: absolute;font-size: 300%;color:#9c1627;font-family: sans; font-style: oblique;">XML</span></p:link>
+                <p:panel id="user" style="border:none;background-color: transparent">
+                    <p:outputLabel value="Cambio de Contraseña" style="font-size: 150%;font-weight: bolder"></p:outputLabel><br/><br/>
+                    <p:inputText rendered="#{logBean.flagUsuario}" required="true" requiredMessage="Ingrese Correo" placeholder="Correo" value="#{logBean.correo}" id="correo" ></p:inputText><br/> <br/>
+                    <p:commandButton rendered="#{logBean.flagUsuario}" style="width:30%" update="formChange:factura formChange:growl formChange:user" action="#{logBean.buscarUsuario()}" value="Siguiente"  icon="fa fa-check"/><br/>                   
+                </p:panel>
+                <p:panel id="factura" style="border:none;background-color: transparent; margin-top: -50px">
+                    <p:outputLabel rendered="#{logBean.flagFactura}" value="#{logBean.correo}" style="font-size: 150%;font-weight: bolder"> </p:outputLabel><br/><br/>
+                    
+                    <p:fileUpload rendered="#{logBean.flagFactura}"  auto="true" update="formChange:cambiarC formChange:growl formChange:factura" cancelLabel="Cancelar"  label="Cargar Factura" uploadLabel="Carga tu factura" messageTemplate="No hay archivos cargados" value="#{LeerXMLBean.file}" mode="advanced"
+                                  fileUploadListener="#{LeerXMLBean.fileUploadListenerVerificar}" allowTypes="/(\.|\/)(xml)$/" style="width:100%">
+                    </p:fileUpload>
+                    <br/><br/>
+                 </p:panel>
+                <p:panel id="cambiarC" style="border:none;background-color: transparent; margin-top: -90px" >
+                    <!--<p:growl id="growl" life ="3000" />-->
+                    <p:outputLabel rendered="#{logBean.flagCambiar}" style="font-weight: bolder" value="Ingrese nueva Contraseña"/> <br/><br/>
+                    <p:password rendered="#{logBean.flagCambiar}" required="true" requiredMessage="Ingrese nueva contraseña" placeholder="Password" value="#{logBean.password}" id="usuario" /><br/><br/>
+                    <p:outputLabel rendered="#{logBean.flagCambiar}" style="font-weight: bolder" value="Confirmar Contraseña"/> <br/><br/>
+                    <p:password rendered="#{logBean.flagCambiar}" required="true" requiredMessage="Ingrese confirmación de contraseña" placeholder="Password" value="#{logBean.cPassword}" feedback="false" id="clave"/><br/><br/>
+                    <!--<p:button outcome="dashboard" value="Login" icon="fa fa-check" />-->
+                    <p:commandButton rendered="#{logBean.flagCambiar}" style="width:50%" update="formChange:cambiarC" action="#{logBean.cambiarContrasena()}" value="Cambiar Contraseña" icon="fa fa-change"/><br/>
+                    <!-- <h:link outcome="empty" value="Login" />-->
+                      <p:outputLabel rendered="#{logBean.flagExito}" style="font-weight: bolder; font-size: 200%; margin-top: -100px" value="Ha cambiado su contraseña con éxito"/> <br/><br/>
+                      <p:commandButton rendered="#{logBean.flagExito}" style="margin-top: -100px;" value="Regresar a Login" actionListener="#{logBean.redireccionarLogin()}" />
+                </p:panel>
+
+                <div class="login-footer">Bill XML</div>
+            </div>
+        </h:form>
+        <h:outputStylesheet name="css/layout.css" library="omega-layout" />
+    </h:body>
+
+</html>
