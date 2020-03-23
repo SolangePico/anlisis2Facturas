@@ -21,9 +21,9 @@
 
             <div id="login-wrapper">
                 <p:link style="top: 60px" outcome="landing"> 
-                    <span style="margin-top: 2%;margin-left: -1.5%;position: absolute;font-size: 300%;color:#9c1627;font-family: sans; font-style: oblique;">Bill</span>
+                    <span style="margin-top: 2%;margin-left: -10%;position: absolute;font-size: 300%;color:#9c1627;font-family: sans; font-style: oblique;">Analizador</span>
                     <p:graphicImage style="margin-top: -30px;margin-right: 5%;" width="150" height="150" name="images/logo.png" library="omega-layout" />
-                    <span style="margin-top:2%;margin-left: -4.5%;position: absolute;font-size: 300%;color:#9c1627;font-family: sans; font-style: oblique;">XML</span></p:link>
+                    <span style="margin-top:2%;margin-left: -3.5%;position: absolute;font-size: 300%;color:#9c1627;font-family: sans; font-style: oblique;">Factura</span></p:link>
                 <p:panel id="user" style="border:none;background-color: transparent">
                     <p:outputLabel value="Cambio de Contraseña" style="font-size: 150%;font-weight: bolder"></p:outputLabel><br/><br/>
                     <p:inputText rendered="#{logBean.flagUsuario}" required="true" requiredMessage="Ingrese Correo" placeholder="Correo" value="#{logBean.correo}" id="correo" ></p:inputText><br/> <br/>
@@ -50,7 +50,7 @@
                       <p:commandButton rendered="#{logBean.flagExito}" style="margin-top: -100px;" value="Regresar a Login" actionListener="#{logBean.redireccionarLogin()}" />
                 </p:panel>
 
-                <div class="login-footer">Bill XML</div>
+                <div class="login-footer">Analizador de Facturas</div>
             </div>
         </h:form>
         <h:outputStylesheet name="css/layout.css" library="omega-layout" />

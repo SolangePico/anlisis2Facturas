@@ -52,7 +52,7 @@
                         <f:facet name="header">
                             FACTURAS DEL MES
                         </f:facet>
-                        <p:column headerText="Fecha Emisión" sortBy="#{fac.fechaemision}" >
+                        <p:column headerText="Fecha Emisión" style="width:15%" sortBy="#{fac.fechaemision}" >
                             <h:outputText value="#{fac.fechaemision}" >
                             </h:outputText>
                         </p:column>
@@ -67,11 +67,11 @@
                             <h:outputText value="#{fac.detalleFacturaList.size()}" >
                             </h:outputText>
                         </p:column>
-                        <p:column filterBy="#{fac.infCodigo.razonsocial}" headerText="Razon Social" style="width:30%" sortBy="#{fac.infCodigo.razonsocial}" >
+                        <p:column filterBy="#{fac.infCodigo.razonsocial}" headerText="Razon Social" style="width:25%" sortBy="#{fac.infCodigo.razonsocial}" >
                             <h:outputText value="#{fac.infCodigo.razonsocial}" >
                             </h:outputText>
                         </p:column>
-                        <p:column filterBy="#{fac.infCodigo.direccion}" headerText="Dirección" style="width: 30%" sortBy="#{fac.infCodigo.direccion}">
+                        <p:column filterBy="#{fac.infCodigo.direccion}" headerText="Dirección" style="width: 25%" sortBy="#{fac.infCodigo.direccion}">
                             <h:outputText value="#{fac.infCodigo.direccion}" />
                         </p:column>
                     </p:dataTable>

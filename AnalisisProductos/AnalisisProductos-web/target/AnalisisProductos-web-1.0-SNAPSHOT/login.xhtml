@@ -12,7 +12,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
-        <title>Bill XML</title>
+        <title>Analizador de Facturas</title>
     </h:head>
 
     <h:body styleClass="login-body">
@@ -23,15 +23,16 @@
 
                 <div id="login-container">
                     <p:link title="Ir al inicio" style="top: 50px" outcome="landing"> 
-                        <span style="margin-top: 2%;margin-left: -3%;position: absolute;font-size: 300%;color:#9c1627;font-family: sans; font-style: oblique;">Bill</span>
-                        <p:graphicImage style="margin-top: -30px;margin-right: 30px" width="150" height="150" name="images/logo.png" library="omega-layout" />
-                        <span style="margin-top:2%;margin-left: -4%;position: absolute;font-size: 300%;color:#9c1627;font-family: sans; font-style: oblique;">XML</span>
+                        <span style="margin-top: 2%;margin-left: -5%;position: absolute;font-size: 170%;color:#9c1627;font-family: sans; font-style: oblique;">Analizador</span>
+                        <p:graphicImage style="margin-top: -30px;margin-right: 5px" width="150" height="150" name="images/logo.png" library="omega-layout" />
+                        <span style="margin-top:2%;margin-left: -3%;position: absolute;font-size: 170%;color:#9c1627;font-family: sans; font-style: oblique;">Facturas</span>
 
                     </p:link>
                     <!--<p:growl id="growl" life ="3000" />-->
                     <div class="ui-g ui-fluid">
                         <div class="ui-g-12">
-                            <p:inputText required="true" requiredMessage="Ingrese Email" placeholder="Email" value="#{logBean.correo}" id="usuario" />
+                            <p:inputText  validatorMessage="Ingrese un correo válido"  required="true"  requiredMessage="Ingrese Email" placeholder="Email" value="#{logBean.correo}" id="usuario" >
+                            </p:inputText>
                         </div>
                         <div class="ui-g-12">
                             <p:password required="true" requiredMessage="Ingrese Contraseña" placeholder="Password" value="#{logBean.password}" feedback="false" id="clave"/>
@@ -45,7 +46,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="login-footer">Bill XML</div>
+                <div class="login-footer">Analizador de Facturas</div>
             </div>
         </h:form>
         <h:outputStylesheet name="css/layout.css" library="omega-layout" />
