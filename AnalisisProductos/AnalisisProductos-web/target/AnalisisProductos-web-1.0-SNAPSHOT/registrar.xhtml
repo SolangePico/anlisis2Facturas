@@ -18,9 +18,9 @@
 
         <div id="login-wrapper" style="padding: 0px">
             <p:link title="Ir al inicio" style="top: 70px" outcome="landing"> 
-                <span style="margin-top: 2%;margin-left: -3%;position: absolute;font-size: 300%;color:#9c1627;font-family: sans; font-style: oblique;">Analizador</span>
-                <p:graphicImage style="margin-top: -30px;margin-right: 30px" width="150" height="150" name="images/logo.png" library="omega-layout" />
-                <span style="margin-top:2%;margin-left: -4%;position: absolute;font-size: 300%;color:#9c1627;font-family: sans; font-style: oblique;">Facturas</span>
+                <span style="margin-top: 2%;margin-left: -10%;position: absolute;font-size: 300%;color:#9c1627;font-family: sans; font-style: oblique;">Analizador</span>
+                <p:graphicImage style="margin-top: -30px;margin-right: 40px" width="150" height="150" name="images/logo.png" library="omega-layout" />
+                <span style="margin-top:2%;margin-left: -2%;position: absolute;font-size: 300%;color:#9c1627;font-family: sans; font-style: oblique;">Facturas</span>
             </p:link>
             <div id="login-container">
                 <span class="title">Analizador de Facturas - Registro</span>
@@ -30,7 +30,7 @@
                     <div class="ui-g ui-fluid">
                         <div class="ui-g-12 " >  
                             <p:outputLabel style="font-size: 20px; "  value="Correo:"/>
-                            <p:inputText  type="email" value="#{logBean.correo}" id="email" >
+                            <p:inputText validatorMessage="Ingrese un correo válido" requiredMessage="Debe Ingresar el correo"  type="email" value="#{logBean.correo}" id="email" >
                                 <f:validateRegex  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
                             </p:inputText>
                         </div>

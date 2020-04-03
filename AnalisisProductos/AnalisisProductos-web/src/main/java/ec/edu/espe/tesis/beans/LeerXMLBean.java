@@ -99,8 +99,8 @@ public class LeerXMLBean implements Serializable {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file.getInputstream(), "UTF-8"))) {
             //f = new File("C:\\Users\\solan\\OneDrive\\Escritorio\\factura.xml");
 
-//            f = new File("C:\\Users\\alterbios\\Desktop\\Releases-MARATHON-GO\\factura.xml");
-            f = new File("E:\\Danny\\Escritorio\\anlisis2Facturas\\factura.xml");
+            f = new File("C:\\Users\\alterbios\\Desktop\\Releases-MARATHON-GO\\factura"+sesion.getCorreo()+".xml");
+//            f = new File("E:\\Danny\\Escritorio\\anlisis2Facturas\\factura.xml");
             try {
                 FileWriter w = new FileWriter(f);
                 BufferedWriter bw = new BufferedWriter(w);
