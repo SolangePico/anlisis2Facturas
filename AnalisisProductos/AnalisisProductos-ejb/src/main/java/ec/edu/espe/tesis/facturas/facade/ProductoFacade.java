@@ -66,7 +66,7 @@ public class ProductoFacade extends AbstractFacade<Producto> {
                     + "FROM producto p, detalle_factura d, usuario u, factura f, control_precios c "
                     + "where u.CODIGO='" + usuarioId + "' and f.USU_CODIGO='" + usuarioId + "' and c.fac_codigo=f.codigo "
                     + "and d.FAC_CODIGO=f.CODIGO and d.PRO_CODIGO=p.codigo and c.pro_codigo=p.CODIGO "
-                    + "group by  p.descripcion, p.TOTAL "
+                    + "group by p.CODIGO, p.descripcion, p.TOTAL "
                     + "order by sum desc;";
         } else {
             query = "SELECT p.CODIGO,p.descripcion, p.total, round(avg(c.preciounitario),2) "
