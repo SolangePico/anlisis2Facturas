@@ -34,7 +34,7 @@ public class InfoTributariaFacade extends AbstractFacade<InfoTributaria> {
     public List<Object[]> obtenerSupermercados(){
         String query;
             query = "select i.ruc, i.razonsocial, count(i.establecimiento)"
-                    + "from info_tributaria i group by i.ruc ";
+                    + "from info_tributaria i group by i.ruc, i.razonsocial ";
         Query q = em.createNativeQuery(query);
         List<Object[]> result = q.getResultList();
         return result;

@@ -67,7 +67,7 @@ public class ControlPreciosFacade extends AbstractFacade<ControlPrecios> {
         String query = "SELECT p.descripcion ,c.PRECIOUNITARIO, f.FECHAEMISION, i.RAZONSOCIAL , i.DIRECCION, p.codigo, count(c.codigo) as tot "
                 + "                             FROM control_precios c, factura f, info_tributaria i, producto p "
                 + "                             WHERE c.FAC_CODIGO=f.CODIGO and i.CODIGO=f.INF_CODIGO and c.PRO_CODIGO=p.codigo "
-                + "                     group by p.descripcion order by tot desc;";
+                + "                     group by p.descripcion ,c.PRECIOUNITARIO, f.FECHAEMISION, i.RAZONSOCIAL , i.DIRECCION, p.codigo order by tot desc;";
         Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();
