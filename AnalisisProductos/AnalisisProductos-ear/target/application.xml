@@ -7,8 +7,5 @@
       <context-root>/</context-root>
     </web>
   </module>
-  <module>
-    <ejb>AnalisisProductos-ejb-1.0-SNAPSHOT.jar</ejb>
-  </module>
   <library-directory>lib</library-directory>
 </application>

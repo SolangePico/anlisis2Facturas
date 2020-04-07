@@ -331,7 +331,7 @@ public class FacturaFacade extends AbstractFacade<Factura> {
         String query = "SELECT p.descripcion, f.cantidad, c.preciounitario, c.PRECIO, p.codigo, c.descuento "
                 + "FROM detalle_factura f, producto p, control_precios c where f.fac_codigo='" + codigoFactura + "' "
                 + "and f.PRO_CODIGO=p.CODIGO and c.pro_codigo=p.CODIGO and c.fac_codigo=f.FAC_CODIGO "
-                + "group by f.codigo;";
+                + "group by p.descripcion, f.cantidad, c.preciounitario, c.PRECIO, p.codigo, c.descuento,f.codigo;";
         Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();
