@@ -81,13 +81,13 @@ public class ControlPreciosFacade extends AbstractFacade<ControlPrecios> {
                     + "i.direccion,max(cp.preciounitario) as maximo, min(cp.preciounitario) as minimo "
                     + "from info_tributaria i, factura f, control_precios cp, producto p "
                     + "where f.INF_CODIGO=i.CODIGO and cp.FAC_CODIGO=f.codigo and p.CODIGO='" + codProd + "' and p.codigo=cp.pro_codigo "
-                    + "and i.ruc='" + ruc + "' group by p.codigo,i.establecimiento, p.descripcion, i.direccion order by maximo desc;";
+                    + "and i.ruc='" + ruc + "' group by i.codigo,p.codigo,i.establecimiento, p.descripcion, i.direccion order by maximo desc;";
         } else {
             query = "select i.codigo as estab, p.codigo as producto,i.establecimiento ,  "
                     + "i.direccion,max(cp.preciounitario) as maximo, min(cp.preciounitario) as minimo "
                     + "from info_tributaria i, factura f, control_precios cp, producto p "
                     + "where f.INF_CODIGO=i.CODIGO and year(f.fechaemision)='" + anio + "' and cp.FAC_CODIGO=f.codigo and p.CODIGO='" + codProd + "' and p.codigo=cp.pro_codigo "
-                    + "and i.ruc='" + ruc + "' group by p.codigo,i.establecimiento, p.descripcion, i.direccion order by maximo desc;";
+                    + "and i.ruc='" + ruc + "' group by i.codigo,p.codigo,i.establecimiento, p.descripcion, i.direccion order by maximo desc;";
 
         }
         Query q = em.createNativeQuery(query);

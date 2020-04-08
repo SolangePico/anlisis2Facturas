@@ -256,7 +256,7 @@ public class FacturaFacade extends AbstractFacade<Factura> {
     }
 
     public List<Object[]> obtenerProductoMasBaratoPorCodigo(String codProd, String codFac) {
-        String query = "select c.preciounitario, p.descripcion, i.razonsocial, f.FECHAEMISION, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento, c.codigo "
+        String query = "select c.preciounitario, p.descripcion, i.razonsocial, f.FECHAEMISION, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
                 + "from producto p, control_precios c, info_tributaria i, factura f, detalle_factura d "
                 + "where f.CODIGO<>'" + codFac + "' and f.codigo=d.FAC_CODIGO and p.codigo=c.PRO_CODIGO and p.CODIGO=d.PRO_CODIGO "
                 + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by c.preciounitario, p.descripcion, i.razonsocial, f.FECHAEMISION, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento, c.codigo order by c.preciounitario;";
@@ -271,20 +271,20 @@ public class FacturaFacade extends AbstractFacade<Factura> {
             query = "select c.preciounitario, p.descripcion, i.razonsocial,f.FECHAEMISION, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
                     + "from producto p, control_precios c, info_tributaria i, factura f, detalle_factura d "
                     + "where f.CODIGO<>'" + codFac + "' and f.codigo=d.FAC_CODIGO and p.codigo=c.PRO_CODIGO and p.CODIGO=d.PRO_CODIGO and i.ruc='" + ruc + "' "
-                    + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by c.codigo order by c.preciounitario;";
+                    + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by c.preciounitario, p.descripcion, i.razonsocial,f.FECHAEMISION, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento order by c.preciounitario;";
 
         } else {
             if (ruc.equals("1")) {
                 query = "select min(c.preciounitario) as n, p.descripcion, i.razonsocial, f.FECHAEMISION, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
                         + "from producto p, control_precios c, info_tributaria i, factura f, detalle_factura d "
                         + "where f.CODIGO<>'" + codFac + "' and f.codigo=d.FAC_CODIGO and p.codigo=c.PRO_CODIGO and p.CODIGO=d.PRO_CODIGO and year(f.fechaemision)='" + anio + "' "
-                        + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by c.codigo order by c.preciounitario;";
+                        + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by c.preciounitario, p.descripcion, i.razonsocial,f.FECHAEMISION, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento order by c.preciounitario;";
 
             } else {
                 query = "select c.preciounitario, p.descripcion, i.razonsocial, f.FECHAEMISION, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento "
                         + "from producto p, control_precios c, info_tributaria i, factura f, detalle_factura d "
                         + "where f.CODIGO<>'" + codFac + "' and f.codigo=d.FAC_CODIGO and p.codigo=c.PRO_CODIGO and p.CODIGO=d.PRO_CODIGO and year(f.fechaemision)='" + anio + "' and i.ruc='" + ruc + "' "
-                        + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by c.codigo order by c.preciounitario;";
+                        + "and i.CODIGO=f.INF_CODIGO and p.codigo='" + codProd + "' group by c.preciounitario, p.descripcion, i.razonsocial,f.FECHAEMISION, i.establecimiento, i.direccion, f.codigo, d.cantidad, c.descuento order by c.preciounitario;";
 
             }
         }
@@ -328,7 +328,7 @@ public class FacturaFacade extends AbstractFacade<Factura> {
     }
 
     public List<Object[]> obtenerDetallesFactura(String codigoFactura) {
-        String query = "SELECT p.descripcion, f.cantidad, c.preciounitario, c.PRECIO, p.codigo, c.descuento, f.codigo "
+        String query = "SELECT p.descripcion, f.cantidad, c.preciounitario, c.PRECIO, p.codigo, c.descuento "
                 + "FROM detalle_factura f, producto p, control_precios c where f.fac_codigo='" + codigoFactura + "' "
                 + "and f.PRO_CODIGO=p.CODIGO and c.pro_codigo=p.CODIGO and c.fac_codigo=f.FAC_CODIGO "
                 + "group by p.descripcion, f.cantidad, c.preciounitario, c.PRECIO, p.codigo, c.descuento,f.codigo;";
