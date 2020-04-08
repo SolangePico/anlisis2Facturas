@@ -133,7 +133,7 @@ public class ControlPreciosFacade extends AbstractFacade<ControlPrecios> {
                 + "from info_tributaria i, factura f, producto p, control_precios c "
                 + "where i.ruc='" + ruc + "' and "
                 + "i.codigo=f.INF_CODIGO and f.CODIGO=c.FAC_CODIGO and c.PRO_CODIGO=p.CODIGO and p.codigo=" + proCod + " "
-                + "group by i.ESTABLECIMIENTO,i.razonsocial,p.codigo ,p.descripcion order by minimo asc, fecmax desc;";
+                + "group by i.ruc,i.ESTABLECIMIENTO,i.razonsocial,p.codigo ,p.descripcion order by minimo asc, fecmax desc;";
 
         Query q = em.createNativeQuery(query);
         List<Object[]> result = q.getResultList();
