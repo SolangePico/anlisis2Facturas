@@ -32,7 +32,7 @@ public class DetalleFacturaFacade extends AbstractFacade<DetalleFactura> {
         super(DetalleFactura.class);
     }
      public List<DetalleFactura> obtenerUltimoRegistro() {
-        String query = "SELECT d FROM DetalleFactura d order by codigo desc";
+        String query = "SELECT d FROM DetalleFactura d order by d.codigo desc";
         Query q = em.createQuery(query);
         
         List<DetalleFactura> detalles = q

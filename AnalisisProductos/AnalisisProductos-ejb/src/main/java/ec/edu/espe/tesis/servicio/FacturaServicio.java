@@ -67,37 +67,39 @@ public class FacturaServicio implements Serializable {
 //
 //    @Inject
 //    private TotalImpuestoFacade totalImpuestoFacade;
-    public int verificarFactura(AutorizacionXML autorizacion, String usuCodigo){
+
+    public int verificarFactura(AutorizacionXML autorizacion, String usuCodigo) {
         int men;
         if (!facturaFacade.obtenerFacturaPorCodigo(autorizacion.getNumeroAutorizacion()).isEmpty()) {
             Factura aux;
-            aux=facturaFacade.obtenerFacturaPorCodigo(autorizacion.getNumeroAutorizacion()).get(0);
-            if(aux.getUsuCodigo().getCodigo()==Integer.parseInt(usuCodigo)){
-                men=1; //Si encontro con  el usuario
-            }else{
-                men=2;//Existe la factura pero no es el usuario 
+            aux = facturaFacade.obtenerFacturaPorCodigo(autorizacion.getNumeroAutorizacion()).get(0);
+            if (aux.getUsuCodigo().getCodigo() == Integer.parseInt(usuCodigo)) {
+                men = 1; //Si encontro con  el usuario
+            } else {
+                men = 2;//Existe la factura pero no es el usuario 
             }
-        }else{
-            men=3;//No existe la factura
-        } 
+        } else {
+            men = 3;//No existe la factura
+        }
         return men;
     }
-    public int verificarFactura1(FacturaXML facturaxml, String usuCodigo){
+
+    public int verificarFactura1(FacturaXML facturaxml, String usuCodigo) {
         int men;
         if (!facturaFacade.obtenerFacturaPorCodigo(facturaxml.getInfoTributaria().getClaveAcceso()).isEmpty()) {
             Factura aux;
-            aux=facturaFacade.obtenerFacturaPorCodigo(facturaxml.getInfoTributaria().getClaveAcceso()).get(0);
-            if(aux.getUsuCodigo().getCodigo()==Integer.parseInt(usuCodigo)){
-                men=1; //Si encontro con  el usuario
-            }else{
-                men=2;//Existe la factura pero no es el usuario 
+            aux = facturaFacade.obtenerFacturaPorCodigo(facturaxml.getInfoTributaria().getClaveAcceso()).get(0);
+            if (aux.getUsuCodigo().getCodigo() == Integer.parseInt(usuCodigo)) {
+                men = 1; //Si encontro con  el usuario
+            } else {
+                men = 2;//Existe la factura pero no es el usuario 
             }
-        }else{
-            men=3;//No existe la factura
-        } 
+        } else {
+            men = 3;//No existe la factura
+        }
         return men;
     }
-            
+
     public int guardarFactura(AutorizacionXML autorizacion, String usuCodigo) {
         int error = 0;
         InfoTributaria infoTributaria = new InfoTributaria();
@@ -110,8 +112,6 @@ public class FacturaServicio implements Serializable {
             infoTributaria.setSecuencial(autorizacion.getComprobante().getFactura().getInfoTributaria().getSecuencial());
             infoTributaria.setDireccion(autorizacion.getComprobante().getFactura().getInfoFactura().getDirEstablecimiento());
             infoTributariaFacade.create(infoTributaria);
-        } else {
-            System.out.println("Establecimiento ya esta Registrado");
         }
 //        } catch (Exception e) {
 //            System.out.println("" + e);
@@ -204,12 +204,11 @@ public class FacturaServicio implements Serializable {
                         TotalImpuesto totalImpuesto = new TotalImpuesto();
                         try {
                             totalImpuesto.setBaseimponible(autorizacion.getComprobante().getFactura().getInfoFactura().getTotalImpuestos().get(i).getBaseImponible());
-                            totalImpuesto.setCodigo(totalImpuestoFacade.count() + "");
+                            totalImpuesto.setCodigo((totalImpuestoFacade.count() + 1) + "");
                             totalImpuesto.setDescuento(autorizacion.getComprobante().getFactura().getInfoFactura().getTotalImpuestos().get(i).getDescuentoAdicional());
                             totalImpuesto.setFacCodigo(factura);
                             totalImpuestoFacade.create(totalImpuesto);
                         } catch (Exception e) {
-                            System.out.println("Error al ingresar total impuesto a la factura " + e);
                         }
                     }
                 }
@@ -333,13 +332,12 @@ public class FacturaServicio implements Serializable {
                 for (int i = 0; i < facturaxml.getInfoFactura().getTotalImpuestos().size(); i++) {
                     TotalImpuesto totalImpuesto = new TotalImpuesto();
                     try {
+                        totalImpuesto.setCodigo(totalImpuestoFacade.count() + "");
                         totalImpuesto.setBaseimponible(facturaxml.getInfoFactura().getTotalImpuestos().get(i).getBaseImponible());
-                        //  totalImpuesto.setCodigo(totalImpuestoFacade.count() + "");
                         totalImpuesto.setDescuento(facturaxml.getInfoFactura().getTotalImpuestos().get(i).getDescuentoAdicional());
                         totalImpuesto.setFacCodigo(factura);
                         totalImpuestoFacade.create(totalImpuesto);
                     } catch (Exception e) {
-                        System.out.println("Error al ingresar total impuesto a la factura " + e);
                     }
                 }
             } else {
@@ -525,8 +523,8 @@ public class FacturaServicio implements Serializable {
                 DateFormat dfsql = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 facturaPorProducto = facturaFacade.obtenerFacturasPorProducto(usuCodigo, codPro, dfsql.parse(fecha1), dfsql.parse(fecha2));
 
-            }else{
-                  facturaPorProducto = facturaFacade.obtenerFacturasPorProducto(usuCodigo, codPro, null, null);
+            } else {
+                facturaPorProducto = facturaFacade.obtenerFacturasPorProducto(usuCodigo, codPro, null, null);
 
             }
         } catch (ParseException ex) {

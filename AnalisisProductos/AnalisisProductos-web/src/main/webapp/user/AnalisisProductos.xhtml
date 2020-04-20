@@ -281,7 +281,7 @@
                                 <p:outputLabel style="font-size: 150%;" value="Seleccione Producto:" />
                                 <p:separator/>
                                 <p:selectOneMenu style=" width: 90%" panelStyle="width:300px" id="producto"   value="#{controlPreciosBean.producto}" effect="fade" var="p"  filter="true" filterMatchMode="startsWith">
-                                    <f:selectItems  value="#{controlPreciosBean.listaProductosVariacion}" var="theme"  itemLabel="#{theme[0]}" itemValue="#{theme[5]}" />
+                                    <f:selectItems  value="#{controlPreciosBean.listaProductosVariacion}" var="theme"  itemLabel="#{theme[0]}" itemValue="#{theme[1]}" />
                                     <p:column style="width:10%">
                                         <h:outputText value="#{p[0]}" />
                                     </p:column>

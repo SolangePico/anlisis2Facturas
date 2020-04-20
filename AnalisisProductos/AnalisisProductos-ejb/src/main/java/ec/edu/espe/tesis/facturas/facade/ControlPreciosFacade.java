@@ -53,10 +53,10 @@ public class ControlPreciosFacade extends AbstractFacade<ControlPrecios> {
     }
 
     public List<Object[]> obtenerListaPreciosPorProducto(String codigoProducto) {
-        String query = "SELECT c.PRECIOUNITARIO, f.FECHAEMISION, i.RAZONSOCIAL , i.DIRECCION, df.cantidad "
+        String query = "SELECT c.PRECIOUNITARIO, f.FECHAEMISION, i.RAZONSOCIAL  "
                 + "FROM control_precios c, factura f, info_tributaria i, detalle_factura df "
                 + "WHERE c.FAC_CODIGO=f.CODIGO and df.pro_codigo=c.pro_codigo and i.CODIGO=f.INF_CODIGO and c.PRO_CODIGO='" + codigoProducto + "' "
-                + "order by f.FECHAEMISION;";
+                + "group by c.PRECIOUNITARIO, f.FECHAEMISION, i.RAZONSOCIAL ;";
         Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();
@@ -64,10 +64,8 @@ public class ControlPreciosFacade extends AbstractFacade<ControlPrecios> {
     }
 
     public List<Object[]> obtenerListaPreciosPorProductoTodo() {
-        String query = "SELECT p.descripcion ,c.PRECIOUNITARIO, f.FECHAEMISION, i.RAZONSOCIAL , i.DIRECCION, p.codigo, count(c.codigo) as tot "
-                + "                             FROM control_precios c, factura f, info_tributaria i, producto p "
-                + "                             WHERE c.FAC_CODIGO=f.CODIGO and i.CODIGO=f.INF_CODIGO and c.PRO_CODIGO=p.codigo "
-                + "                     group by p.descripcion ,c.PRECIOUNITARIO, f.FECHAEMISION, i.RAZONSOCIAL , i.DIRECCION, p.codigo order by tot desc;";
+        String query = "SELECT p.descripcion, p.codigo, p.total "
+                + "                             FROM producto p order by p.total desc ";
         Query q = em.createNativeQuery(query);
 
         List<Object[]> result = q.getResultList();

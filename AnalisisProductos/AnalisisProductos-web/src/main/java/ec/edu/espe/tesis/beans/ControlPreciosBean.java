@@ -92,7 +92,7 @@ public class ControlPreciosBean implements Serializable {
         listaMenorPrecioPorSupermercado = new ArrayList();
         listaProductosVariacion = controlPreciosServicio.obtenerListaPreciosPorProductoTodo();
         listaSupermercados = infoTributariaServicio.obtenerSupermercados();
-        producto = listaProductosVariacion.get(0)[5].toString();
+        producto = listaProductosVariacion.get(0)[1].toString();
         nombreProducto = productoServicio.obtenerNombreProductoPorCodigo(producto);
         supermercadoSeleccionado = listaSupermercados.get(0)[0].toString();
         listaEstablecimientos = infoTributariaServicio.obtenerListaEstablecimientos();

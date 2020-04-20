@@ -46,11 +46,11 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         if (!usuCodigo.equals("-1")) {
             query = "select p.CODIGO, f.fechaemision ,p.DESCRIPCION, df.CANTIDAD as suma, round(avg(cp.preciounitario),2) from control_precios cp, producto p, factura f, detalle_factura df, usuario u "
                     + "where p.codigo=df.PRO_CODIGO and cp.PRO_CODIGO=p.codigo and df.FAC_CODIGO=f.CODIGO and year(f.fechaemision)='" + year + "' "
-                    + "and u.codigo=f.USU_CODIGO and u.codigo=" + usuCodigo + " group by df.PRO_CODIGO, f.fechaemision ,p.DESCRIPCION order by f.fechaemision, count(p.codigo) desc;";
+                    + "and u.codigo=f.USU_CODIGO and u.codigo=" + usuCodigo + " group by df.PRO_CODIGO, f.fechaemision ,p.DESCRIPCION, suma order by f.fechaemision, count(p.codigo) desc;";
         } else {
             query = "select p.CODIGO, f.fechaemision ,p.DESCRIPCION, df.CANTIDAD as suma, round(avg(cp.preciounitario),2) from control_precios cp, producto p, factura f, detalle_factura df, usuario u "
                     + "where p.codigo=df.PRO_CODIGO and cp.PRO_CODIGO=p.codigo and df.FAC_CODIGO=f.CODIGO and year(f.fechaemision)='" + year + "' "
-                    + " group by df.PRO_CODIGO, f.fechaemision ,p.DESCRIPCION order by f.fechaemision, count(p.codigo) desc;";
+                    + " group by df.PRO_CODIGO, f.fechaemision ,p.DESCRIPCION, suma order by f.fechaemision, count(p.codigo) desc;";
 
         }
         Query q = em.createNativeQuery(query);
